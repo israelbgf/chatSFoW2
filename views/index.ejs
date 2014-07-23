@@ -12,17 +12,21 @@
       var connection = io.connect('http://localhost:1337');
 
       $(function () {
+
+          var userEmail = prompt("Tell me you e-mail bro.")
+
           connection.on('connect', function() {
               console.log('entendi, ou não.');
           });
 
           connection.on('receiveMessage', function (data) {
-              $('#messagesBox').append("<p>" + data.messageContent + "</p>");
+              $('#messagesBox').append("<p><b>" + data.userEmail + "</b>: " + data.messageContent + "</p>");
           });
 
           $("#inputButton").click(function(event){
               connection.emit('newMessage', {
-                  messageContent: $("#inputMessage").val()
+                  messageContent: $("#inputMessage").val(),
+                  userEmail: userEmail
               });
           });
 
