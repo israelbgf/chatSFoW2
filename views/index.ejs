@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+  <script src="https://cdn.socket.io/socket.io-1.0.6.js"></script>
+  <script>
+      var connection = io.connect('http://localhost:1337');
+
+      $(function () {
+          connection.on('connect', function() {
+              console.log('entendi, ou não.');
+          });
+
+          connection.on('receiveMessage', function (data) {
+              $('#messagesBox').append("<p>" + data.messageContent + "</p>");
+          });
+
+          $("#inputButton").click(function(event){
+              connection.emit('newMessage', {
+                  messageContent: $("#inputMessage").val()
+              });
+          });
+
+      });
+
+  </script>
+
+    <div id="messagesBox" style="background-color: darkslategrey; width: 300px; height: 300px">
+
+    </div>
+
+    <input id="inputMessage" placeholder="Texto...">
+    <input id="inputButton" type="button" value="Send">
+
+  </body>
+</html>

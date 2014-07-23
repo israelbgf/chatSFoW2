@@ -3,8 +3,9 @@
   <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
     <content url="file://$MODULE_DIR$" />
-    <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="chatSFoW2 node_modules" level="project" />
+    <orderEntry type="library" name="Node.js v0.10.25 Core Modules" level="application" />
   </component>
 </module>
 
