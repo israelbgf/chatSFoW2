@@ -65,7 +65,7 @@ io.sockets.on('connection', function(socket) {
 
     socket.on('newMessage', function(data){
         console.log(data);
-        socket.broadcast.emit('receiveMessage', data);
+        io.sockets.emit('receiveMessage', data);
     });
 });
 
