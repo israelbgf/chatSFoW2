@@ -9,11 +9,13 @@
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
   <script src="https://cdn.socket.io/socket.io-1.0.6.js"></script>
   <script>
-      var connection = io.connect('http://localhost:1337');
+
 
       $(function () {
 
-          var userEmail = prompt("Tell me you e-mail bro.")
+          var serverHost = prompt("Tell me the server address to start rocking!")
+          var userEmail = prompt("Now tell me you e-mail bro (we use it for Gravatar images)!")
+          var connection = io.connect('http://' + serverHost + ':1337');
 
           connection.on('connect', function() {
               console.log('entendi, ou não.');
