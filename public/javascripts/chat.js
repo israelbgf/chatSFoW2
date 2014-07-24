@@ -56,11 +56,13 @@ function init(serverAddress, restrictedMode){
     });
 
     $("#inputButton").click(function(event){
-        connection.emit('newMessage', {
-            messageContent: $("#inputMessage").val(),
-            userEmail: userEmail
-        });
-        $("#inputMessage").val("").focus();
+        if ($("#inputMessage").val() > "") {
+            connection.emit('newMessage', {
+                messageContent: $("#inputMessage").val(),
+                userEmail: userEmail
+            });
+            $("#inputMessage").val("").focus();
+        }
     });
 
     $("#inputMessage").keyup(function(event){
