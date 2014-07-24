@@ -59,7 +59,6 @@ function init(serverAddress, restrictedMode){
 
     inputButton.click(function(event){
         var message = removeHTMLTags(inputMessage.val());
-        message = message.replace(/(&nbsp)*/g,"");
         if (message.trim() > "" ) {
             connection.emit('newMessage', {
                 messageContent: message,
@@ -77,7 +76,7 @@ function init(serverAddress, restrictedMode){
 
     function removeHTMLTags(text) {
         var regex = /(<([^>]+)>)/ig
-        return text.replace(regex, "");
+        return text.replace(regex, "").replace(/(&nbsp)*/g,"");
     }
 
     function isImage(url) {
