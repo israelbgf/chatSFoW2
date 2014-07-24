@@ -20,7 +20,12 @@ function init(serverAddress, restrictedMode){
             urlify(data.messageContent) + "</p>");
         var domElement = document.getElementById("messagesBox");
         domElement.scrollTop = domElement.scrollHeight + 30;
-        $.titleAlert("New chat message!");
+        if (data.userEmail != userEmail){
+            $.titleAlert("New chat message!", {
+                stopOnFocus:true,
+                requireBlur:true
+            });    
+        }
     });
 
     $( document ).tooltip({
