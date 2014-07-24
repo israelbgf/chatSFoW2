@@ -36,5 +36,9 @@ a {
 }
 
 .ui-tooltip {
-    max-width: 100% !important;
+    max-width: 500px !important;
+}
+
+img { 
+    max-width: 500px;
 }
