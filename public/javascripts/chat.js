@@ -59,7 +59,8 @@ function init(serverAddress, restrictedMode){
 
     inputButton.click(function(event){
         var message = removeHTMLTags(inputMessage.val());
-        if (message.trim() > "") {
+        message = message.replace(/(&nbsp)*/g,"");
+        if (message.trim() > "" ) {
             connection.emit('newMessage', {
                 messageContent: message,
                 userEmail: userEmail
