@@ -58,9 +58,10 @@ function init(serverAddress, restrictedMode){
     });
 
     inputButton.click(function(event){
-        if (inputMessage.val() > "") {
+        var message = removeHTMLTags(inputMessage.val());
+        if (message.trim() > "") {
             connection.emit('newMessage', {
-                messageContent: inputMessage.val(),
+                messageContent: message,
                 userEmail: userEmail
             });
             inputMessage.val("").focus();
@@ -72,6 +73,11 @@ function init(serverAddress, restrictedMode){
             inputButton.click()
         }
     });
+
+    function removeHTMLTags(text) {
+        var regex = /(<([^>]+)>)/ig
+        return text.replace(regex, "");
+    }
 
     function isImage(url) {
         return(url.match(/\.(jpeg|jpg|gif|png)$/) != null);
