@@ -83,10 +83,11 @@ io.sockets.on('connection', function(socket) {
 
 function checkForClientRestriction(socket) {
 
-    var clientAddress = socket.handshake.address;
-    var allowedClient = allowedClients[clientAddress.address];
+    var clientAddress = socket.request.socket.remoteAddress;
+    var allowedClient = allowedClients[clientAddress];
 
-    console.log('Client from ' + clientAddress.address + ' connected...');
+    console.log('Client from ' + clientAddress + '(' + allowedClient + ') connected...');
+
     if(allowedClient)
         socket.emit('forceClientEmail', {
             email: allowedClient
