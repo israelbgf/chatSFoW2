@@ -1,8 +1,36 @@
 body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+    height: 96%;
+    font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+html {
+    height: 100%;
 }
 
 a {
-  color: #00B7FF;
+    color: #00B7FF;
+}
+
+.chatBox {
+    height: 95%;
+    overflow: auto;
+}
+
+.chatActions {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding-top: 30px;
+    padding-left: 10px;
+    background-color: white;
+    height: 50px;
+}
+
+.inputMessage {
+    width: 80%;
+}
+
+.inputButton {
+    width: 10%;
 }

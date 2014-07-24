@@ -9,19 +9,16 @@ $(function () {
     var userEmail = prompt("Now tell me you e-mail bro (we use it for Gravatar images)!") || 'noob@vacilao.com';
     var connection = io.connect('http://' + serverHost + ':1337');
 
+    $("#inputMessage").focus();
+
     connection.on('connect', function() {
         console.log('newMessage', userEmail + " has entered the peleja.");
     });
 
     connection.on('receiveMessage', function (data) {
         $('#messagesBox').append("<p><b>" + data.userEmail + "</b>: " + urlify(data.messageContent) + "</p>");
-    });
-
-    $("#inputButton").click(function(event){
-        connection.emit('newMessage', {
-            messageContent: $("#inputMessage").val(),
-            userEmail: userEmail
-        });
+        var domElement = document.getElementById("messagesBox");
+        domElement.scrollTop = domElement.scrollHeight + 30;
     });
 
     $( document ).tooltip({
@@ -32,10 +29,17 @@ $(function () {
         }
     });
 
+    $("#inputButton").click(function(event){
+        connection.emit('newMessage', {
+            messageContent: $("#inputMessage").val(),
+            userEmail: userEmail
+        });
+        $("#inputMessage").val("").focus();
+    });
+
     $("#inputMessage").keyup(function(event){
         if(event.keyCode == 13){
-            $("#inputButton").click();
-            $(event.target).val("");
+            $("#inputButton").click()
         }
     });
 

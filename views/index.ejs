@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= title %></title>
+      <link rel="stylesheet" type="text/css" href="public/stylesheets/style.css"/>
+      <link rel="stylesheet" type="text/css" href="public/stylesheets/style.css"/>
+      <title><%= title %></title>
 
     <link rel='stylesheet' href='/stylesheets/style.css' />
     <link rel="stylesheet" href="//code.jquery.com/ui/1.11.0/themes/smoothness/jquery-ui.css">
@@ -14,11 +16,13 @@
   </head>
   <body>
 
-    <div id="messagesBox">
+    <div id="messagesBox" class="chatBox">
     </div>
 
-    <input id="inputMessage" placeholder="Texto...">
-    <input id="inputButton" type="button" value="Send">
+    <div class="chatActions">
+        <input id="inputMessage" class="inputMessage" placeholder="Texto...">
+        <input id="inputButton" class="inputButton" type="button" value="Send">
+    </div>
 
   </body>
 </html>
