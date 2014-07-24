@@ -64,7 +64,10 @@ io.sockets.on('connection', function(socket) {
     console.log('Client connected...');
 
     socket.on('newMessage', function(data){
-        console.log(data);
+        var timestamp = new Date();
+        data.timestamp = timestamp.getHours() + ":" +
+                         timestamp.getMinutes() + ":" +
+                         timestamp.getSeconds();
         io.sockets.emit('receiveMessage', data);
     });
 });

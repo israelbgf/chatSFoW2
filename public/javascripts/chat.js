@@ -16,7 +16,9 @@ $(function () {
     });
 
     connection.on('receiveMessage', function (data) {
-        $('#messagesBox').append("<p><b>" + data.userEmail + "</b>: " + urlify(data.messageContent) + "</p>");
+        $('#messagesBox').append("<p><b>(" + data.timestamp + ") " +
+                                data.userEmail + "</b>: " +
+                                urlify(data.messageContent) + "</p>");
         var domElement = document.getElementById("messagesBox");
         domElement.scrollTop = domElement.scrollHeight + 30;
     });
