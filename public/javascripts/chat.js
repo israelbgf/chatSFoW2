@@ -32,6 +32,13 @@ $(function () {
         }
     });
 
+    $("#inputMessage").keyup(function(event){
+        if(event.keyCode == 13){
+            $("#inputButton").click();
+            $(event.target).val("");
+        }
+    });
+
     function isImage(url) {
         return(url.match(/\.(jpeg|jpg|gif|png)$/) != null);
     }
