@@ -16,18 +16,25 @@ $(function () {
     });
 
     connection.on('receiveMessage', function (data) {
-        $('#messagesBox').append("<p><b>(" + data.timestamp + ") " +
-                                data.userEmail + "</b>: " +
+        $('#messagesBox').append("<p><b>(" +
+                                data.timestamp + ") " +
+                                "<span avatar data-img='" + data.avatar + "'>" + data.userEmail + "</span></b>: " +
                                 urlify(data.messageContent) + "</p>");
         var domElement = document.getElementById("messagesBox");
         domElement.scrollTop = domElement.scrollHeight + 30;
     });
 
     $( document ).tooltip({
-        items: "[tooltip]",
+        items: "[tooltip], [avatar]",
         content: function() {
-            var url = $(this).attr("href")
-            return isImage(url) ? "<img src='" + url + "'>" : false;
+            var element = $( this );
+            if (element.is("[tooltip]")) {
+                var url = $(this).attr("href")
+                return isImage(url) ? "<img src='" + url + "'>" : false;
+            } else {
+                var url = $(this).attr("data-img")
+                return "<img src='" + url + "'>";
+            }
         }
     });
 

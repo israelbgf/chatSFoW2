@@ -11,6 +11,8 @@ var users = require('./routes/users');
 
 var app = express();
 
+var gravatar = require('gravatar');
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -68,6 +70,9 @@ io.sockets.on('connection', function(socket) {
         data.timestamp = timestamp.getHours() + ":" +
                          timestamp.getMinutes() + ":" +
                          timestamp.getSeconds();
+
+        data.avatar = gravatar.url(data.userEmail, {s: '200', r: 'x', d: 'mm'});
+
         io.sockets.emit('receiveMessage', data);
     });
 });
