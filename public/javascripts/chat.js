@@ -10,10 +10,7 @@ function init(serverAddress, restrictedMode){
     });
 
     connection.on('disconnect', function(data) {
-        alert("D'oh! We lost the connection with the server. o.o'" +
-            "\nOr maybe you were KICKED! >.<" +
-            "\nOr maybe you were never supposed to be here. õ.o" +
-            "\n\n:'(");
+        
     });
 
     connection.on('receiveMessage', function (data) {
@@ -23,6 +20,7 @@ function init(serverAddress, restrictedMode){
             urlify(data.messageContent) + "</p>");
         var domElement = document.getElementById("messagesBox");
         domElement.scrollTop = domElement.scrollHeight + 30;
+        $.titleAlert("New chat message!");
     });
 
     $( document ).tooltip({
