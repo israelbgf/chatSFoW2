@@ -1,5 +1,7 @@
 function init(serverAddress, restrictedMode){
 
+    var inputMessage = $("#inputMessage");
+    var inputButton = $("#inputButton");
     var userEmail = restrictedMode || prompt("Now tell me you e-mail bro (we use it for Gravatar images)!", "dude'o");
     var connection = io.connect('http://' + serverAddress + ':1337');
 
@@ -55,19 +57,19 @@ function init(serverAddress, restrictedMode){
         }
     });
 
-    $("#inputButton").click(function(event){
-        if ($("#inputMessage").val() > "") {
+    inputButton.click(function(event){
+        if (inputMessage.val() > "") {
             connection.emit('newMessage', {
-                messageContent: $("#inputMessage").val(),
+                messageContent: inputMessage.val(),
                 userEmail: userEmail
             });
-            $("#inputMessage").val("").focus();
+            inputMessage.val("").focus();
         }
     });
 
-    $("#inputMessage").keyup(function(event){
+    inputMessage.keyup(function(event){
         if(event.keyCode == 13){
-            $("#inputButton").click()
+            inputButton.click()
         }
     });
 
