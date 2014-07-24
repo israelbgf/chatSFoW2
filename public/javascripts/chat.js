@@ -27,6 +27,19 @@ function init(serverAddress, restrictedMode){
 
     $( document ).tooltip({
         items: "[tooltip], [avatar]",
+        position: {
+            my: "center bottom-25",
+            at: "center top",
+            collision: "flipfit flip",
+            using: function( position, feedback ) {
+                $(this).css( position );
+                $("<div>")
+                    .addClass( "ui-tooltip-arrow" )
+                    .addClass( feedback.vertical )
+                    .addClass( feedback.horizontal )
+                    .appendTo( this );
+            }
+        },
         content: function() {
             var element = $( this );
             if (element.is("[tooltip]")) {
