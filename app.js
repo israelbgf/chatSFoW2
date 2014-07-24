@@ -63,7 +63,9 @@ var socket = require('socket.io')
 var io = socket.listen(app.listen(1337))
 
 io.sockets.on('connection', function(socket) {
-    console.log('Client connected...');
+    var address = socket.handshake.address;
+    console.log('Client from ' + address.address + ' connected...');
+    socket.emit('ipAddressLoopback', address);
 
     socket.on('newMessage', function(data){
         var timestamp = new Date();

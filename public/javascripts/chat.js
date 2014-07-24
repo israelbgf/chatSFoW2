@@ -5,14 +5,24 @@ function urlify(text) {
 
 $(function () {
 
-    var serverHost = prompt("Tell me the server address to start rocking!") || 'localhost';
-    var userEmail = prompt("Now tell me you e-mail bro (we use it for Gravatar images)!") || 'noob@vacilao.com';
+    const DEFAULT_HOST = 'localhost';
+    const DEFAULT_EMAIL = 'noob@vacilao.com';
+
+    var serverHost = prompt("Tell me the server address to start rocking!") || DEFAULT_HOST;
+    var userEmail = prompt("Now tell me you e-mail bro (we use it for Gravatar images)!") || DEFAULT_EMAIL;
     var connection = io.connect('http://' + serverHost + ':1337');
 
     $("#inputMessage").focus();
 
     connection.on('connect', function() {
         console.log('newMessage', userEmail + " has entered the peleja.");
+    });
+
+    connection.on('ipAddressLoopback', function(data) {
+        console.log(data.address);
+        if(data.address == '127.0.0.1'){
+//            userEmail = "";
+        }
     });
 
     connection.on('receiveMessage', function (data) {
