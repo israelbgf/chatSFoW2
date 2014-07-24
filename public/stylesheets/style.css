@@ -34,3 +34,7 @@ a {
 .inputButton {
     width: 10%;
 }
+
+.ui-tooltip {
+    max-width: 100% !important;
+}
