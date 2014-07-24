@@ -8,6 +8,7 @@ var http = require('http');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
+var allowedClients = require("./allowed_clients")
 
 var app = express();
 
@@ -61,11 +62,12 @@ app.use(function(err, req, res, next) {
 // Socket IO
 var socket = require('socket.io')
 var io = socket.listen(app.listen(1337))
+var restrictedClientsModeEnabled = process.argv[2];
 
 io.sockets.on('connection', function(socket) {
-    var address = socket.handshake.address;
-    console.log('Client from ' + address.address + ' connected...');
-    socket.emit('ipAddressLoopback', address);
+
+    if(restrictedClientsModeEnabled)
+        checkForClientRestriction(socket);
 
     socket.on('newMessage', function(data){
         var timestamp = new Date();
@@ -78,5 +80,21 @@ io.sockets.on('connection', function(socket) {
         io.sockets.emit('receiveMessage', data);
     });
 });
+
+function checkForClientRestriction(socket) {
+
+    var clientAddress = socket.handshake.address;
+    var allowedClient = allowedClients[clientAddress.address];
+
+    console.log('Client from ' + clientAddress.address + ' connected...');
+    if(allowedClient)
+        socket.emit('forceClientEmail', {
+            email: allowedClient
+        });
+    else
+        socket.disconnect();
+
+}
+
 
 module.exports = app;
