@@ -1,41 +1,50 @@
-function urlify(text) {
-    var urlRegex = /(https?:\/\/[^\s]+)/g;
-    return text.replace(urlRegex, '<a tooltip href="$1" target="_blank">$1</a>');
-}
+function init(serverAddress, restrictedMode){
 
-$(function () {
-
-    const DEFAULT_HOST = 'localhost';
-    const DEFAULT_EMAIL = 'noob@vacilao.com';
-
-    var serverHost = prompt("Tell me the server address to start rocking!") || DEFAULT_HOST;
-    var userEmail = prompt("Now tell me you e-mail bro (we use it for Gravatar images)!") || DEFAULT_EMAIL;
-    var connection = io.connect('http://' + serverHost + ':1337');
+    var inputMessage = $("#inputMessage");
+    var inputButton = $("#inputButton");
+    var userEmail = restrictedMode || prompt("Now tell me you e-mail bro (we use it for Gravatar images)!", "dude'o");
+    var connection = io.connect('http://' + serverAddress + ':1337');
 
     $("#inputMessage").focus();
 
-    connection.on('connect', function() {
-        console.log('newMessage', userEmail + " has entered the peleja.");
+    connection.on('forceClientEmail', function(data) {
+        userEmail = data.email;
     });
 
-    connection.on('ipAddressLoopback', function(data) {
-        console.log(data.address);
-        if(data.address == '127.0.0.1'){
-//            userEmail = "";
-        }
+    connection.on('disconnect', function(data) {
+        
     });
 
     connection.on('receiveMessage', function (data) {
         $('#messagesBox').append("<p><b>(" +
-                                data.timestamp + ") " +
-                                "<span avatar data-img='" + data.avatar + "'>" + data.userEmail + "</span></b>: " +
-                                urlify(data.messageContent) + "</p>");
+            data.timestamp + ") " +
+            "<span avatar data-img='" + data.avatar + "'>" + data.userEmail + "</span></b>: " +
+            urlify(data.messageContent) + "</p>");
         var domElement = document.getElementById("messagesBox");
         domElement.scrollTop = domElement.scrollHeight + 30;
+        if (data.userEmail != userEmail){
+            $.titleAlert("New chat message!", {
+                stopOnFocus:true,
+                requireBlur:true
+            });    
+        }
     });
 
     $( document ).tooltip({
         items: "[tooltip], [avatar]",
+        position: {
+            my: "center bottom-25",
+            at: "center top",
+            collision: "flipfit flip",
+            using: function( position, feedback ) {
+                $(this).css( position );
+                $("<div>")
+                    .addClass( "ui-tooltip-arrow" )
+                    .addClass( feedback.vertical )
+                    .addClass( feedback.horizontal )
+                    .appendTo( this );
+            }
+        },
         content: function() {
             var element = $( this );
             if (element.is("[tooltip]")) {
@@ -48,22 +57,35 @@ $(function () {
         }
     });
 
-    $("#inputButton").click(function(event){
-        connection.emit('newMessage', {
-            messageContent: $("#inputMessage").val(),
-            userEmail: userEmail
-        });
-        $("#inputMessage").val("").focus();
-    });
-
-    $("#inputMessage").keyup(function(event){
-        if(event.keyCode == 13){
-            $("#inputButton").click()
+    inputButton.click(function(event){
+        var message = removeHTMLTags(inputMessage.val());
+        if (message.trim() > "" ) {
+            connection.emit('newMessage', {
+                messageContent: message,
+                userEmail: userEmail
+            });
+            inputMessage.val("").focus();
         }
     });
+
+    inputMessage.keyup(function(event){
+        if(event.keyCode == 13){
+            inputButton.click()
+        }
+    });
+
+    function removeHTMLTags(text) {
+        var regex = /(<([^>]+)>)/ig
+        return text.replace(regex, "").replace(/(&nbsp)*/g,"");
+    }
 
     function isImage(url) {
         return(url.match(/\.(jpeg|jpg|gif|png)$/) != null);
     }
 
-});
+    function urlify(text) {
+        var urlRegex = /(https?:\/\/[^\s]+)/g;
+        return text.replace(urlRegex, '<a tooltip href="$1" target="_blank">$1</a>');
+    }
+
+}
