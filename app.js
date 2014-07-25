@@ -1,18 +1,19 @@
-var express = require('express');
+//core nodejs modules
+var http = require('http');
 var path = require('path');
-var favicon = require('static-favicon');
+
+//public modules from npm
+var express = require('express');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
-var http = require('http');
+var favicon = require('static-favicon');
 
+var bodyParser = require('body-parser');
+var gravatar = require('gravatar');
 var routes = require('./routes/index');
 var users = require('./routes/users');
-var allowedClients = require("./allowed_clients")
 
 var app = express();
-
-var gravatar = require('gravatar');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -61,6 +62,8 @@ app.use(function(err, req, res, next) {
 
 // Socket IO
 var socket = require('socket.io')
+
+var allowedClients = require("./allowed_clients.json")
 var io = socket.listen(app.listen(1337))
 var restrictedClientsModeEnabled = process.argv[2];
 
