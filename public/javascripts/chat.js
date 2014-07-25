@@ -9,12 +9,27 @@ function init(serverAddress, restrictedMode){
 
     connection.on('forceClientEmail', function(data) {
         userEmail = data.email;
+        this.send({userEmail: userEmail});
     });
 
     connection.on('disconnect', function(data) {
         
     });
 
+    connection.on('userJoined', function(user) {
+        var html = "<p class='joined'>";
+        html += "<b>(" + user + ")</b>";
+        html += " entered the room.</p>";
+        $("#messagesBox").append(html);
+    });
+    
+    connection.on('userDisconnected', function(user) {
+        var html = "<p class='exited'>";
+        html += "<b>(" + user + ")</b>";
+        html += " exited the room.</p>";
+        $("#messagesBox").append(html);
+    });
+    
     connection.on('receiveMessage', function (data) {
         $('#messagesBox').append("<p><b>(" +
             data.timestamp + ") " +
@@ -29,7 +44,7 @@ function init(serverAddress, restrictedMode){
             });    
         }
     });
-
+    
     $( document ).tooltip({
         items: "[tooltip], [avatar]",
         position: {
