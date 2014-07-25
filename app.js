@@ -72,6 +72,16 @@ io.sockets.on('connection', function(socket) {
     if(restrictedClientsModeEnabled)
         checkForClientRestriction(socket);
 
+    var userEmail;
+    socket.on('message', function(message){
+        userEmail = message.userEmail;
+        io.sockets.emit('userJoined', userEmail);
+    });
+    
+    socket.on('disconnect', function() {
+        io.sockets.emit('userDisconnected', userEmail); 
+    });
+    
     socket.on('newMessage', function(data){
         var timestamp = new Date();
         data.timestamp = timestamp.getHours() + ":" +
