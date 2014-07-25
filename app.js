@@ -66,6 +66,7 @@ var socket = require('socket.io')
 var allowedClients = require("./allowed_clients.json")
 var io = socket.listen(app.listen(1337))
 var restrictedClientsModeEnabled = process.argv[2];
+var clients = [];
 
 io.sockets.on('connection', function(socket) {
 
@@ -75,22 +76,39 @@ io.sockets.on('connection', function(socket) {
     var userEmail;
     socket.on('message', function(message){
         userEmail = message.userEmail;
+        clients.push(userEmail);
         io.sockets.emit('userJoined', userEmail);
     });
     
     socket.on('disconnect', function() {
         io.sockets.emit('userDisconnected', userEmail); 
+        clients.splice(clients.indexOf(userEmail), 1);
     });
     
     socket.on('newMessage', function(data){
-        var timestamp = new Date();
-        data.timestamp = timestamp.getHours() + ":" +
+        if (data.messageContent == '!online') {
+
+            var online = [];
+            clients.forEach(function(user) {
+                var c = {};
+                c.userEmail = user;
+                c.avatar = gravatar.url(user, {s: '200', r: 'x', d: 'mm'});
+                online.push(c);
+            });
+            io.sockets.emit('usersOnline', online);
+            
+        } else {
+            
+            var timestamp = new Date();
+            data.timestamp = timestamp.getHours() + ":" +
                          timestamp.getMinutes() + ":" +
                          timestamp.getSeconds();
 
-        data.avatar = gravatar.url(data.userEmail, {s: '200', r: 'x', d: 'mm'});
-        data.messageContent = removeHTMLTags(data.messageContent);
-        io.sockets.emit('receiveMessage', data);
+            data.avatar = gravatar.url(data.userEmail, {s: '200', r: 'x', d: 'mm'});
+            data.messageContent = removeHTMLTags(data.messageContent);
+            io.sockets.emit('receiveMessage', data);
+            
+        }
     });
 });
 
