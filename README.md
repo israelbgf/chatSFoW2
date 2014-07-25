@@ -18,4 +18,7 @@ To contribute follow these steps:
 1. Fork this project
 2. Clone your branch
 3. Code! :-)
-4. Make a pull request
+4. Pull from master
+5. Merge master with your branch
+6. Test
+7. Make a pull request
