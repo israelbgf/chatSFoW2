@@ -67,13 +67,24 @@ io.sockets.on('connection', function(socket) {
     console.log('Client from ' + address.address + ' connected...');
     socket.emit('ipAddressLoopback', address);
 
+    var userEmail;
+    socket.on('message', function(message){
+        userEmail = message.userEmail;
+        io.sockets.emit('userJoined', userEmail);
+    });
+    
+    socket.on('disconnect', function() {
+        io.sockets.emit('userDisconnected', userEmail); 
+    });
+    
     socket.on('newMessage', function(data){
         var timestamp = new Date();
         data.timestamp = timestamp.getHours() + ":" +
                          timestamp.getMinutes() + ":" +
                          timestamp.getSeconds();
 
-        data.avatar = gravatar.url(data.userEmail, {s: '200', r: 'x', d: 'mm'});
+        data.userEmail = userEmail;
+        data.avatar = gravatar.url(userEmail, {s: '200', r: 'x', d: 'mm'});
 
         io.sockets.emit('receiveMessage', data);
     });

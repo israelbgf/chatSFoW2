@@ -3,18 +3,14 @@ body {
     font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
-html {
-    height: 100%;
-}
+html { height: 100%; }
 
-a {
-    color: #00B7FF;
-}
+a { color: #00B7FF; }
+p { margin:0px; padding:7px; }
+p.joined { background-color:#DCF5E8; }
+p.exited { background-color:#FCD9D9; }
 
-.chatBox {
-    height: 95%;
-    overflow: auto;
-}
+.chatBox { height: 95%; overflow: auto; }
 
 .chatActions {
     position: fixed;
@@ -27,14 +23,7 @@ a {
     height: 50px;
 }
 
-.inputMessage {
-    width: 80%;
-}
+.inputMessage { width: 80%; }
+.inputButton { width: 10%; }
 
-.inputButton {
-    width: 10%;
-}
-
-.ui-tooltip {
-    max-width: 100% !important;
-}
+.ui-tooltip { max-width: 100% !important; }

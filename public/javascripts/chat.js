@@ -16,6 +16,7 @@ $(function () {
 
     connection.on('connect', function() {
         console.log('newMessage', userEmail + " has entered the peleja.");
+        this.send({userEmail: userEmail});
     });
 
     connection.on('ipAddressLoopback', function(data) {
@@ -25,6 +26,20 @@ $(function () {
         }
     });
 
+    connection.on('userJoined', function(user) {
+        var html = "<p class='joined'>";
+        html += "<b>(" + user + ")</b>";
+        html += " entered the room.</p>";
+        $("#messagesBox").append(html);
+    });
+    
+    connection.on('userDisconnected', function(user) {
+        var html = "<p class='exited'>";
+        html += "<b>(" + user + ")</b>";
+        html += " exited the room.</p>";
+        $("#messagesBox").append(html);
+    });
+    
     connection.on('receiveMessage', function (data) {
         $('#messagesBox').append("<p><b>(" +
                                 data.timestamp + ") " +
@@ -33,7 +48,7 @@ $(function () {
         var domElement = document.getElementById("messagesBox");
         domElement.scrollTop = domElement.scrollHeight + 30;
     });
-
+    
     $( document ).tooltip({
         items: "[tooltip], [avatar]",
         content: function() {
@@ -50,8 +65,7 @@ $(function () {
 
     $("#inputButton").click(function(event){
         connection.emit('newMessage', {
-            messageContent: $("#inputMessage").val(),
-            userEmail: userEmail
+            messageContent: $("#inputMessage").val()
         });
         $("#inputMessage").val("").focus();
     });
