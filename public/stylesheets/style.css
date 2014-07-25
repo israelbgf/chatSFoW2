@@ -6,9 +6,12 @@ body {
 html { height: 100%; }
 
 a { color: #00B7FF; }
-p { margin:0px; padding:7px; }
+p, .usersOnline { margin:0px; padding:7px; }
 p.joined { background-color:#DCF5E8; }
 p.exited { background-color:#FCD9D9; }
+
+.usersOnline { background-color:#FCF8E3; list-style-type:none; }
+.usersOnline li { float:left; margin-right:10px; }
 
 .chatBox { height: 95%; overflow: auto; }
 
