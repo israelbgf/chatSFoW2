@@ -120,6 +120,8 @@ function init(serverAddress, restrictedMode){
         var scrollHeight = $box.prop("scrollHeight"),
             outerHeight = $box.scrollTop() + $box.outerHeight();
 
+        console.log(scrollHeight);
+        console.log(outerHeight);
         if (scrollHeight === outerHeight) {
             setTimeout(function() {$box.scrollTop($box.prop("scrollHeight"))}, 100);
         }
