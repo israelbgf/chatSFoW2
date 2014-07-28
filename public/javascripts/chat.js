@@ -1,9 +1,9 @@
 function init(serverAddress, restrictedMode){
 
     var inputMessage = $("#inputMessage");
-    var inputButton = $("#inputButton");
-    var userEmail = restrictedMode || prompt("Now tell me you e-mail bro (we use it for Gravatar images)!", "dude'o");
-    var connection = io.connect('http://' + serverAddress + ':1337');
+    $form = $('#chatForm'),
+    userEmail = restrictedMode || prompt("Now tell me you e-mail bro (we use it for Gravatar images)!", "dude'o"),
+    connection = io.connect('http://' + serverAddress + ':1337');
 
     $("#inputMessage").focus();
 
@@ -47,8 +47,9 @@ function init(serverAddress, restrictedMode){
             data.timestamp + ") " +
             "<span avatar data-img='" + data.avatar + "'>" + data.userEmail + "</span></b>: " +
             urlify(data.messageContent) + "</p>");
-        var domElement = document.getElementById("messagesBox");
-        domElement.scrollTop = domElement.scrollHeight + 30;
+
+        var $box = $('#messagesBox');
+        $box.scrollTop($box.prop("scrollHeight"));
         if (data.userEmail != userEmail){
             $.titleAlert("New chat message!", {
                 stopOnFocus:true,
@@ -84,7 +85,8 @@ function init(serverAddress, restrictedMode){
         }
     });
 
-    inputButton.click(function(event){
+    $form.submit(function(ev) {
+       ev.preventDefault();
         var message = removeHTMLTags(inputMessage.val());
         if (message.trim() > "" ) {
             connection.emit('newMessage', {
@@ -92,12 +94,6 @@ function init(serverAddress, restrictedMode){
                 userEmail: userEmail
             });
             inputMessage.val("").focus();
-        }
-    });
-
-    inputMessage.keyup(function(event){
-        if(event.keyCode == 13){
-            inputButton.click()
         }
     });
 

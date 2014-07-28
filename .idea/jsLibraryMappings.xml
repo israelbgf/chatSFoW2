@@ -2,7 +2,7 @@
 <project version="4">
   <component name="JavaScriptLibraryMappings">
     <file url="file://$PROJECT_DIR$" libraries="{chatSFoW2 node_modules}" />
-    <file url="PROJECT" libraries="{Node.js v0.10.25 Core Modules, chatSFoW2 node_modules, jQuery UI-1.10.2, jQuery-2.0.0}" />
+    <file url="PROJECT" libraries="{chatSFoW2 node_modules}" />
     <includedPredefinedLibrary name="Node.js Globals" />
   </component>
 </project>
