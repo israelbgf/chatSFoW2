@@ -31,25 +31,31 @@ function init(serverAddress, restrictedMode){
     });
     
     connection.on('usersOnline', function(clients) {
-        var html = "<p class='usersOnline'><b>Users online:</b></p><ul class='usersOnline'>";
+        var html = "<div class='usersOnline'><b>Users online:</b><ul class='usersOnline'>";
         $.each(clients, function(i, client) {
             html += "<li>";
             html += "<span avatar data-img='" + client.avatar + "'>";
             html += client.userEmail;
             html += "</span></li>";
         });
-        html += "<p></p></ul>";
+        html += "</ul></div>";
         $("#messagesBox").append(html);
     });
     
     connection.on('receiveMessage', function (data) {
-        $('#messagesBox').append("<p><b>(" +
+        var $box = $('#messagesBox'),
+        scrollHeight = $box.prop("scrollHeight"),
+        outerHeight = $box.scrollTop() + $box.outerHeight();
+
+        $box.append("<p><b>(" +
             data.timestamp + ") " +
             "<span avatar data-img='" + data.avatar + "'>" + data.userEmail + "</span></b>: " +
             urlify(data.messageContent) + "</p>");
 
-        var $box = $('#messagesBox');
-        $box.scrollTop($box.prop("scrollHeight"));
+        if (scrollHeight === outerHeight) {
+            $box.scrollTop($box.prop("scrollHeight"));
+        }
+        
         if (data.userEmail != userEmail){
             $.titleAlert("New chat message!", {
                 stopOnFocus:true,
