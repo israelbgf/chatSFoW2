@@ -1,6 +1,3 @@
 node_modules
-.idea/workspace.xml
-.idea/jsLibraryMappings.xml
-.idea/libraries/chatSFoW2_node_modules.xml
-.idea/misc.xml
+.idea
 chatSFoW2.iml
