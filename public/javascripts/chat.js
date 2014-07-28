@@ -17,17 +17,19 @@ function init(serverAddress, restrictedMode){
     });
 
     connection.on('userJoined', function(user) {
-        var html = "<p class='joined'>";
+        var html = "<div class='joined'>";
         html += "<b>(" + user + ")</b>";
-        html += " entered the room.</p>";
+        html += " entered the room.</div>";
         $("#messagesBox").append(html);
+        autoScroll($("#messagesBox"));
     });
     
     connection.on('userDisconnected', function(user) {
-        var html = "<p class='exited'>";
+        var html = "<div class='exited'>";
         html += "<b>(" + user + ")</b>";
-        html += " exited the room.</p>";
+        html += " exited the room.</div>";
         $("#messagesBox").append(html);
+        autoScroll($("#messagesBox"));
     });
     
     connection.on('usersOnline', function(clients) {
@@ -40,22 +42,19 @@ function init(serverAddress, restrictedMode){
         });
         html += "</ul></div>";
         $("#messagesBox").append(html);
+        autoScroll($("#messagesBox"));
     });
     
     connection.on('receiveMessage', function (data) {
-        var $box = $('#messagesBox'),
-        scrollHeight = $box.prop("scrollHeight"),
-        outerHeight = $box.scrollTop() + $box.outerHeight();
+        var $box = $('#messagesBox');
 
-        $box.append("<p><b>(" +
+        $box.append("<div><b>(" +
             data.timestamp + ") " +
             "<span avatar data-img='" + data.avatar + "'>" + data.userEmail + "</span></b>: " +
-            urlify(data.messageContent) + "</p>");
+            urlify(data.messageContent) + "</div>");
 
-        if (scrollHeight === outerHeight) {
-            $box.scrollTop($box.prop("scrollHeight"));
-        }
-        
+        autoScroll($box);
+
         if (data.userEmail != userEmail){
             $.titleAlert("New chat message!", {
                 stopOnFocus:true,
@@ -63,7 +62,7 @@ function init(serverAddress, restrictedMode){
             });    
         }
     });
-    
+
     $( document ).tooltip({
         items: "[tooltip], [avatar]",
         position: {
@@ -115,6 +114,15 @@ function init(serverAddress, restrictedMode){
     function urlify(text) {
         var urlRegex = /(https?:\/\/[^\s]+)/g;
         return text.replace(urlRegex, '<a tooltip href="$1" target="_blank">$1</a>');
+    }
+
+    function autoScroll($box) {
+        var scrollHeight = $box.prop("scrollHeight"),
+            outerHeight = $box.scrollTop() + $box.outerHeight() + $('div:last', $box).outerHeight();
+
+        if (scrollHeight === outerHeight) {
+            $box.scrollTop($box.prop("scrollHeight"));
+        }
     }
 
 }
