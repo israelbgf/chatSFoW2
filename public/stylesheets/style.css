@@ -13,17 +13,16 @@ p.exited { background-color:#FCD9D9; }
 .usersOnline { background-color:#FCF8E3; list-style-type:none; }
 .usersOnline li { float:left; margin-right:10px; }
 
-.chatBox { height: 95%; overflow: auto; }
+.chatBox { height: 95%; overflow: auto; margin-bottom: 15px; }
 
 .chatActions {
     position: fixed;
     bottom: 0;
     left: 0;
     width: 100%;
-    padding-top: 30px;
     padding-left: 10px;
     background-color: white;
-    height: 50px;
+    height: 5%;
 }
 
 .inputMessage { width: 80%; }
