@@ -17,22 +17,23 @@ function init(serverAddress, restrictedMode){
     });
 
     connection.on('userJoined', function(user) {
+        autoScroll($("#messagesBox"));
         var html = "<div class='joined'>";
         html += "<b>(" + user + ")</b>";
         html += " entered the room.</div>";
         $("#messagesBox").append(html);
-        autoScroll($("#messagesBox"));
     });
     
     connection.on('userDisconnected', function(user) {
+        autoScroll($("#messagesBox"));
         var html = "<div class='exited'>";
         html += "<b>(" + user + ")</b>";
         html += " exited the room.</div>";
         $("#messagesBox").append(html);
-        autoScroll($("#messagesBox"));
     });
     
     connection.on('usersOnline', function(clients) {
+        autoScroll($("#messagesBox"));
         var html = "<div class='usersOnline'><b>Users online:</b><ul class='usersOnline'>";
         $.each(clients, function(i, client) {
             html += "<li>";
@@ -42,18 +43,17 @@ function init(serverAddress, restrictedMode){
         });
         html += "</ul></div>";
         $("#messagesBox").append(html);
-        autoScroll($("#messagesBox"));
     });
     
     connection.on('receiveMessage', function (data) {
         var $box = $('#messagesBox');
+        autoScroll($box);
 
         $box.append("<div><b>(" +
             data.timestamp + ") " +
             "<span avatar data-img='" + data.avatar + "'>" + data.userEmail + "</span></b>: " +
             urlify(data.messageContent) + "</div>");
 
-        autoScroll($box);
 
         if (data.userEmail != userEmail){
             $.titleAlert("New chat message!", {
@@ -118,10 +118,12 @@ function init(serverAddress, restrictedMode){
 
     function autoScroll($box) {
         var scrollHeight = $box.prop("scrollHeight"),
-            outerHeight = $box.scrollTop() + $box.outerHeight() + $('div:last', $box).outerHeight();
+            outerHeight = $box.scrollTop() + $box.outerHeight();
 
+        console.log(scrollHeight);
+        console.log(outerHeight);
         if (scrollHeight === outerHeight) {
-            $box.scrollTop($box.prop("scrollHeight"));
+            setTimeout(function() {$box.scrollTop($box.prop("scrollHeight"))}, 100);
         }
     }
 

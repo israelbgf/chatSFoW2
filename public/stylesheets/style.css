@@ -1,5 +1,5 @@
 body {
-    height: 96%;
+    height: 95%;
     font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
@@ -13,7 +13,7 @@ a { color: #00B7FF; }
 .usersOnline { background-color:#FCF8E3; list-style-type:none; }
 .usersOnline li { display:inline-block; margin-right:10px; }
 
-.chatBox { height: 95%; overflow: auto; margin-bottom: 15px; }
+.chatBox { height: 100%; overflow: auto;}
 
 .chatActions {
     position: fixed;
@@ -22,7 +22,7 @@ a { color: #00B7FF; }
     width: 100%;
     padding-left: 10px;
     background-color: white;
-    height: 5%;
+    height: 4%;
 }
 
 .inputMessage { width: 80%; }
