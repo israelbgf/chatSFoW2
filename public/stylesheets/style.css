@@ -1,12 +1,69 @@
 body {
-    height: 95%;
+    height: 90%;
     font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
 html { height: 100%; }
 
 a { color: #00B7FF; }
+
+img {
+    max-width: 500px;
+    max-height: 500px;
+}
+
+.chatActions input[type="text"] {
+    padding: 10px;
+    border: solid 1px #fff;
+    box-shadow: inset 1px 1px 2px 0 #707070;
+    transition: box-shadow 0.3s;}
+
+.chatActions input[type="text"]:focus,
+.chatActions input[type="text"].focus {
+    box-shadow: inset 1px 1px 2px 0 #c9c9c9;
+    outline: none;
+
+}
+
+.chatActions button {
+    background: #2ecc71;
+    box-shadow: 0 6px #24b662;
+    color: #fff;
+    transition: none 0s ease 0s;
+    border: none;
+    cursor: pointer;
+    letter-spacing: 1px;
+    outline: medium none;
+    padding: 10px 0;
+    text-transform: uppercase;
+    width: 10%;
+    vertical-align: top;
+    position: relative;
+}
+
+.chatActions button:hover {
+    box-shadow: 0 4px #24b662;
+    top: 2px;
+}
+
+.chatActions button:active {
+    box-shadow: 0 0 #24b662;
+    top: 6px;
+}
+.chatActions {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding-left: 10px;
+    padding-top: 10px;
+    padding-bottom: 5px;
+    background-color: #efefef;
+    height: 5%;
+}
+
 .chatBox div, .usersOnline { margin:0px; padding:7px; }
+
 .joined { background-color:#DCF5E8; }
 .exited { background-color:#FCD9D9; }
 
@@ -15,24 +72,9 @@ a { color: #00B7FF; }
 
 .chatBox { height: 100%; overflow: auto;}
 
-.chatActions {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    padding-left: 10px;
-    background-color: white;
-    height: 4%;
-}
-
 .inputMessage { width: 80%; }
-.inputButton { width: 10%; }
 
 .ui-tooltip {
     max-width: 500px !important;
 }
 
-img { 
-    max-width: 500px;
-    max-height: 500px;
-}
