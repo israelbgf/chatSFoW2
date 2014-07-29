@@ -28,6 +28,10 @@ img { max-width: 500px; max-height: 500px; }
     vertical-align: middle;
 }
 
+.chatActions input[type="text"]:focus {
+    outline:none;
+}
+
 .chatActions .btnGroup {
     display: table-cell;
     width: 1%;
