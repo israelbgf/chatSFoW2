@@ -7,148 +7,28 @@ html { height: 100%; }
 
 a { color: #00B7FF; }
 
-img {
-    max-width: 500px;
-    max-height: 500px;
-}
+img { max-width: 500px; max-height: 500px; }
 
-.chatActions input[type="text"] {
-    padding: 10px;
-    border: solid 1px #fff;
-    box-shadow: inset 1px 1px 2px 0 #707070;
-    transition: box-shadow 0.3s;}
-
+.chatActions input[type="text"] { padding: 10px; border: solid 1px #999; }
 .chatActions input[type="text"]:focus,
 .chatActions input[type="text"].focus {
     box-shadow: inset 1px 1px 2px 0 #c9c9c9;
     outline: none;
-
 }
 
 .chatActions button {
-    display: inline-block;
+    border: none;
+    cursor: pointer;
+    background: #34495e;
+    color: #fff;
+    padding: 5px 15px;
     font-weight: bold;
-    color: #fff;
-    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.5);
-    font-size: 12px;
-    line-height: 20px;
-    padding: 5px 12px;
-    -webkit-border-radius: 1px;
-    border-radius: 1px;
-    position: relative;
-    margin: 0 10px 10px 0;
-    width:10%;
-    text-transform: uppercase;
-    cursor: pointer;
-    outline: none;
-    border: none;
+    font-size: 14px;
+    line-height: 24px;
+    border-radius: 7px;
 }
 
-.chatActions button:after {
-    position: absolute;
-    display: block;
-    content: "";
-    top: -1px;
-    left: -1px;
-    right: -1px;
-    bottom: -1px;
-    z-index: -1;
-    -webkit-border-radius: 2px;
-    border-radius: 2px;
-    -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
-}
-
-.chatActions button:active {
-    -webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.15), inset 0 0 1px rgba(0, 0, 0, 0.02) !important;
-    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.15), inset 0 0 1px rgba(0, 0, 0, 0.02) !important;
-    outline: none;
-}
-
-.chatActions button:active:after {
-    -webkit-box-shadow: 0 1px 0 0 rgba(255, 255, 255, 0.5) !important;
-    box-shadow: 0 1px 0 0 rgba(255, 255, 255, 0.5) !important;
-}
-
-/*
-.chatActions button {
-    background: #2ecc71;
-    box-shadow: 0 6px #24b662;
-    color: #fff;
-    transition: none 0s ease 0s;
-    border: none;
-    cursor: pointer;
-    letter-spacing: 1px;
-    outline: medium none;
-    padding: 10px 0;
-    text-transform: uppercase;
-    width: 10%;
-    vertical-align: top;
-    position: relative;
-}
-
-.chatActions button:hover {
-    box-shadow: 0 4px #24b662;
-    top: 2px;
-}
-
-.chatActions button:active {
-    box-shadow: 0 0 #24b662;
-    top: 6px;
-}
-*/
-
-.chatActions button:hover {
-    -webkit-box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.05), inset 0 1px 0 0 #b6b8bc;
-    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.05), inset 0 1px 0 0 #b6b8bc;
-    background-color: #a4a7ab;
-    background-image: -webkit-gradient(linear, left top, left bottom, from(#a4a7ab), to(#787a7f));
-    background-image: -webkit-linear-gradient(top, #a4a7ab, #787a7f);
-    background-image: -moz-linear-gradient(top, #a4a7ab, #787a7f);
-    background-image: -o-linear-gradient(top, #a4a7ab, #787a7f);
-    background-image: -ms-linear-gradient(top, #a4a7ab, #787a7f);
-    background-image: linear-gradient(top, #a4a7ab, #787a7f);
-    filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,StartColorStr='#a4a7ab', EndColorStr='#787a7f');
-}
-
-.chatActions button {
-    -webkit-box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.05), inset 0 1px 0 0 #abaeb2;
-    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.05), inset 0 1px 0 0 #abaeb2;
-}
-
-.chatActions button,
-.chatActions button:active {
-    background-color: #979b9f;
-    background-image: -webkit-gradient(linear, left top, left bottom, from(#979b9f), to(#707277));
-    background-image: -webkit-linear-gradient(top, #979b9f, #707277);
-    background-image: -moz-linear-gradient(top, #979b9f, #707277);
-    background-image: -o-linear-gradient(top, #979b9f, #707277);
-    background-image: -ms-linear-gradient(top, #979b9f, #707277);
-    background-image: linear-gradient(top, #979b9f, #707277);
-    filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,StartColorStr='#979b9f', EndColorStr='#707277');
-}
-
-.chatActions button:after {
-    background-color: #6c7277;
-    background-image: -webkit-gradient(linear, left top, left bottom, from(#6c7277), to(#3e3f41));
-    background-image: -webkit-linear-gradient(top, #6c7277, #3e3f41);
-    background-image: -moz-linear-gradient(top, #6c7277, #3e3f41);
-    background-image: -o-linear-gradient(top, #6c7277, #3e3f41);
-    background-image: -ms-linear-gradient(top, #6c7277, #3e3f41);
-    background-image: linear-gradient(top, #6c7277, #3e3f41);
-    filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,StartColorStr='#6c7277', EndColorStr='#3e3f41');
-}
-
-.chatActions button:active:after {
-    background-color: #5d6266;
-    background-image: -webkit-gradient(linear, left top, left bottom, from(#5d6266), to(#444648));
-    background-image: -webkit-linear-gradient(top, #5d6266, #444648);
-    background-image: -moz-linear-gradient(top, #5d6266, #444648);
-    background-image: -o-linear-gradient(top, #5d6266, #444648);
-    background-image: -ms-linear-gradient(top, #5d6266, #444648);
-    background-image: linear-gradient(top, #5d6266, #444648);
-    filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,StartColorStr='#5d6266', EndColorStr='#444648');
-}
+.chatActions button:hover { background-color:#415b76; }
 
 .chatActions {
     position: fixed;
@@ -174,7 +54,7 @@ img {
 
 .inputMessage { width: 80%; }
 
-.ui-tooltip {
-    max-width: 500px !important;
-}
+.ui-tooltip { max-width: 500px !important; }
 
+#warn { width:32px; height:25px; display:inline-block; vertical-align:middle; }
+#workImage { display:none; position:fixed; top:0; left:0; min-height:100%; min-width:100%; opacity:0.7; }

@@ -12,10 +12,6 @@ function init(serverAddress, restrictedMode){
         this.send({userEmail: userEmail});
     });
 
-    connection.on('disconnect', function(data) {
-        
-    });
-
     connection.on('userJoined', function(user) {
         autoScroll($("#messagesBox"));
         var html = "<div class='joined'>";
@@ -63,7 +59,7 @@ function init(serverAddress, restrictedMode){
         }
     });
 
-    $( document ).tooltip({
+    $(document).tooltip({
         items: "[tooltip], [avatar]",
         position: {
             my: "center bottom-25",
@@ -101,6 +97,8 @@ function init(serverAddress, restrictedMode){
             inputMessage.val("").focus();
         }
     });
+    
+    $("#warn, #workImage").click(function() { $("#workImage").fadeToggle('slow'); });
 
     function removeHTMLTags(text) {
         var regex = /(<([^>]+)>)/ig
