@@ -9,23 +9,43 @@ a { color: #00B7FF; }
 
 img { max-width: 500px; max-height: 500px; }
 
-.chatActions input[type="text"] { padding: 10px; border: solid 1px #999; }
-.chatActions input[type="text"]:focus,
-.chatActions input[type="text"].focus {
-    box-shadow: inset 1px 1px 2px 0 #c9c9c9;
-    outline: none;
+
+.chatActions .inputGroup {
+    border-collapse: separate;
+    display: table;
+    position: relative;
+    width: 96%;
 }
 
+.chatActions input[type="text"] {
+    padding: 10px;
+    border: 1px solid #999;
+    display: table-cell;
+    border-bottom-right-radius: 0;
+    border-top-right-radius: 0;
+    margin-bottom: 0;
+    width: 98%;
+    vertical-align: middle;
+}
+
+.chatActions .btnGroup {
+    display: table-cell;
+    width: 1%;
+}
 .chatActions button {
     border: none;
     cursor: pointer;
     background: #34495e;
     color: #fff;
-    padding: 5px 15px;
+    padding: 7px 15px;
     font-weight: bold;
     font-size: 14px;
     line-height: 24px;
-    border-radius: 7px;
+    border-radius: 5px;
+    margin-left: -1px;
+    border-bottom-left-radius: 0;
+    border-top-left-radius: 0;
+    vertical-align: middle;
 }
 
 .chatActions button:hover { background-color:#415b76; }
@@ -52,9 +72,10 @@ img { max-width: 500px; max-height: 500px; }
 
 .chatBox { height: 100%; overflow: auto;}
 
-.inputMessage { width: 80%; }
+/*.inputMessage { width: 80%; }*/
 
 .ui-tooltip { max-width: 500px !important; }
 
-#warn { width:32px; height:25px; display:inline-block; vertical-align:middle; }
+#warn { width:32px; height:25px; display:table-cell; vertical-align:middle; }
+#warn {vertical-align: middle; }
 #workImage { display:none; position:fixed; top:0; left:0; min-height:100%; min-width:100%; opacity:0.7; }
