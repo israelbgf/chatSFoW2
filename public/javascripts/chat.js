@@ -9,7 +9,7 @@ function init(serverAddress, restrictedMode){
 
     connection.on('forceClientEmail', function(data) {
         userEmail = data.email;
-        this.send({userEmail: userEmail});
+        connection.emit("message", {userEmail: userEmail});
     });
 
     connection.on('userJoined', function(user) {
