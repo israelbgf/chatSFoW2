@@ -12,6 +12,16 @@ function init(serverAddress, restrictedMode){
         connection.emit("message", {userEmail: userEmail});
     });
 
+    var hasNotAlreadyFetchedHistory = true;
+    connection.on('chatHistoryLoad', function(chatMessages) {
+        if(hasNotAlreadyFetchedHistory){
+            chatMessages.forEach(function(chatMessage){
+                addMessageToChatBox(chatMessage);
+            });
+            hasNotAlreadyFetchedHistory = false;
+        }
+    });
+
     connection.on('userJoined', function(user) {
         autoScroll($("#messagesBox"));
         var html = "<div class='joined'>";
@@ -19,7 +29,7 @@ function init(serverAddress, restrictedMode){
         html += " entered the room.</div>";
         $("#messagesBox").append(html);
     });
-    
+
     connection.on('userDisconnected', function(user) {
         autoScroll($("#messagesBox"));
         var html = "<div class='exited'>";
@@ -40,24 +50,8 @@ function init(serverAddress, restrictedMode){
         html += "</ul></div>";
         $("#messagesBox").append(html);
     });
-    
-    connection.on('receiveMessage', function (data) {
-        var $box = $('#messagesBox');
-        autoScroll($box);
 
-        $box.append("<div><b>(" +
-            data.timestamp + ") " +
-            "<span avatar data-img='" + data.avatar + "'>" + data.userEmail + "</span></b>: " +
-            urlify(data.messageContent) + "</div>");
-
-
-        if (data.userEmail != userEmail){
-            $.titleAlert("New chat message!", {
-                stopOnFocus:true,
-                requireBlur:true
-            });    
-        }
-    });
+    connection.on('receiveMessage', addMessageToChatBox);
 
     $(document).tooltip({
         items: "[tooltip], [avatar]",
@@ -124,5 +118,23 @@ function init(serverAddress, restrictedMode){
             setTimeout(function() {$box.scrollTop($box.prop("scrollHeight"))}, 100);
         }
     }
+
+    function addMessageToChatBox(data){
+        var $box = $('#messagesBox');
+        autoScroll($box);
+
+        $box.append("<div><b>(" +
+            data.timestamp + ") " +
+            "<span avatar data-img='" + data.avatar + "'>" + data.userEmail + "</span></b>: " +
+            urlify(data.messageContent) + "</div>");
+
+
+        if(data.userEmail != userEmail){
+            $.titleAlert("New chat message!", {
+                stopOnFocus: true,
+                requireBlur: true
+            });
+        }
+    };
 
 }

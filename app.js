@@ -12,6 +12,7 @@ var bodyParser = require('body-parser');
 var gravatar = require('gravatar');
 var routes = require('./routes/index');
 var users = require('./routes/users');
+var chatHistory = require("./apps/chat-history")
 
 var app = express();
 
@@ -78,6 +79,7 @@ io.sockets.on('connection', function(socket) {
         userEmail = message.userEmail;
         clients.push(userEmail);
         io.sockets.emit('userJoined', userEmail);
+        socket.emit('chatHistoryLoad', chatHistory.load())
     });
     
     socket.on('disconnect', function() {
@@ -85,8 +87,8 @@ io.sockets.on('connection', function(socket) {
         clients.splice(clients.indexOf(userEmail), 1);
     });
     
-    socket.on('newMessage', function(data){
-        if (data.messageContent == '!online') {
+    socket.on('newMessage', function(chatMessage){
+        if (chatMessage.messageContent == '!online') {
 
             var online = [];
             clients.forEach(function(user) {
@@ -100,13 +102,15 @@ io.sockets.on('connection', function(socket) {
         } else {
             
             var timestamp = new Date();
-            data.timestamp = timestamp.getHours() + ":" +
+            chatMessage.timestamp = timestamp.getHours() + ":" +
                          timestamp.getMinutes() + ":" +
                          timestamp.getSeconds();
 
-            data.avatar = gravatar.url(data.userEmail, {s: '200', r: 'x', d: 'mm'});
-            data.messageContent = removeHTMLTags(data.messageContent);
-            io.sockets.emit('receiveMessage', data);
+            chatMessage.avatar = gravatar.url(chatMessage.userEmail, {s: '200', r: 'x', d: 'mm'});
+            chatMessage.messageContent = removeHTMLTags(chatMessage.messageContent);
+
+            chatHistory.save(chatMessage);
+            io.sockets.emit('receiveMessage', chatMessage);
             
         }
     });
