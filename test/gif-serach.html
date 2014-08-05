@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Google Images client side crawler</title>
+    <link rel="stylesheet" href="//code.jquery.com/qunit/qunit-1.14.0.css">
+</head>
+<body>
+<div id="qunit"></div>
+<div id="qunit-fixture"></div>
+<script src="//code.jquery.com/qunit/qunit-1.14.0.js"></script>
+<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+<script src="../public/javascripts/gif-search.js"></script>
+<script>
+
+    QUnit.test("should find gifs when queried", function(assert){
+
+        var query = "victory";
+        var gifs = findGifs(query);
+        assert.ok(gifs[0])
+
+    });
+
+</script>
+</body>
+</html>
