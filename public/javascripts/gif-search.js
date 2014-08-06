@@ -1,4 +1,5 @@
 $(function (){
+    const INITIAL_OFFSET = 0;
     var $inputMessage = $("#inputMessage");
     var $chatForm = $("#chatForm");
     var $gifnailsBox = $("#gifnailsBox");
@@ -6,7 +7,7 @@ $(function (){
     $chatForm.on("submit", function(event){
         var input = $inputMessage.val();
         if(isSearchCommand(input)){
-            fetchGifnails(input, 0);
+            fetchGifnails(input, INITIAL_OFFSET);
             cancelFormSubmission();
         }
     });
