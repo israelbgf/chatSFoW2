@@ -20,19 +20,20 @@ $(function (){
 
         clearGifnailsSearch();
 
+        const GIFNAILS_PER_QUERY = 4;
         var query = input.substr(4).trim();
-        var loading = $("<p>Searching Giphy for gifs...</p>");
+        var $loading = $("<p>Searching Giphy for gifs...</p>");
 
-        loading.appendTo($gifnailsBox);
+        $loading.appendTo($gifnailsBox);
 
         $promisse = $.ajax({
             type: "GET",
             url: "http://api.giphy.com/v1/gifs/search?q=" + encodeURI(query) +
-                "&api_key=dc6zaTOxFJmzC&limit=4&offset=" + offset
+                "&api_key=dc6zaTOxFJmzC&limit=" + GIFNAILS_PER_QUERY  + "&offset=" + offset
         });
 
         $promisse.always(function(){
-           loading.remove();
+           $loading.remove();
         });
 
         $promisse.done(function(response){
@@ -67,7 +68,7 @@ $(function (){
                 .text("More...")
                 .addClass("inputButton gifnail")
                 .click(function(){
-                    fetchGifnails(input, offset + 5);
+                    fetchGifnails(input, offset + GIFNAILS_PER_QUERY);
                 }).appendTo($gifnailsBox);
         }
 
