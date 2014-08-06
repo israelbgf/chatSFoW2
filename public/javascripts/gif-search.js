@@ -75,6 +75,7 @@ $(function (){
             var selectedGifnailURI = $(event.target).attr('src');
             $inputMessage.val(selectedGifnailURI);
             clearGifnailsSearch();
+            $inputMessage.focus();
         }
 
     }
