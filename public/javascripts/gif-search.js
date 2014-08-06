@@ -27,7 +27,7 @@ $(function (){
         $promisse = $.ajax({
             type: "GET",
             url: "http://api.giphy.com/v1/gifs/search?q=" + encodeURI(query) +
-                "&api_key=dc6zaTOxFJmzC&limit=5&offset=" + offset
+                "&api_key=dc6zaTOxFJmzC&limit=4&offset=" + offset
         });
 
         $promisse.always(function(){
@@ -55,6 +55,8 @@ $(function (){
                     .click(selectGifnail)
                     .appendTo($gifnailsBox);
             });
+            $("<br>")
+                .appendTo($gifnailsBox);
             $("<button>")
                 .text("More...")
                 .addClass("inputButton gifnail")
