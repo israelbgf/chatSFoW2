@@ -5,14 +5,8 @@ $(function (){
 
     $chatForm.on("submit", function(event){
         var input = $inputMessage.val();
-
-        function cancelFormSubmission() {
-            event.stopImmediatePropagation();
-            $inputMessage.val("");
-        }
-
         if(isSearchCommand(input)){
-            showGifnails(input, 0);
+            fetchGifnails(input, 0);
             cancelFormSubmission();
         }
     });
@@ -21,15 +15,42 @@ $(function (){
         return input && input.substr(0, 4) == "!gif";
     }
 
-    function showGifnails(input, offset) {
-        $gifnailsBox.children().remove();
-        var query = input.substr(4).trim();
-        var gifs = findGifs(query);
+    function fetchGifnails(input, offset) {
 
-        if(gifs.length > 0){
-            findGifs(query, offset).forEach(function(gifURI){
+        clearGifnailsSearch();
+
+        var query = input.substr(4).trim();
+        var loading = $("<p>Searching Giphy for gifs... :(</p>");
+
+        loading.appendTo($gifnailsBox);
+
+        $promisse = $.ajax({
+            type: "GET",
+            url: "http://api.giphy.com/v1/gifs/search?q=" + encodeURI(query) +
+                "&api_key=dc6zaTOxFJmzC&limit=5&offset=" + offset
+        });
+
+        $promisse.always(function(){
+           loading.remove();
+        });
+
+        $promisse.done(function(response){
+            if(response.data.length > 0)
+                createHTMLForGifnails(response.data);
+            else
+                createHTMLForEmptyResults();
+        });
+
+        function createHTMLForEmptyResults() {
+            $("<p>Nothing found, sorry bro... :(</p>")
+                .appendTo($gifnailsBox)
+                .fadeOut(3000);
+        }
+
+        function createHTMLForGifnails(data) {
+            data.forEach(function(gif){
                 $("<img>")
-                    .attr("src", gifURI)
+                    .attr("src", gif.images.original.url)
                     .addClass("gifnail")
                     .click(selectGifnail)
                     .appendTo($gifnailsBox);
@@ -37,34 +58,26 @@ $(function (){
             $("<button>")
                 .text("More...")
                 .addClass("inputButton gifnail")
-                .click(function(){showGifnails(input, offset + 5)})
-                .appendTo($gifnailsBox);
-        }else{
-            $("<p>Nothing found, sorry bro... :(</p>")
-                .appendTo($gifnailsBox)
-                .fadeOut(3000);
+                .click(function () {
+                    fetchGifnails(input, offset + 5)
+                }).appendTo($gifnailsBox);
         }
+
+        function selectGifnail(event){
+            var selectedGifnailURI = $(event.target).attr('src');
+            $inputMessage.val(selectedGifnailURI);
+            clearGifnailsSearch();
+        }
+
     }
 
-    function findGifs(query, offset){
-        var gifs = []
-        $.ajax({
-            type: "GET",
-            url: "http://api.giphy.com/v1/gifs/search?q=" + encodeURI(query) +
-                 "&api_key=dc6zaTOxFJmzC&limit=5&offset=" + offset,
-            async: false,
-            success: function(response){
-                response.data.forEach(function(element){
-                    gifs.push(element.images.original.url);
-                });
-            }
-        });
-        return gifs;
-    }
-
-    function selectGifnail(event){
-        var selectedGifnailURI = $(event.target).attr('src');
-        $inputMessage.val(selectedGifnailURI);
+    function clearGifnailsSearch() {
         $gifnailsBox.children().remove();
     }
+
+    function cancelFormSubmission() {
+        event.stopImmediatePropagation();
+        $inputMessage.val("");
+    }
+
 });
