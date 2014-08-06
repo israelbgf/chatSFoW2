@@ -97,7 +97,7 @@ io.sockets.on('connection', function(socket) {
                 c.avatar = gravatar.url(user, {s: '200', r: 'x', d: 'mm'});
                 online.push(c);
             });
-            io.sockets.emit('usersOnline', online);
+            socket.emit('usersOnline', online);
             
         } else {
             
