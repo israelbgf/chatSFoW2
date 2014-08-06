@@ -62,7 +62,6 @@ img { max-width: 500px; max-height: 500px; }
     padding-top: 10px;
     padding-bottom: 5px;
     background-color: #efefef;
-    height: 5%;
 }
 
 .chatBox div, .usersOnline { margin:0px; padding:7px; }
@@ -80,3 +79,10 @@ img { max-width: 500px; max-height: 500px; }
 #warn { width:32px; height:25px; display:table-cell; vertical-align:middle; }
 #warn img {vertical-align: middle; }
 #workImage { display:none; position:fixed; top:0; left:0; min-height:100%; min-width:100%; opacity:0.7; }
+
+.gifnail{
+    cursor: pointer;
+    margin: 5px;
+    max-width: 200px;
+    max-height: 200px;
+}

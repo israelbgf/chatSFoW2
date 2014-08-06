@@ -1,43 +1,46 @@
 <!DOCTYPE html>
 <html>
-  <head>
+<head>
 
     <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.17.2/build/cssreset/cssreset-min.css">
-    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link rel='stylesheet' href='/stylesheets/style.css'/>
     <link rel="stylesheet" href="//code.jquery.com/ui/1.11.0/themes/smoothness/jquery-ui.css">
 
     <script src="//cdn.socket.io/socket.io-1.0.6.js"></script>
     <script src="//code.jquery.com/jquery-1.10.2.js"></script>
     <script src="//code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
+    <script src="/javascripts/gif-search.js"></script>
     <script src="/javascripts/chat.js"></script>
     <script src="/javascripts/jquery.titlealert.min.js"></script>
     <script>
-        $(function(){
+        $(function () {
             init('<%= serverAddress %>', <%= restrictedMode %>);
         });
     </script>
 
     <title><%= title %></title>
 
-  </head>
-  <body>
+</head>
+<body>
 
-    <div id="messagesBox" class="chatBox">
-    </div>
+<div id="messagesBox" class="chatBox">
+</div>
 
-    <div class="chatActions">
-         <form action="#" id="chatForm">
-            <div class="inputGroup">
-                <input type="text" id="inputMessage" class="inputMessage" placeholder="Texto..." autocomplete="off" />
+<div class="chatActions">
+    <form action="#" id="chatForm">
+        <div class="inputGroup">
+            <input type="text" id="inputMessage" class="inputMessage" placeholder="Texto..." autocomplete="off"/>
                 <span class="btnGroup">
                     <button id="inputButton" class="inputButton" type="submit">Send</button>
                 </span>
-                <a href="#" id="warn" title="Boss Alert"><img src='/images/warn.png' /></a>
-            </div>
-         </form>
+            <a href="#" id="warn" title="Boss Alert"><img src='/images/warn.png'/></a>
+        </div>
+    </form>
+    <div id="gifnailsBox">
     </div>
-      
-    <img src='/images/work.jpg' id="workImage" />
+</div>
 
-  </body>
+<img src='/images/work.jpg' id="workImage"/>
+
+</body>
 </html>
