@@ -20,7 +20,7 @@ $(function (){
         clearGifnailsSearch();
 
         var query = input.substr(4).trim();
-        var loading = $("<p>Searching Giphy for gifs... :(</p>");
+        var loading = $("<p>Searching Giphy for gifs...</p>");
 
         loading.appendTo($gifnailsBox);
 
@@ -39,7 +39,12 @@ $(function (){
                 createHTMLForGifnails(response.data);
             else
                 createHTMLForEmptyResults();
+            showGifnailboxWithAnimation();
         });
+
+        function showGifnailboxWithAnimation() {
+            $gifnailsBox.show(500);
+        }
 
         function createHTMLForEmptyResults() {
             $("<p>Nothing found, sorry bro... :(</p>")
@@ -60,8 +65,8 @@ $(function (){
             $("<button>")
                 .text("More...")
                 .addClass("inputButton gifnail")
-                .click(function () {
-                    fetchGifnails(input, offset + 5)
+                .click(function(){
+                    fetchGifnails(input, offset + 5);
                 }).appendTo($gifnailsBox);
         }
 
@@ -74,6 +79,7 @@ $(function (){
     }
 
     function clearGifnailsSearch() {
+        $gifnailsBox.hide();
         $gifnailsBox.children().remove();
     }
 
