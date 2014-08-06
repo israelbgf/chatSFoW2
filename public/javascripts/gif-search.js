@@ -12,7 +12,7 @@ $(function (){
         }
 
         if(isSearchCommand(input)){
-            showGifnails(input);
+            showGifnails(input, 0);
             cancelFormSubmission();
         }
     });
@@ -21,19 +21,24 @@ $(function (){
         return input && input.substr(0, 4) == "!gif";
     }
 
-    function showGifnails(input) {
+    function showGifnails(input, offset) {
         $gifnailsBox.children().remove();
         var query = input.substr(4).trim();
         var gifs = findGifs(query);
 
         if(gifs.length > 0){
-            findGifs(query).forEach(function(gifURI){
+            findGifs(query, offset).forEach(function(gifURI){
                 $("<img>")
                     .attr("src", gifURI)
                     .addClass("gifnail")
                     .click(selectGifnail)
                     .appendTo($gifnailsBox);
             });
+            $("<button>")
+                .text("More...")
+                .addClass("inputButton gifnail")
+                .click(function(){showGifnails(input, offset + 5)})
+                .appendTo($gifnailsBox);
         }else{
             $("<p>Nothing found, sorry bro... :(</p>")
                 .appendTo($gifnailsBox)
@@ -41,11 +46,12 @@ $(function (){
         }
     }
 
-    function findGifs(query){
+    function findGifs(query, offset){
         var gifs = []
         $.ajax({
             type: "GET",
-            url: "http://api.giphy.com/v1/gifs/search?q=" + encodeURI(query) + "&api_key=dc6zaTOxFJmzC&limit=5",
+            url: "http://api.giphy.com/v1/gifs/search?q=" + encodeURI(query) +
+                 "&api_key=dc6zaTOxFJmzC&limit=5&offset=" + offset,
             async: false,
             success: function(response){
                 response.data.forEach(function(element){
