@@ -72,8 +72,6 @@ var ChatCommand = function(){
                 }
             });
 
-            $("#warn, #workImage").click(function() { $("#workImage").fadeToggle('slow'); });
-
             function isImage(url) {
                 return(url.match(/\.(jpeg|jpg|gif|png)$/) != null);
             }

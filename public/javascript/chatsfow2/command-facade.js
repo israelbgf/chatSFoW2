@@ -1,6 +1,7 @@
 $(function(){
 
 	const COMMANDS = {
+		"!boss": BossCommand,
 	    "!gif": GifnailCommand,
 	    "!clear": ClearCommand,
 	    "!online": OnlineCommand,
@@ -8,10 +9,11 @@ $(function(){
 	}
 
 	$("#chatForm").on("submit", function(event) {
-		var input = $("#inputMessage").val();
-		var command = extractCommand(input);
+		var $input = $("#inputMessage");
+		var command = extractCommand($input.val());
 		event.preventDefault();
-	    COMMANDS[command].execute(extractArgument(input));	    
+	    COMMANDS[command].execute(extractArgument($input.val()));
+	    $input.val("");
 	});
 
 	function extractCommand(input) {

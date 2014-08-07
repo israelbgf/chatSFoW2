@@ -9,11 +9,11 @@ a { color: #00B7FF; }
 
 img { max-width: 500px; max-height: 500px; }
 
-.chatActions .inputGroup {
+.chatActions {
     border-collapse: separate;
     display: table;
     position: relative;
-    width: 96%;
+    width: 98%;
 }
 
 .chatActions input[type="text"] {
@@ -23,7 +23,7 @@ img { max-width: 500px; max-height: 500px; }
     border-bottom-right-radius: 0;
     border-top-right-radius: 0;
     margin-bottom: 0;
-    width: 98%;
+    width: 95%;
     vertical-align: middle;
 }
 
@@ -31,7 +31,7 @@ img { max-width: 500px; max-height: 500px; }
     outline:none;
 }
 
-.chatActions .btnGroup {
+.chatActions {
     display: table-cell;
     width: 1%;
 }
@@ -78,7 +78,7 @@ img { max-width: 500px; max-height: 500px; }
 
 #warn { width:32px; height:25px; display:table-cell; vertical-align:middle; }
 #warn img {vertical-align: middle; }
-#workImage { display:none; position:fixed; top:0; left:0; min-height:100%; min-width:100%; opacity:0.7; }
+#workImage { display:none; position:fixed; top:0; left:0; min-height:100%; min-width:100%; }
 
 .gifnail{
     cursor: pointer;

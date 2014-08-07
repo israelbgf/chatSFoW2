@@ -11,13 +11,7 @@
         </div>
         <div class="chatActions">
             <form action="#" id="chatForm">
-                <div class="inputGroup">
-                    <input type="text" id="inputMessage" class="inputMessage" placeholder="Available Commands: !online !gif <search_query>" autocomplete="off"/>
-                        <span class="btnGroup">
-                            <button id="inputButton" class="inputButton" type="submit">Send</button>
-                        </span>
-                    <a href="#" id="warn" title="Boss Alert"><img src='/images/warn.png'/></a>
-                </div>
+                <input type="text" id="inputMessage" class="inputMessage" placeholder="Available Commands: !gif <search_query> !online !boss !clear !chat" autocomplete="off"/>
             </form>
             <div id="gifnailsBox">
             </div>
@@ -35,7 +29,8 @@
     <!-- chat.js must be before all commands imports -->
     <script src="/javascript/chatsfow2/commands/gif.js"></script>
     <script src="/javascript/chatsfow2/commands/clear.js"></script>
-    <script src="/javascript/chatsfow2/commands/online.js"></script>    
+    <script src="/javascript/chatsfow2/commands/online.js"></script>
+    <script src="/javascript/chatsfow2/commands/boss.js"></script>
     <!-- command-facade.js must be the last import -->
     <script src="/javascript/chatsfow2/command-facade.js"></script>
 </html>
