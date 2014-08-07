@@ -21,7 +21,10 @@ $(function(){
 	}
 
 	function extractArgument (input) {
-		return input.indexOf(" ") > -1 ? input.split(" ")[1] : input;
+		if (input.charAt(0) == "!")
+			return input.indexOf(" ") > -1 ? input.split(" ")[1] : input;
+		else
+			return input;
 	}
 
 })
