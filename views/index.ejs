@@ -1,11 +1,29 @@
 <!DOCTYPE html>
 <html>
-<head>
-
-    <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.17.2/build/cssreset/cssreset-min.css">
-    <link rel='stylesheet' href='/stylesheets/style.css'/>
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.0/themes/smoothness/jquery-ui.css">
-
+    <head>
+        <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.17.2/build/cssreset/cssreset-min.css">
+        <link rel='stylesheet' href='/stylesheets/style.css'/>
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.11.0/themes/smoothness/jquery-ui.css">
+        <title><%= title %></title>
+    </head>
+    <body>
+        <div id="messagesBox" class="chatBox">
+        </div>
+        <div class="chatActions">
+            <form action="#" id="chatForm">
+                <div class="inputGroup">
+                    <input type="text" id="inputMessage" class="inputMessage" placeholder="Available Commands: !online !gif <search_query>" autocomplete="off"/>
+                        <span class="btnGroup">
+                            <button id="inputButton" class="inputButton" type="submit">Send</button>
+                        </span>
+                    <a href="#" id="warn" title="Boss Alert"><img src='/images/warn.png'/></a>
+                </div>
+            </form>
+            <div id="gifnailsBox">
+            </div>
+        </div>
+        <img src='/images/work.jpg' id="workImage"/>
+    </body>
     <script src="//cdn.socket.io/socket.io-1.0.6.js"></script>
     <script src="//code.jquery.com/jquery-1.10.2.js"></script>
     <script src="//code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
@@ -13,34 +31,9 @@
     <script src="/javascripts/chat.js"></script>
     <script src="/javascripts/jquery.titlealert.min.js"></script>
     <script>
-        $(function () {
-            init('<%= serverAddress %>', <%= restrictedMode %>);
-        });
+        ChatCommand.init('<%= serverAddress %>', <%= restrictedMode %>);
     </script>
-
-    <title><%= title %></title>
-
-</head>
-<body>
-
-<div id="messagesBox" class="chatBox">
-</div>
-
-<div class="chatActions">
-    <form action="#" id="chatForm">
-        <div class="inputGroup">
-            <input type="text" id="inputMessage" class="inputMessage" placeholder="Available Commands: !online !gif <search_query>" autocomplete="off"/>
-                <span class="btnGroup">
-                    <button id="inputButton" class="inputButton" type="submit">Send</button>
-                </span>
-            <a href="#" id="warn" title="Boss Alert"><img src='/images/warn.png'/></a>
-        </div>
-    </form>
-    <div id="gifnailsBox">
-    </div>
-</div>
-
-<img src='/images/work.jpg' id="workImage"/>
-
-</body>
+    <script src="/javascripts/clear-command.js"></script>
+    <script src="/javascripts/online-command.js"></script>    
+    <script src="/javascripts/main.js"></script>
 </html>

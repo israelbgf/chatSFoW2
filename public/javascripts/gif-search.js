@@ -1,16 +1,18 @@
-$(function (){
+var GifnailCommand = function (){
     const INITIAL_OFFSET = 0;
     var $inputMessage = $("#inputMessage");
     var $chatForm = $("#chatForm");
     var $gifnailsBox = $("#gifnailsBox");
 
-    $chatForm.on("submit", function(event){
-        var input = $inputMessage.val();
-        if(isSearchCommand(input)){
-            fetchGifnails(input, INITIAL_OFFSET);
-            cancelFormSubmission();
+    return {
+        execute: function (argument) {
+            var input = $inputMessage.val();
+            if(isSearchCommand(input)) {
+                fetchGifnails(input, INITIAL_OFFSET);
+                cancelFormSubmission();
+            }
         }
-    });
+    }
 
     function isSearchCommand(input) {
         return input && input.substr(0, 4) == "!gif";
@@ -91,4 +93,4 @@ $(function (){
         $inputMessage.val("");
     }
 
-});
+}();

@@ -87,32 +87,28 @@ io.sockets.on('connection', function(socket) {
         clients.splice(clients.indexOf(userEmail), 1);
     });
     
+    socket.on('usersOnlineRequest', function(chatMessage){
+        var online = [];
+        clients.forEach(function(user) {
+            var c = {};
+            c.userEmail = user;
+            c.avatar = gravatar.url(user, {s: '200', r: 'x', d: 'mm'});
+            online.push(c);
+        });
+        socket.emit('usersOnlineResponse', online);
+    });
+
     socket.on('newMessage', function(chatMessage){
-        if (chatMessage.messageContent == '!online') {
+        var timestamp = new Date();
+        chatMessage.timestamp = timestamp.getHours() + ":" +
+                     timestamp.getMinutes() + ":" +
+                     timestamp.getSeconds();
 
-            var online = [];
-            clients.forEach(function(user) {
-                var c = {};
-                c.userEmail = user;
-                c.avatar = gravatar.url(user, {s: '200', r: 'x', d: 'mm'});
-                online.push(c);
-            });
-            socket.emit('usersOnline', online);
-            
-        } else {
-            
-            var timestamp = new Date();
-            chatMessage.timestamp = timestamp.getHours() + ":" +
-                         timestamp.getMinutes() + ":" +
-                         timestamp.getSeconds();
+        chatMessage.avatar = gravatar.url(chatMessage.userEmail, {s: '200', r: 'x', d: 'mm'});
+        chatMessage.messageContent = removeHTMLTags(chatMessage.messageContent);
 
-            chatMessage.avatar = gravatar.url(chatMessage.userEmail, {s: '200', r: 'x', d: 'mm'});
-            chatMessage.messageContent = removeHTMLTags(chatMessage.messageContent);
-
-            chatHistory.save(chatMessage);
-            io.sockets.emit('receiveMessage', chatMessage);
-            
-        }
+        chatHistory.save(chatMessage);
+        io.sockets.emit('receiveMessage', chatMessage);
     });
 });
 
