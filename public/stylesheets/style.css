@@ -9,6 +9,34 @@ a { color: #00B7FF; }
 
 img { max-width: 500px; max-height: 500px; }
 
+.containerChat {
+    margin: 10px;
+}
+
+.imgAvatar {
+    width:50px;
+    height:50px;
+    float: left;
+    margin-right: 10px;
+}
+
+.nomeAvatar {
+    font-weight: bold;
+}
+
+.horaAvatar {
+    color: #c9c9c9;
+    font-size: small;
+    margin-left: 10px;
+}
+
+.textoChat {
+    display: block;
+}
+
+.clearfix {
+    clear:both;
+}
 .chatActions {
     border-collapse: separate;
     display: table;
@@ -64,7 +92,7 @@ img { max-width: 500px; max-height: 500px; }
     background-color: #efefef;
 }
 
-.chatBox div, .usersOnline { margin:0px; padding:7px; }
+.usersOnline { margin:0px; padding:7px; }
 
 .joined { background-color:#DCF5E8; }
 .exited { background-color:#FCD9D9; }
