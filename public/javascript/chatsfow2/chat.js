@@ -94,12 +94,6 @@ var ChatCommand = function(){
                      '</div>'
                 );
 
-              /*  $messageBox.append("<div><b>(" +
-                    data.timestamp + ") " +
-                    "<span avatar data-img='" + data.avatar + "'>" + data.userEmail + "</span></b>: " +
-                    urlify(data.messageContent) + "</div>");
-                */
-
                 if(data.userEmail != userEmail){
                     $.titleAlert("New chat message!", {
                         stopOnFocus: true,
