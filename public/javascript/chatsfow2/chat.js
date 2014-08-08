@@ -84,11 +84,21 @@ var ChatCommand = function(){
             function addMessageToChatBox(data){
                 ChatCommand.scrollToBottom();
 
-                $messageBox.append("<div><b>(" +
+                $messageBox.append(
+                    '<div class="containerChat">'+
+                        '<img class="imgAvatar" src="'+data.avatar+'" />'+
+                        '<span class="nomeAvatar">'+data.userEmail+'</span>'+
+                        '<span class="horaAvatar">'+data.timestamp+'</span>'+
+                        '<span class="textoChat">'+urlify(data.messageContent)+'</span>'+
+                        '<div class="clearfix"></div>'+
+                     '</div>'
+                );
+
+              /*  $messageBox.append("<div><b>(" +
                     data.timestamp + ") " +
                     "<span avatar data-img='" + data.avatar + "'>" + data.userEmail + "</span></b>: " +
                     urlify(data.messageContent) + "</div>");
-
+                */
 
                 if(data.userEmail != userEmail){
                     $.titleAlert("New chat message!", {
