@@ -93,3 +93,8 @@ img { max-width: 500px; max-height: 500px; }
 .messageBlock > div { margin:0; padding:7px; float:left; }
 .imgAvatar { width:32px; height:32px; border-radius:10px; }
 .messageEmail { font-weight:bold; }
+
+.otherUserMessage div{
+    float: right;
+    text-align: right;
+}

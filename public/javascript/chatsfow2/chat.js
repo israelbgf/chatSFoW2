@@ -91,11 +91,14 @@ var ChatCommand = function(){
                 if (lastMessage.find('.messageEmail').text() == data.userEmail) {
                     $(".messageBlock").last().find('.message').append(msg)
                 } else {
-                    var html = '<div class="messageBlock">';
-                    html += '<div class="messagePhoto">';
+
+                    var otherUserMessageClass = data.userEmail == userEmail ? "" : " otherUserMessage";
+
+                    var html = '<div class="messageBlock' + otherUserMessageClass + '">';
+                    html += '<div class="messagePhoto' + otherUserMessageClass + '">'
                     html += '<img class="imgAvatar" src="'+data.avatar+'" />';
                     html += '</div>';
-                    html += '<div class="message">';
+                    html += '<div class="message' + otherUserMessageClass + '">';
                     html += '<h3 class="messageEmail">' + data.userEmail + '</h3>';
                     html += msg;
                     html += '</div>';
