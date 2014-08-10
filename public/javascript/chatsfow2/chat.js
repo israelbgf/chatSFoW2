@@ -92,18 +92,25 @@ var ChatCommand = function(){
                     $(".messageBlock").last().find('.message').append(msg)
                 } else {
 
-                    var otherUserMessageClass = data.userEmail == userEmail ? "" : " otherUserMessage";
+                    $('<div class="messageBlock">'
+                    + '<div class="messagePhoto">'
+                    + '<img class="imgAvatar" src="'+data.avatar+'" />'
+                    + '</div>'
+                    + '<div class="message">'
+                    + '<h3 class="messageEmail">' + data.userEmail + '</h3>'
+                    + msg
+                    + '</div>'
+                    + '</div>').appendTo($messageBox);
 
-                    var html = '<div class="messageBlock' + otherUserMessageClass + '">';
-                    html += '<div class="messagePhoto' + otherUserMessageClass + '">'
-                    html += '<img class="imgAvatar" src="'+data.avatar+'" />';
-                    html += '</div>';
-                    html += '<div class="message' + otherUserMessageClass + '">';
-                    html += '<h3 class="messageEmail">' + data.userEmail + '</h3>';
-                    html += msg;
-                    html += '</div>';
-                    html += '</div>';
-                    $messageBox.append(html);
+                    var isMessageFromAnotherUser = data.userEmail != userEmail;
+                    if(isMessageFromAnotherUser){
+                        var currentMessage =$(".messageBlock").last();
+                        currentMessage
+                            .addClass("otherUserMessage")
+                            .find(".messagePhoto, .messageEmail")
+                            .addClass("otherUserMessage");
+                    }
+
                 }
                                    
                 if(data.userEmail != userEmail){
