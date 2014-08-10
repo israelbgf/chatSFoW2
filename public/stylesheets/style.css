@@ -64,8 +64,9 @@ img { max-width: 500px; max-height: 500px; }
     background-color: #efefef;
 }
 
-.chatBox div, .usersOnline { margin:0px; padding:7px; }
+.usersOnline { clear:both; margin:0px; padding:7px; }
 
+.joined, .exited { clear:both; margin:0px; padding:7px; }
 .joined { background-color:#DCF5E8; }
 .exited { background-color:#FCD9D9; }
 
@@ -86,3 +87,8 @@ img { max-width: 500px; max-height: 500px; }
     max-width: 200px;
     max-height: 200px;
 }
+
+.messageBlock { clear:both; }
+.messageBlock > div { margin:0; padding:7px; float:left; }
+.imgAvatar { width:32px; height:32px; border-radius:10px; }
+.messageEmail { font-weight:bold; }
