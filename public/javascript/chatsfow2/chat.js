@@ -91,7 +91,7 @@ var ChatCommand = function(){
                 if (lastMessage.find('.messageEmail').text() == data.userEmail) {
                     $(".messageBlock").last().find('.message').append(msg)
                 } else {
-                    html = '<div class="messageBlock">';
+                    var html = '<div class="messageBlock">';
                     html += '<div class="messagePhoto">';
                     html += '<img class="imgAvatar" src="'+data.avatar+'" />';
                     html += '</div>';
@@ -103,11 +103,6 @@ var ChatCommand = function(){
                     $messageBox.append(html);
                 }
                                    
-                /*$messageBox.append("<div><b>(" +
-                    data.timestamp + ") " +
-                    "<span avatar data-img='" + data.avatar + "'>" + data.userEmail + "</span></b>: " +
-                    urlify(data.messageContent) + "</div>");*/
-
                 if(data.userEmail != userEmail){
                     $.titleAlert("New chat message!", {
                         stopOnFocus: true,
