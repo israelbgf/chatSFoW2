@@ -101,16 +101,6 @@ var ChatCommand = function(){
                     + msg
                     + '</div>'
                     + '</div>').appendTo($messageBox);
-
-                    var isMessageFromAnotherUser = data.userEmail != userEmail;
-                    if(isMessageFromAnotherUser){
-                        var currentMessage =$(".messageBlock").last();
-                        currentMessage
-                            .addClass("otherUserMessage")
-                            .find(".messagePhoto, .messageEmail")
-                            .addClass("otherUserMessage");
-                    }
-
                 }
                                    
                 if(data.userEmail != userEmail){
