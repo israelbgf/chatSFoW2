@@ -89,7 +89,7 @@ var ChatCommand = function(){
                 
                 var lastMessage = $(".messageBlock").last();
                 if (lastMessage.find('.messageEmail').text() == data.userEmail) {
-                    $(".messageBlock").last().find('.message').append(msg)
+                    $(".messageBlock").last().find('.message').append(msg);
                 } else {
 
                     $('<div class="messageBlock">'
@@ -139,6 +139,10 @@ var ChatCommand = function(){
 
         emit: function (event, callback) {
             connection.emit(event, callback);
+        },
+
+        getUserEmail: function () {
+            return userEmail;
         }
     }
 
