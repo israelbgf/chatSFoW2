@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.17.2/build/cssreset/cssreset-min.css">
+        <link rel="stylesheet" href="http://yui.yahooapis.com/3.17.2/build/cssreset/cssreset-min.css">
         <link rel='stylesheet' href='/stylesheets/style.css'/>
         <link rel="stylesheet" href="//code.jquery.com/ui/1.11.0/themes/smoothness/jquery-ui.css">
-        <link href='http://fonts.googleapis.com/css?family=Roboto:400,700' rel='stylesheet' type='text/css'>
+        <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Roboto:400,700'>
+        <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.1/styles/default.min.css">
         <title><%= title %></title>
     </head>
     <body>
@@ -22,6 +23,7 @@
     <script src="//cdn.socket.io/socket.io-1.0.6.js"></script>
     <script src="//code.jquery.com/jquery-1.10.2.js"></script>
     <script src="//code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.1/highlight.min.js"></script>
     <script src="/javascript/libraries/jquery.titlealert.min.js"></script>
     <script src="/javascript/chatsfow2/chat.js"></script>
     <script>
@@ -29,6 +31,7 @@
     </script>
     <!-- chat.js must be before all commands imports -->
     <script src="/javascript/chatsfow2/commands/gif.js"></script>
+    <script src="/javascript/chatsfow2/commands/code.js"></script>
     <script src="/javascript/chatsfow2/commands/clear.js"></script>
     <script src="/javascript/chatsfow2/commands/online.js"></script>
     <script src="/javascript/chatsfow2/commands/boss.js"></script>

@@ -105,17 +105,23 @@ io.sockets.on('connection', function(socket) {
                      timestamp.getSeconds();
 
         chatMessage.avatar = gravatar.url(chatMessage.userEmail, {s: '200', r: 'x', d: 'mm'});
-        chatMessage.messageContent = removeHTMLTags(chatMessage.messageContent);
+        chatMessage.messageContent = escapeHTML(chatMessage.messageContent);
 
         chatHistory.save(chatMessage);
         io.sockets.emit('receiveMessage', chatMessage);
     });
-});
 
-function removeHTMLTags(text) {
-    var regex = /(<([^>]+)>)/ig
-    return text.replace(regex, "").replace(/(&nbsp)*/g,"");
-}
+    var tagsToReplace = {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;'
+    };
+
+    function escapeHTML(str) {
+        return str.replace(/[&<>]/g, function(tag){tagsToReplace[tag] || tag});
+    }
+
+});
 
 function checkForClientRestriction(socket) {
 

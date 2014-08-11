@@ -5,8 +5,9 @@ $(function(){
 	    "!gif": GifnailCommand,
 	    "!clear": ClearCommand,
 	    "!online": OnlineCommand,
-	    "!chat": ChatCommand
-	}
+        "!code": CodeCommand,
+        "!chat": ChatCommand
+    }
 
 	$("#chatForm").on("submit", function(event) {
 		var $input = $("#inputMessage");
@@ -22,7 +23,7 @@ $(function(){
 
 	function extractArgument (input) {
 		if (input.charAt(0) == "!")
-			return input.indexOf(" ") > -1 ? input.split(" ")[1] : input;
+			return input.indexOf(" ") > -1 ? input.substr(input.indexOf(" ")) : input;
 		else
 			return input;
 	}
