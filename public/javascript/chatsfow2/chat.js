@@ -84,25 +84,30 @@ var ChatCommand = function(){
             function addMessageToChatBox(data){
                 ChatCommand.scrollToBottom();
 
-                
-                var msg = '<p>' + urlify(data.messageContent) + '</p>';
-                
+                var messageContent = data.messageContent;
+                if (data.isCode)
+                    messageContent = "<pre>" + messageContent + "</pre>";
+
+                var processedMessage = '<p>' + urlify(messageContent) + '</p>';
+
                 var lastMessage = $(".messageBlock").last();
                 if (lastMessage.find('.messageEmail').text() == data.userEmail) {
-                    $(".messageBlock").last().find('.message').append(msg);
+                    $(".messageBlock").last().find('.message').append(processedMessage);
                 } else {
-
                     $('<div class="messageBlock">'
                     + '<div class="messagePhoto">'
                     + '<img class="imgAvatar" src="'+data.avatar+'" />'
                     + '</div>'
                     + '<div class="message">'
                     + '<h3 class="messageEmail">' + data.userEmail + '</h3>'
-                    + msg
+                    + processedMessage
                     + '</div>'
                     + '</div>').appendTo($messageBox);
                 }
-                                   
+
+                if (data.isCode)
+                    hljs.highlightBlock($("pre").last()[0]);
+
                 if(data.userEmail != userEmail){
                     $.titleAlert("New chat message!", {
                         stopOnFocus: true,
@@ -127,8 +132,7 @@ var ChatCommand = function(){
         scrollToBottom: function () {
             var scrollHeight = $messageBox.prop("scrollHeight");
             var outerHeight = $messageBox.scrollTop() + $messageBox.outerHeight();
-
-            if (scrollHeight === outerHeight) {
+            if (scrollHeight - outerHeight < 20) {
                 setTimeout(function() {$messageBox.scrollTop($messageBox.prop("scrollHeight"))}, 100);
             }
         },

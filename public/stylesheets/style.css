@@ -1,5 +1,5 @@
 body {
-    height: 90%;
+    height: 94%;
     font-family: 'Roboto', sans-serif;
     font-size: 14px;
 }
@@ -17,7 +17,7 @@ img { max-width: 500px; max-height: 500px; }
     width: 98%;
 }
 
-.chatActions input[type="text"] {
+.chatActions input, textarea {
     padding: 10px;
     border: 1px solid #999;
     display: table-cell;
@@ -28,7 +28,7 @@ img { max-width: 500px; max-height: 500px; }
     vertical-align: middle;
 }
 
-.chatActions input[type="text"]:focus {
+.chatActions input, textarea:focus {
     outline:none;
 }
 
@@ -93,3 +93,7 @@ img { max-width: 500px; max-height: 500px; }
 .messageBlock > div { margin:0; padding:7px; float:left; }
 .imgAvatar { width:32px; height:32px; border-radius:10px; }
 .messageEmail { font-weight:bold; }
+
+.message {
+    width: 90%;
+}
