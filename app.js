@@ -99,14 +99,9 @@ io.sockets.on('connection', function(socket) {
     });
 
     socket.on('newMessage', function(chatMessage){
-        var timestamp = new Date();
-        chatMessage.timestamp = timestamp.getHours() + ":" +
-                     timestamp.getMinutes() + ":" +
-                     timestamp.getSeconds();
-
+        chatMessage.timestamp = Date.now();
         chatMessage.avatar = gravatar.url(chatMessage.userEmail, {s: '200', r: 'x', d: 'mm'});
         chatMessage.messageContent = escapeHTML(chatMessage.messageContent);
-
         chatHistory.save(chatMessage);
         io.sockets.emit('receiveMessage', chatMessage);
     });

@@ -97,3 +97,8 @@ img { max-width: 500px; max-height: 500px; }
 .message {
     width: 90%;
 }
+
+.timestamp {
+    color: #999999;
+    display: none;
+}
