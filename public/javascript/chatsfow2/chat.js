@@ -3,6 +3,34 @@ var ChatCommand = function(){
     var connection, userEmail;
     var $inputMessage = $("#inputMessage");
     var $messageBox = $('#messagesBox');
+    var timeDifferenceFromServer;  
+
+    setupTimestampsVisualEffect();
+
+    function setupTimestampsVisualEffect() {
+        $("#messagesBox").hoverIntent({
+           over: function(event){
+               var timestampLabel = getTimestampLabel(event);
+               timestampLabel.text(getFormattedTimeStamp(timestampLabel.data("timestamp")));
+               timestampLabel.fadeIn(500);
+           },
+           out: function(event){
+               var timestampLabel = getTimestampLabel(event);
+               timestampLabel.fadeOut(500);
+           },
+           selector: ".chatMessage",
+           timeout: 500
+        });
+    }
+
+    function getTimestampLabel(event) {
+        return $(event.target).closest(".chatMessage").children().last();
+    }
+
+    function getFormattedTimeStamp(timestamp) {
+        var messageDate = new Date(Number.parseInt(timestamp+timeDifferenceFromServer));
+        return " (" + moment(messageDate).fromNow() + ")";
+    }
 
     return {
 
@@ -14,7 +42,11 @@ var ChatCommand = function(){
 
             connection.on('forceClientEmail', function(data) {
                 userEmail = data.email;
-                connection.emit("message", {userEmail: userEmail});
+                connection.emit("join", {userEmail: userEmail});
+            });
+
+            connection.on('timesync', function(data) {
+                timeDifferenceFromServer = Date.now() - data;
             });
 
             var hasNotAlreadyFetchedHistory = true;
@@ -157,34 +189,3 @@ var ChatCommand = function(){
     }                
 
 }();
-
-(function(){
-
-    setupTimestampsVisualEffect();
-
-    function setupTimestampsVisualEffect() {
-        $("#messagesBox").hoverIntent({
-           over: function(event){
-               var timestampLabel = getTimestampLabel(event);
-               timestampLabel.text(getFormattedTimeStamp(timestampLabel.data("timestamp")));
-               timestampLabel.fadeIn(500);
-           },
-           out: function(event){
-               var timestampLabel = getTimestampLabel(event);
-               timestampLabel.fadeOut(500);
-           },
-           selector: ".chatMessage",
-           timeout: 500
-        });
-    }
-
-    function getTimestampLabel(event) {
-        return $(event.target).closest(".chatMessage").children().last();
-    }
-
-    function getFormattedTimeStamp(timestamp) {
-        var messageDate = new Date(Number.parseInt(timestamp));
-        return " (" + moment(messageDate).fromNow() + ")";
-    }
-
-})();

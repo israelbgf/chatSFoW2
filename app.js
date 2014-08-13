@@ -75,11 +75,12 @@ io.sockets.on('connection', function(socket) {
         checkForClientRestriction(socket);
 
     var userEmail;
-    socket.on('message', function(message){
+    socket.on('join', function(message){
         userEmail = message.userEmail;
         clients.push(userEmail);
         io.sockets.emit('userJoined', userEmail);
-        socket.emit('chatHistoryLoad', chatHistory.load())
+        socket.emit('chatHistoryLoad', chatHistory.load());
+        socket.emit('timesync', Date.now());
     });
     
     socket.on('disconnect', function() {
