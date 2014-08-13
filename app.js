@@ -112,8 +112,12 @@ io.sockets.on('connection', function(socket) {
         '>': '&gt;'
     };
 
+    function replaceTag(tag) {
+        return tagsToReplace[tag] || tag;
+    }
+
     function escapeHTML(str) {
-        return str.replace(/[&<>]/g, function(tag){tagsToReplace[tag] || tag});
+        return str.replace(/[&<>]/g, replaceTag);
     }
 
 });
