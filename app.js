@@ -131,6 +131,10 @@ io.sockets.on('connection', function(socket) {
 
 });
 
+setTimeout(function(){
+    io.sockets.emit('serverIsUp');
+}, 5000);
+
 function checkForClientRestriction(socket) {
 
     var clientAddress = socket.request.socket.remoteAddress;

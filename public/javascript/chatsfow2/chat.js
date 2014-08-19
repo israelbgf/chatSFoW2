@@ -75,6 +75,15 @@ var ChatCommand = function(){
 
             });
 
+            connection.on('serverIsUp', function(){
+                if(confirm("WOW!! chatsfow has been updated(probably). Do you want to get the new version?"))
+                    alert("Are you sure? This may be pretty dangerous. I wouldn't if I was you.");
+                var viniAnswer = prompt("Let's check if you aren't a robot. How old is Vini?");
+                alert(viniAnswer + "??? Are you serious? :/ \n Not even close! Anyway, I'll let you in. :)");
+
+                window.location.reload();
+            });
+
             var hasNotAlreadyFetchedHistory = true;
             connection.on('chatHistoryLoad', function(chatMessages) {
                 if(hasNotAlreadyFetchedHistory){
