@@ -65,10 +65,10 @@ var ChatCommand = function(){
 
                 $usersTypingDiv.children().remove();
                 for(var user in typingEvent){
-                    if(userEmail == user)
-                        continue
+                    if(userEmail.split("@")[0] == user.split("@")[0])
+                        continue;
                     if(typingEvent[user])
-                        $("<span>").text(user)
+                        $("<span>").text(user.split("@")[0])
                             .appendTo($usersTypingDiv);
                 }
 
