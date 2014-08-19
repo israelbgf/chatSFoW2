@@ -3,6 +3,45 @@ var ChatCommand = function(){
     var connection, userEmail;
     var $inputMessage = $("#inputMessage");
     var $messageBox = $('#messagesBox');
+    var timeDifferenceFromServer;  
+
+    setupIsTypingListener();
+    setupTimestampsVisualEffect();
+
+    function setupTimestampsVisualEffect() {
+        $("#messagesBox").hoverIntent({
+           over: function(event){
+               var timestampLabel = getTimestampLabel(event);
+               timestampLabel.text(getFormattedTimeStamp(timestampLabel.data("timestamp")));
+               timestampLabel.fadeIn(500);
+           },
+           out: function(event){
+               var timestampLabel = getTimestampLabel(event);
+               timestampLabel.fadeOut(500);
+           },
+           selector: ".chatMessage",
+           timeout: 500
+        });
+    }
+
+    function setupIsTypingListener() {
+        $("#inputMessage").keyup(function(){
+            var isTyping = $(this).val().length > 0;
+            connection.emit("userIsTyping", {
+                userEmail: userEmail,
+                isTyping: isTyping
+            });
+        });
+    }
+
+    function getTimestampLabel(event) {
+        return $(event.target).closest(".chatMessage").children().last();
+    }
+
+    function getFormattedTimeStamp(timestamp) {
+        var messageDate = new Date(Number.parseInt(timestamp+timeDifferenceFromServer));
+        return " (" + moment(messageDate).fromNow() + ")";
+    }
 
     return {
 
@@ -14,7 +53,35 @@ var ChatCommand = function(){
 
             connection.on('forceClientEmail', function(data) {
                 userEmail = data.email;
-                connection.emit("message", {userEmail: userEmail});
+                connection.emit("join", {userEmail: userEmail});
+            });
+
+            connection.on('timesync', function(data) {
+                timeDifferenceFromServer = Date.now() - data;
+            });
+
+            connection.on('userIsTyping', function(typingEvent) {
+                $usersTypingDiv = $("#usersTyping");
+
+                $usersTypingDiv.children().remove();
+                for(var user in typingEvent){
+                    if(userEmail == user)
+                        continue
+                    if(typingEvent[user])
+                        $("<span>").text(user)
+                            .appendTo($usersTypingDiv);
+                }
+
+
+            });
+
+            connection.on('serverIsUp', function(){
+                if(confirm("WOW!! chatsfow has been updated(probably). Do you want to get the new version?"))
+                    alert("Are you sure? This may be pretty dangerous. I wouldn't if I was you.");
+                var viniAnswer = prompt("Let's check if you aren't a robot. How old is Vini?");
+                alert(viniAnswer + "??? Are you serious? :/ \n Not even close! Anyway, I'll let you in. :)");
+
+                window.location.reload();
             });
 
             var hasNotAlreadyFetchedHistory = true;
@@ -157,34 +224,3 @@ var ChatCommand = function(){
     }                
 
 }();
-
-(function(){
-
-    setupTimestampsVisualEffect();
-
-    function setupTimestampsVisualEffect() {
-        $("#messagesBox").hoverIntent({
-           over: function(event){
-               var timestampLabel = getTimestampLabel(event);
-               timestampLabel.text(getFormattedTimeStamp(timestampLabel.data("timestamp")));
-               timestampLabel.fadeIn(500);
-           },
-           out: function(event){
-               var timestampLabel = getTimestampLabel(event);
-               timestampLabel.fadeOut(500);
-           },
-           selector: ".chatMessage",
-           timeout: 500
-        });
-    }
-
-    function getTimestampLabel(event) {
-        return $(event.target).closest(".chatMessage").children().last();
-    }
-
-    function getFormattedTimeStamp(timestamp) {
-        var messageDate = new Date(Number.parseInt(timestamp));
-        return " (" + moment(messageDate).fromNow() + ")";
-    }
-
-})();

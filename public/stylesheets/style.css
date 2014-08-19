@@ -74,7 +74,7 @@ img { max-width: 500px; max-height: 500px; }
 .usersOnline { background-color:#FCF8E3; list-style-type:none; }
 .usersOnline li { display:inline-block; margin-right:10px; }
 
-.chatBox { height: 100%; overflow: auto;}
+.chatBox { height: 98%; overflow: auto;}
 
 .ui-tooltip { max-width: 500px !important; }
 
@@ -101,4 +101,26 @@ img { max-width: 500px; max-height: 500px; }
 .timestamp {
     color: #999999;
     display: none;
+}
+
+
+#usersTyping span:after{
+    content: ', ';
+}
+
+#usersTyping span:last-child:before{
+    content: " ";
+}
+
+#usersTyping span:last-child:after{
+    content: " charges...";
+    font-weight: normal;
+}
+
+#usersTyping span {
+    font-weight: bold;
+}
+
+#usersTyping{
+    margin-bottom: 5px;
 }

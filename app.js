@@ -68,6 +68,7 @@ var allowedClients = require("./allowed_clients.json")
 var io = socket.listen(app.listen(1337))
 var restrictedClientsModeEnabled = process.argv[2];
 var clients = [];
+var typingUsers = {};
 
 io.sockets.on('connection', function(socket) {
 
@@ -75,14 +76,17 @@ io.sockets.on('connection', function(socket) {
         checkForClientRestriction(socket);
 
     var userEmail;
-    socket.on('message', function(message){
+    socket.on('join', function(message){
         userEmail = message.userEmail;
         clients.push(userEmail);
         io.sockets.emit('userJoined', userEmail);
-        socket.emit('chatHistoryLoad', chatHistory.load())
+        socket.emit('chatHistoryLoad', chatHistory.load());
+        socket.emit('timesync', Date.now());
     });
     
     socket.on('disconnect', function() {
+        typingUsers[userEmail] = false;
+        io.sockets.emit('userIsTyping', typingUsers);
         io.sockets.emit('userDisconnected', userEmail); 
         clients.splice(clients.indexOf(userEmail), 1);
     });
@@ -106,6 +110,11 @@ io.sockets.on('connection', function(socket) {
         io.sockets.emit('receiveMessage', chatMessage);
     });
 
+    socket.on('userIsTyping', function(typingEvent){
+        typingUsers[typingEvent.userEmail] = typingEvent.isTyping;
+        io.sockets.emit('userIsTyping', typingUsers);
+    });
+
     var tagsToReplace = {
         '&': '&amp;',
         '<': '&lt;',
@@ -121,6 +130,10 @@ io.sockets.on('connection', function(socket) {
     }
 
 });
+
+setTimeout(function(){
+    io.sockets.emit('serverIsUp');
+}, 5000);
 
 function checkForClientRestriction(socket) {
 
