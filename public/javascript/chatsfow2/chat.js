@@ -5,6 +5,7 @@ var ChatCommand = function(){
     var $messageBox = $('#messagesBox');
     var timeDifferenceFromServer;  
 
+    setupIsTypingListener();
     setupTimestampsVisualEffect();
 
     function setupTimestampsVisualEffect() {
@@ -20,6 +21,16 @@ var ChatCommand = function(){
            },
            selector: ".chatMessage",
            timeout: 500
+        });
+    }
+
+    function setupIsTypingListener() {
+        $("#inputMessage").keyup(function(){
+            var isTyping = $(this).val().length > 0;
+            connection.emit("userIsTyping", {
+                userEmail: userEmail,
+                isTyping: isTyping
+            });
         });
     }
 
@@ -47,6 +58,21 @@ var ChatCommand = function(){
 
             connection.on('timesync', function(data) {
                 timeDifferenceFromServer = Date.now() - data;
+            });
+
+            connection.on('userIsTyping', function(typingEvent) {
+                $usersTypingDiv = $("#usersTyping");
+
+                $usersTypingDiv.children().remove();
+                for(var user in typingEvent){
+                    if(userEmail == user)
+                        continue
+                    if(typingEvent[user])
+                        $("<span>").text(user)
+                            .appendTo($usersTypingDiv);
+                }
+
+
             });
 
             var hasNotAlreadyFetchedHistory = true;

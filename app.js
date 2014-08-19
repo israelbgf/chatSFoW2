@@ -68,6 +68,7 @@ var allowedClients = require("./allowed_clients.json")
 var io = socket.listen(app.listen(1337))
 var restrictedClientsModeEnabled = process.argv[2];
 var clients = [];
+var typingUsers = {};
 
 io.sockets.on('connection', function(socket) {
 
@@ -84,6 +85,8 @@ io.sockets.on('connection', function(socket) {
     });
     
     socket.on('disconnect', function() {
+        typingUsers[userEmail] = false;
+        io.sockets.emit('userIsTyping', typingUsers);
         io.sockets.emit('userDisconnected', userEmail); 
         clients.splice(clients.indexOf(userEmail), 1);
     });
@@ -105,6 +108,11 @@ io.sockets.on('connection', function(socket) {
         chatMessage.messageContent = escapeHTML(chatMessage.messageContent);
         chatHistory.save(chatMessage);
         io.sockets.emit('receiveMessage', chatMessage);
+    });
+
+    socket.on('userIsTyping', function(typingEvent){
+        typingUsers[typingEvent.userEmail] = typingEvent.isTyping;
+        io.sockets.emit('userIsTyping', typingUsers);
     });
 
     var tagsToReplace = {
