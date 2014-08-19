@@ -92,7 +92,7 @@ var ChatCommand = function(){
                 processedMessage += "<span class='timestamp' data-timestamp='" + data.timestamp + "'></span></p>";
 
                 var lastMessage = $(".messageBlock").last();
-                if (lastMessage.find('.messageEmail').text() == data.userEmail) {
+                if (lastMessage.find('.messageEmail').text() == data.userEmail.split("@")[0]) {
                     $(".messageBlock").last().find('.message').append(processedMessage);
                 } else {
                     $('<div class="messageBlock">'
@@ -100,7 +100,7 @@ var ChatCommand = function(){
                           + '<img class="imgAvatar" src="'+data.avatar+'" />'
                         + '</div>'
                         + '<div class="message">'
-                          + '<h3 class="messageEmail">' + data.userEmail + '</h3>'
+                          + '<h3 class="messageEmail">' + data.userEmail.split("@")[0] + '</h3>'
                           + processedMessage
                         + '</div>'
                     + '</div>').appendTo($messageBox);
