@@ -18,14 +18,15 @@ img { max-width: 500px; max-height: 500px; }
 }
 
 .chatActions input, textarea {
-    padding: 10px;
-    border: 1px solid #999;
-    display: table-cell;
-    border-bottom-right-radius: 0;
-    border-top-right-radius: 0;
+    padding: 20px 20px 20px 50px;
+    border: none;
     margin-bottom: 0;
-    width: 95%;
+    width: 100%;
     vertical-align: middle;
+    background-color:#efefef;
+    background-image:url(../images/chat.png);
+    background-repeat:no-repeat;
+    background-position:20px;
 }
 
 .chatActions input, textarea:focus {
@@ -59,9 +60,6 @@ img { max-width: 500px; max-height: 500px; }
     bottom: 0;
     left: 0;
     width: 100%;
-    padding-left: 10px;
-    padding-top: 10px;
-    padding-bottom: 5px;
     background-color: #efefef;
 }
 
@@ -74,7 +72,7 @@ img { max-width: 500px; max-height: 500px; }
 .usersOnline { background-color:#FCF8E3; list-style-type:none; }
 .usersOnline li { display:inline-block; margin-right:10px; }
 
-.chatBox { height: 98%; overflow: auto;}
+.chatBox { height: 100%; overflow: auto;}
 
 .ui-tooltip { max-width: 500px !important; }
 
@@ -92,7 +90,8 @@ img { max-width: 500px; max-height: 500px; }
 .messageBlock { clear:both; }
 .messageBlock > div { margin:0; padding:7px; float:left; }
 .imgAvatar { width:32px; height:32px; border-radius:10px; }
-.messageEmail { font-weight:bold; }
+.messageEmail { color:#999; font-size:11px; }
+.myMessage { color:#31A1ED; }
 
 .message {
     width: 90%;
@@ -122,5 +121,10 @@ img { max-width: 500px; max-height: 500px; }
 }
 
 #usersTyping{
-    margin-bottom: 5px;
+    background:transparent;
+    position:absolute;
+    top:0;
+    right:15px;
+    padding:10px;
+    background-color:#efefef;
 }
