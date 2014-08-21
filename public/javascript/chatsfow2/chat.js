@@ -72,7 +72,6 @@ var ChatCommand = function(){
                             .appendTo($usersTypingDiv);
                 }
 
-
             });
 
             connection.on('serverIsUp', function(){
@@ -155,7 +154,11 @@ var ChatCommand = function(){
                 if (data.isCode)
                     messageContent = "<pre>" + messageContent + "</pre>";
 
-                var processedMessage = '<p class="chatMessage">' + urlify(messageContent);
+                var processedMessage = '<p class="chatMessage';
+                if (data.userEmail == userEmail) {
+                    processedMessage += ' myMessage';   
+                }
+                processedMessage += '">' + urlify(messageContent);
                 processedMessage += "<span class='timestamp' data-timestamp='" + data.timestamp + "'></span></p>";
 
                 var lastMessage = $(".messageBlock").last();
