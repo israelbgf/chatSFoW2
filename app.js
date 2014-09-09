@@ -115,6 +115,10 @@ io.sockets.on('connection', function(socket) {
         io.sockets.emit('userIsTyping', typingUsers);
     });
 
+    socket.on('addToVault', function(item){
+        vault.add(userEmail, item);
+    });
+
     var tagsToReplace = {
         '&': '&amp;',
         '<': '&lt;',
