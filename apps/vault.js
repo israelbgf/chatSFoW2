@@ -2,30 +2,32 @@ var fs = require("fs")
 var path = require('path')
 
 var USER_HOME = process.env.HOME || process.env.HOMEPATH;
-var FILE_NAME = ".chatsfow_";
-var CHAT_HISTORY_FILE = path.join(USER_HOME, FILE_NAME);
+var FILE_NAME_PREFIX = ".chatsfow_";
 
+var vault = {
 
-var fileBackend = {
-
-    load : function(){
-        var chatHistory = []
-        fetchChatHistory().forEach(function(line){
+    fetch : function(userEmail){
+        var vaultItens = []
+        fetchVaultItens(userEmail).forEach(function(line){
             if(lineHasData(line))
-                chatHistory.push(JSON.parse(line));
+                vaultItens.push(JSON.parse(line));
         });
-        return chatHistory;
+        return vaultItens;
     },
 
     add : function(userEmail, item){
-        fs.appendFile(path.join(USER_HOME, FILE_NAME + userEmail), JSON.stringify(item) + "\n");
+        fs.appendFile(getFileLocation(userEmail), JSON.stringify(item) + "\n");
     }
 
 };
 
-function fetchChatHistory(){
+function getFileLocation(userEmail){
+    return path.join(USER_HOME, FILE_NAME_PREFIX + userEmail);
+}
+
+function fetchVaultItens(userEmail){
     try{
-        return fs.readFileSync(CHAT_HISTORY_FILE)
+        return fs.readFileSync(getFileLocation(userEmail))
                     .toString().split("\n");
     }catch(err){
         return [];
@@ -36,4 +38,4 @@ function lineHasData(line){
     return line.trim()
 }
 
-module.exports = fileBackend;
+module.exports = vault;

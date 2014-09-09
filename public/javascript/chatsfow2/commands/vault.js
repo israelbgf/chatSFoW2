@@ -13,9 +13,13 @@ var VaultCommand = function() {
         }
     });
 
+    ChatCommand.on("fetchFromVault", function(vaultItens) {
+        console.log(vaultItens);
+    });
+
 	return {
 		execute: function () {
-			alert("not implemented fera");
+			ChatCommand.emit("fetchFromVault",{});
 		}
 	}
 }();

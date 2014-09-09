@@ -13,6 +13,7 @@ var gravatar = require('gravatar');
 var routes = require('./routes/index');
 
 var chatHistory = require("./apps/chat-history")
+var vault = require("./apps/vault")
 
 var app = express();
 
@@ -117,6 +118,11 @@ io.sockets.on('connection', function(socket) {
 
     socket.on('addToVault', function(item){
         vault.add(userEmail, item);
+    });
+
+    socket.on('fetchFromVault', function(){
+        console.log("CHAMO CHAMO?!");
+        io.sockets.emit('fetchFromVault', vault.fetch(userEmail));
     });
 
     var tagsToReplace = {

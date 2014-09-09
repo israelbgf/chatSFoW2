@@ -6,6 +6,7 @@ $(function(){
 	    "!clear": ClearCommand,
 	    "!online": OnlineCommand,
         "!code": CodeCommand,
+        "!vault": VaultCommand,
         "!chat": ChatCommand
     }
 
