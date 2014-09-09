@@ -1,14 +1,12 @@
 var GifnailCommand = function (){
     const INITIAL_OFFSET = 0;
     var $inputMessage = $("#inputMessage");
-    var $chatForm = $("#chatForm");
-    var $gifnailsBox = $("#gifnailsBox");
 
     return {
         execute: function (argument) {
             var input = $inputMessage.val();
             if(isSearchCommand(input)) {
-                fetchGifnails(input, INITIAL_OFFSET);
+                GifnailPresenter.show(input, INITIAL_OFFSET, giphySearchProvider);
                 cancelFormSubmission();
             }
         }
@@ -18,7 +16,29 @@ var GifnailCommand = function (){
         return input && input.substr(0, 4) == "!gif";
     }
 
-    function fetchGifnails(input, offset) {
+    function cancelFormSubmission() {
+        event.stopImmediatePropagation();
+        $inputMessage.val("");
+    }
+
+}();
+
+function giphySearchProvider(query, offset) {
+    var GIFNAILS_PER_QUERY = 4;
+    return $.ajax({
+        type: "GET",
+        url: "http://api.giphy.com/v1/gifs/search?q=" + encodeURI(query) +
+            "&api_key=dc6zaTOxFJmzC&limit=" + GIFNAILS_PER_QUERY  + "&offset=" + offset
+    });
+}
+
+var GifnailPresenter = {
+
+    show : function(input, offset, promisseProvider) {
+
+        var $inputMessage = $("#inputMessage");
+        var $chatForm = $("#chatForm");
+        var $gifnailsBox = $("#gifnailsBox");
 
         clearGifnailsSearch();
 
@@ -28,11 +48,7 @@ var GifnailCommand = function (){
 
         $loading.appendTo($gifnailsBox);
 
-        $promisse = $.ajax({
-            type: "GET",
-            url: "http://api.giphy.com/v1/gifs/search?q=" + encodeURI(query) +
-                "&api_key=dc6zaTOxFJmzC&limit=" + GIFNAILS_PER_QUERY  + "&offset=" + offset
-        });
+        $promisse = promisseProvider(input, offset);
 
         $promisse.always(function(){
            $loading.remove();
@@ -70,7 +86,7 @@ var GifnailCommand = function (){
                 .text("More...")
                 .addClass("inputButton gifnail")
                 .click(function(){
-                    fetchGifnails(input, offset + GIFNAILS_PER_QUERY);
+                    GifnailPresenter.show(input, offset + GIFNAILS_PER_QUERY, promisseProvider);
                 }).appendTo($gifnailsBox);
         }
 
@@ -81,16 +97,11 @@ var GifnailCommand = function (){
             $inputMessage.focus();
         }
 
+        function clearGifnailsSearch() {
+            $gifnailsBox.hide();
+            $gifnailsBox.children().remove();
+        }
+
     }
 
-    function clearGifnailsSearch() {
-        $gifnailsBox.hide();
-        $gifnailsBox.children().remove();
-    }
-
-    function cancelFormSubmission() {
-        event.stopImmediatePropagation();
-        $inputMessage.val("");
-    }
-
-}();
+}
