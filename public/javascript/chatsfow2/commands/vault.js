@@ -13,8 +13,8 @@ var VaultCommand = function() {
         }
     });
 
-    ChatCommand.on("fetchFromVault", function(vaultItens) {
-        console.log(vaultItens);
+    ChatCommand.on("fetchFromVault", function(vaultItems) {
+        GifnailPresenter.show(VaultProvider.create(vaultItems));
     });
 
 	return {
@@ -23,3 +23,16 @@ var VaultCommand = function() {
 		}
 	}
 }();
+
+var VaultProvider = {
+    GIFNAILS_PER_QUERY : 4,
+
+    create: function(vaultItems){
+        return {
+            fetchGifnails: function(){
+                var items = vaultItems.splice(0, VaultProvider.GIFNAILS_PER_QUERY);
+                return $.when( {data: items} );
+            }
+        }
+    }
+}

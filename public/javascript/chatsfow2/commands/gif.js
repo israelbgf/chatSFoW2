@@ -82,8 +82,9 @@ var GifnailPresenter = {
 
         function createHTMLForGifnails(data) {
             data.forEach(function(gif){
+                var gifnail = gif.images ? gif.images.original.url : gif.url;
                 $("<img>")
-                    .attr("src", gif.images.original.url)
+                    .attr("src", gifnail)
                     .addClass("gifnail")
                     .click(selectGifnail)
                     .appendTo($gifnailsBox);
