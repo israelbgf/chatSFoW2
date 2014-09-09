@@ -6,7 +6,7 @@ var GifnailCommand = function (){
         execute: function (argument) {
             var input = $inputMessage.val();
             if(isSearchCommand(input)) {
-                GifnailPresenter.show(input, INITIAL_OFFSET, giphySearchProvider);
+                GifnailPresenter.show(GiphySearchProvider.create(input.substr(4).trim(), INITIAL_OFFSET));
                 cancelFormSubmission();
             }
         }
@@ -23,18 +23,28 @@ var GifnailCommand = function (){
 
 }();
 
-function giphySearchProvider(query, offset) {
-    var GIFNAILS_PER_QUERY = 4;
-    return $.ajax({
-        type: "GET",
-        url: "http://api.giphy.com/v1/gifs/search?q=" + encodeURI(query) +
-            "&api_key=dc6zaTOxFJmzC&limit=" + GIFNAILS_PER_QUERY  + "&offset=" + offset
-    });
+var GiphySearchProvider = {
+
+    GIFNAILS_PER_QUERY : 4,
+
+    create: function(query, offset){
+        return {
+            fetchGifnails: function(){
+                var $promise = $.ajax({
+                    type: "GET",
+                    url: "http://api.giphy.com/v1/gifs/search?q=" + encodeURI(query) +
+                        "&api_key=dc6zaTOxFJmzC&limit=" + GiphySearchProvider.GIFNAILS_PER_QUERY  + "&offset=" + offset
+                });
+                offset += GiphySearchProvider.GIFNAILS_PER_QUERY;
+                return $promise;
+            }
+        }
+    }
 }
 
 var GifnailPresenter = {
 
-    show : function(input, offset, promisseProvider) {
+    show : function(searchProvider) {
 
         var $inputMessage = $("#inputMessage");
         var $chatForm = $("#chatForm");
@@ -42,19 +52,17 @@ var GifnailPresenter = {
 
         clearGifnailsSearch();
 
-        const GIFNAILS_PER_QUERY = 4;
-        var query = input.substr(4).trim();
         var $loading = $("<p>Searching Giphy for gifs...</p>");
 
         $loading.appendTo($gifnailsBox);
 
-        $promisse = promisseProvider(input, offset);
+        $promise = searchProvider.fetchGifnails();
 
-        $promisse.always(function(){
+        $promise.always(function(){
            $loading.remove();
         });
 
-        $promisse.done(function(response){
+        $promise.done(function(response){
             if(response.data.length > 0)
                 createHTMLForGifnails(response.data);
             else
@@ -86,7 +94,7 @@ var GifnailPresenter = {
                 .text("More...")
                 .addClass("inputButton gifnail")
                 .click(function(){
-                    GifnailPresenter.show(input, offset + GIFNAILS_PER_QUERY, promisseProvider);
+                    GifnailPresenter.show(searchProvider);
                 }).appendTo($gifnailsBox);
         }
 
