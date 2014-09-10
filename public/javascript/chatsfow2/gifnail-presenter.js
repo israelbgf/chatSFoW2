@@ -1,47 +1,3 @@
-var GifnailCommand = function (){
-    const INITIAL_OFFSET = 0;
-    var $inputMessage = $("#inputMessage");
-
-    return {
-        execute: function (argument) {
-            var input = $inputMessage.val();
-            if(isSearchCommand(input)) {
-                GifnailPresenter.show(GiphySearchProvider.create(input.substr(4).trim(), INITIAL_OFFSET));
-                cancelFormSubmission();
-            }
-        }
-    }
-
-    function isSearchCommand(input) {
-        return input && input.substr(0, 4) == "!gif";
-    }
-
-    function cancelFormSubmission() {
-        event.stopImmediatePropagation();
-        $inputMessage.val("");
-    }
-
-}();
-
-var GiphySearchProvider = {
-
-    GIFNAILS_PER_QUERY : 4,
-
-    create: function(query, offset){
-        return {
-            fetchGifnails: function(){
-                var $promise = $.ajax({
-                    type: "GET",
-                    url: "http://api.giphy.com/v1/gifs/search?q=" + encodeURI(query) +
-                        "&api_key=dc6zaTOxFJmzC&limit=" + GiphySearchProvider.GIFNAILS_PER_QUERY  + "&offset=" + offset
-                });
-                offset += GiphySearchProvider.GIFNAILS_PER_QUERY;
-                return $promise;
-            }
-        }
-    }
-}
-
 var GifnailPresenter = {
 
     show : function(searchProvider) {
@@ -83,12 +39,10 @@ var GifnailPresenter = {
             data.forEach(function(gif){
                 var gifnail = gif.images ? gif.images.original.url : gif.url;
                 var title = gif.images ? "" : gif.alias;
-                var marker = gif.images ? "gifnail" : "gifnail-vault";
 
                 $("<img>")
                     .attr("title", title)
                     .attr("src", gifnail)
-                    .attr(marker, "")
                     .addClass("gifnail")
                     .click(selectGifnail)
                     .appendTo($gifnailsBox);
@@ -116,5 +70,4 @@ var GifnailPresenter = {
         }
 
     }
-
 }

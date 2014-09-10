@@ -13,6 +13,21 @@ var VaultCommand = function() {
         }
     });
 
+    $.contextMenu({
+        selector: 'img[gifnail-vault]',
+        callback: function(key, options) {
+            if(confirm("Are you sure fera?")){
+                ChatCommand.emit("removeFromVault", {
+                    alias: this.attr("title")
+                });
+                this.remove();
+            }
+        },
+        items: {
+            "remove": {name: "Remove"}
+        }
+    });
+
     ChatCommand.on("fetchFromVault", function(vaultItems) {
         GifnailPresenter.show(VaultProvider.create(vaultItems));
     });
@@ -23,16 +38,3 @@ var VaultCommand = function() {
 		}
 	}
 }();
-
-var VaultProvider = {
-    GIFNAILS_PER_QUERY : 4,
-
-    create: function(vaultItems){
-        return {
-            fetchGifnails: function(){
-                var items = vaultItems.splice(0, VaultProvider.GIFNAILS_PER_QUERY);
-                return $.when( {data: items} );
-            }
-        }
-    }
-}

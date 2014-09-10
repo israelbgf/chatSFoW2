@@ -8,8 +8,8 @@ var vault = {
 
     fetch : function(userEmail){
         var vaultItens = []
-        fetchVaultItens(userEmail).forEach(function(line){
-            if(lineHasData(line))
+        fetchVaultItems(userEmail).forEach(function(line){
+            if(isLineNotEmpty(line))
                 vaultItens.push(JSON.parse(line));
         });
         return vaultItens;
@@ -17,6 +17,17 @@ var vault = {
 
     add : function(userEmail, item){
         fs.appendFile(getFileLocation(userEmail), JSON.stringify(item) + "\n");
+    },
+
+    remove : function(userEmail, alias){
+        var updatedVault = this.fetch(userEmail).filter(function (vaultItem) {
+            return vaultItem.alias != alias;
+        });
+        fs.truncateSync(getFileLocation(userEmail), "");
+        updatedVault.map(function(vaultItem){
+            vault.add(userEmail, vaultItem);
+        });
+
     }
 
 };
@@ -25,7 +36,7 @@ function getFileLocation(userEmail){
     return path.join(USER_HOME, FILE_NAME_PREFIX + userEmail);
 }
 
-function fetchVaultItens(userEmail){
+function fetchVaultItems(userEmail){
     try{
         return fs.readFileSync(getFileLocation(userEmail))
                     .toString().split("\n");
@@ -34,7 +45,7 @@ function fetchVaultItens(userEmail){
     }
 }
 
-function lineHasData(line){
+function isLineNotEmpty(line){
     return line.trim()
 }
 

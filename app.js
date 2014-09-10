@@ -120,6 +120,10 @@ io.sockets.on('connection', function(socket) {
         vault.add(userEmail, item);
     });
 
+    socket.on('removeFromVault', function(item){
+        vault.remove(userEmail, item.alias);
+    });
+
     socket.on('fetchFromVault', function(){
         io.sockets.emit('fetchFromVault', vault.fetch(userEmail));
     });
