@@ -47,7 +47,6 @@ var GifnailPresenter = {
     show : function(searchProvider) {
 
         var $inputMessage = $("#inputMessage");
-        var $chatForm = $("#chatForm");
         var $gifnailsBox = $("#gifnailsBox");
 
         clearGifnailsSearch();
@@ -83,7 +82,10 @@ var GifnailPresenter = {
         function createHTMLForGifnails(data) {
             data.forEach(function(gif){
                 var gifnail = gif.images ? gif.images.original.url : gif.url;
+                var title = gif.images ? "" : gif.alias;
+
                 $("<img>")
+                    .attr("title", title)
                     .attr("src", gifnail)
                     .addClass("gifnail")
                     .click(selectGifnail)
