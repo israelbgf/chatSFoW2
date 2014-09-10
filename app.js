@@ -121,7 +121,6 @@ io.sockets.on('connection', function(socket) {
     });
 
     socket.on('fetchFromVault', function(){
-        console.log("CHAMO CHAMO?!");
         io.sockets.emit('fetchFromVault', vault.fetch(userEmail));
     });
 
