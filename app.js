@@ -117,7 +117,11 @@ io.sockets.on('connection', function(socket) {
     });
 
     socket.on('addToVault', function(item){
-        vault.add(userEmail, item);
+        try {
+            vault.add(userEmail, item);
+        } catch (err) {
+            io.sockets.emit('aliasAlreadyExists', {message:err.message});
+        }
     });
 
     socket.on('removeFromVault', function(item){

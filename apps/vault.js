@@ -15,8 +15,12 @@ var vault = {
         return vaultItens;
     },
 
-    add : function(userEmail, item){
-        fs.appendFile(getFileLocation(userEmail), JSON.stringify(item) + "\n");
+    add : function(userEmail, newVaultItem){
+        this.fetch(userEmail).forEach(function (vaultItem) {
+            if (vaultItem.alias == newVaultItem.alias)
+                throw new Error("Alias '" + newVaultItem.alias + "' already exists!");
+        });
+        fs.appendFile(getFileLocation(userEmail), JSON.stringify(newVaultItem) + "\n");
     },
 
     remove : function(userEmail, alias){

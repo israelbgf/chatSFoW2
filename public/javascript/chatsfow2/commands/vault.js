@@ -32,6 +32,10 @@ var VaultCommand = function() {
         GifnailPresenter.show(VaultProvider.create(vaultItems));
     });
 
+    ChatCommand.on("aliasAlreadyExists", function(error) {
+        alert(error.message);
+    });
+
 	return {
 		execute: function () {
 			ChatCommand.emit("fetchFromVault",{});
