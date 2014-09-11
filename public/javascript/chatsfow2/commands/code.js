@@ -3,7 +3,7 @@ var CodeCommand = function() {
     var $chatForm = $("#chatForm");
     var $codeForm = $("#codeForm");
     var $inputMessage = $("#inputMessage");
-    var $codeInput = $("#codeInput")
+    var $codeInput = $("#codeInput");
 
     ChatCommand.on("receiveMessage", function (chatMessage) {
         if (chatMessage.isCode){
@@ -29,6 +29,7 @@ var CodeCommand = function() {
         }
 
         event.preventDefault();
+        $inputMessage.keyup();
     });
 
     function toggleInputMode() {
