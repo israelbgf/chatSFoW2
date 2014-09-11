@@ -91,8 +91,8 @@ io.sockets.on('connection', function(socket) {
         io.sockets.emit('userDisconnected', userEmail); 
         clients.splice(clients.indexOf(userEmail), 1);
     });
-    
-    socket.on('usersOnlineRequest', function(chatMessage){
+
+    socket.on('usersOnlineRequest', function(){
         var online = [];
         clients.forEach(function(user) {
             var c = {};
@@ -116,20 +116,20 @@ io.sockets.on('connection', function(socket) {
         io.sockets.emit('userIsTyping', typingUsers);
     });
 
-    socket.on('addToVault', function(item){
+    socket.on('addToVault', function(gifnail){
         try {
-            vault.add(userEmail, item);
+            vault.add(userEmail, gifnail);
         } catch (err) {
             io.sockets.emit('aliasAlreadyExists', {message:err.message});
         }
     });
 
-    socket.on('removeFromVault', function(item){
-        vault.remove(userEmail, item.alias);
+    socket.on('removeFromVault', function(gifnail){
+        vault.remove(userEmail, gifnail.alias);
     });
 
-    socket.on('fetchFromVault', function(){
-        io.sockets.emit('fetchFromVault', vault.fetch(userEmail));
+    socket.on('fetchFromVault', function(queryParameter){
+        io.sockets.emit('fetchFromVault', vault.fetch(userEmail, queryParameter.alias));
     });
 
     var tagsToReplace = {

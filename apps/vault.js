@@ -6,11 +6,13 @@ var FILE_NAME_PREFIX = ".chatsfow_";
 
 var vault = {
 
-    fetch : function(userEmail){
-        var vaultItens = []
+    fetch : function(userEmail, alias){
+        alias = alias || "";
+        var vaultItens = [];
         fetchVaultItems(userEmail).forEach(function(line){
-            if(isLineNotEmpty(line))
-                vaultItens.push(JSON.parse(line));
+            var vaultItem = JSON.parse(line);
+            if (vaultItem.alias.indexOf(alias) > -1)
+                vaultItens.push(vaultItem);
         });
         return vaultItens;
     },
@@ -43,14 +45,11 @@ function getFileLocation(userEmail){
 function fetchVaultItems(userEmail){
     try{
         return fs.readFileSync(getFileLocation(userEmail))
-                    .toString().split("\n");
+                    .toString().split("\n")
+                    .filter(function(line){ return line.trim() });
     }catch(err){
         return [];
     }
-}
-
-function isLineNotEmpty(line){
-    return line.trim()
 }
 
 module.exports = vault;

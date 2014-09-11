@@ -37,8 +37,8 @@ var VaultCommand = function() {
     });
 
 	return {
-		execute: function () {
-			ChatCommand.emit("fetchFromVault",{});
+		execute: function (alias) {
+			ChatCommand.emit("fetchFromVault",{alias: alias});
 		}
 	}
 }();

@@ -24,7 +24,7 @@ $(function(){
 
 	function extractArgument (input) {
 		if (input.charAt(0) == "!")
-			return input.indexOf(" ") > -1 ? input.substr(input.indexOf(" ")) : input;
+			return input.indexOf(" ") > -1 ? input.substr(input.indexOf(" ")).trim() : "";
 		else
 			return input;
 	}
