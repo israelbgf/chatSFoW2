@@ -18,7 +18,11 @@ var vault = {
     },
 
     add : function(userEmail, newVaultItem){
-        this.fetch(userEmail).forEach(function (vaultItem) {
+        var vaultItems = this.fetch(userEmail)
+        if (vaultItems.length > 50) {
+            throw new Error("Maximum vault size reached!");
+        }
+        vaultItems.forEach(function (vaultItem) {
             if (vaultItem.alias == newVaultItem.alias)
                 throw new Error("Alias '" + newVaultItem.alias + "' already exists!");
         });
