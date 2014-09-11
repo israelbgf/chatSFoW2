@@ -3,7 +3,7 @@ var CodeCommand = function() {
     var $chatForm = $("#chatForm");
     var $codeForm = $("#codeForm");
     var $inputMessage = $("#inputMessage");
-    var $codeInput = $("#codeInput")
+    var $codeInput = $("#codeInput");
 
     ChatCommand.on("receiveMessage", function (chatMessage) {
         if (chatMessage.isCode){
@@ -13,7 +13,14 @@ var CodeCommand = function() {
         }
     });
 
-    $("#codeSubmit").click(function(){
+    $(document).keyup(function(e) {
+        if (e.keyCode == 27){
+            $codeForm.hide();
+            $chatForm.show();
+        }
+    });
+
+    $("#codeSubmit").click(function(event){
         toggleInputMode();
 
         var code = $codeInput.val().trim();
@@ -27,6 +34,9 @@ var CodeCommand = function() {
             $codeInput.val("");
             $inputMessage.focus();
         }
+
+        event.preventDefault();
+        $inputMessage.keyup();
     });
 
     function toggleInputMode() {

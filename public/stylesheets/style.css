@@ -6,7 +6,11 @@ body {
 
 html { height: 100%; }
 
-a { color: #00B7FF; }
+a { 
+    color: #999;
+    text-decoration: none;
+    border-bottom: 1px dashed #999; 
+}
 
 img { max-width: 500px; max-height: 500px; }
 
@@ -123,7 +127,7 @@ img { max-width: 500px; max-height: 500px; }
 #usersTyping{
     background:transparent;
     position:absolute;
-    top:0;
+    bottom:59px;
     right:15px;
     padding:10px;
     background-color:#efefef;

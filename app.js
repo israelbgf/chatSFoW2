@@ -13,6 +13,7 @@ var gravatar = require('gravatar');
 var routes = require('./routes/index');
 
 var chatHistory = require("./apps/chat-history")
+var vault = require("./apps/vault")
 
 var app = express();
 
@@ -90,8 +91,8 @@ io.sockets.on('connection', function(socket) {
         io.sockets.emit('userDisconnected', userEmail); 
         clients.splice(clients.indexOf(userEmail), 1);
     });
-    
-    socket.on('usersOnlineRequest', function(chatMessage){
+
+    socket.on('usersOnlineRequest', function(){
         var online = [];
         clients.forEach(function(user) {
             var c = {};
@@ -113,6 +114,22 @@ io.sockets.on('connection', function(socket) {
     socket.on('userIsTyping', function(typingEvent){
         typingUsers[typingEvent.userEmail] = typingEvent.isTyping;
         io.sockets.emit('userIsTyping', typingUsers);
+    });
+
+    socket.on('addToVault', function(gifnail){
+        try {
+            vault.add(userEmail, gifnail);
+        } catch (err) {
+            io.sockets.emit('aliasAlreadyExists', {message:err.message});
+        }
+    });
+
+    socket.on('removeFromVault', function(gifnail){
+        vault.remove(userEmail, gifnail.alias);
+    });
+
+    socket.on('fetchFromVault', function(queryParameter){
+        io.sockets.emit('fetchFromVault', vault.fetch(userEmail, queryParameter.alias));
     });
 
     var tagsToReplace = {

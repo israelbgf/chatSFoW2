@@ -6,6 +6,7 @@
         <link rel="stylesheet" href="//code.jquery.com/ui/1.11.0/themes/smoothness/jquery-ui.css">
         <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Roboto:400,700'>
         <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.1/styles/default.min.css">
+        <link rel="stylesheet" href="/stylesheets/jquery.contextMenu.css">
         <title><%= title %></title>
     </head>
     <body>
@@ -33,7 +34,11 @@
     <script src="/javascript/libraries/jquery.titlealert.min.js"></script>
     <script src="/javascript/libraries/jquery.hoverIntent.minified.js"></script>
     <script src="/javascript/libraries/moment.js"></script>
+    <script src="/javascript/libraries/jquery.ui.position.js"></script>
+    <script src="/javascript/libraries/jquery.contextMenu.js"></script>
     <script src="/javascript/chatsfow2/chat.js"></script>
+    <script src="/javascript/chatsfow2/gifnail-presenter.js"></script>
+    <script src="/javascript/chatsfow2/gifnail-providers.js"></script>
     <script>
         ChatCommand.init('<%= serverAddress %>', <%= restrictedMode %>);
     </script>
@@ -43,6 +48,7 @@
     <script src="/javascript/chatsfow2/commands/clear.js"></script>
     <script src="/javascript/chatsfow2/commands/online.js"></script>
     <script src="/javascript/chatsfow2/commands/boss.js"></script>
+    <script src="/javascript/chatsfow2/commands/vault.js"></script>
     <!-- command-facade.js must be the last import -->
     <script src="/javascript/chatsfow2/command-facade.js"></script>
 </html>
