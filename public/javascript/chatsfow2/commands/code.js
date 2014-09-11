@@ -13,7 +13,7 @@ var CodeCommand = function() {
         }
     });
 
-    $("#codeSubmit").click(function(){
+    $("#codeSubmit").click(function(event){
         toggleInputMode();
 
         var code = $codeInput.val().trim();
@@ -27,6 +27,8 @@ var CodeCommand = function() {
             $codeInput.val("");
             $inputMessage.focus();
         }
+
+        event.preventDefault();
     });
 
     function toggleInputMode() {
