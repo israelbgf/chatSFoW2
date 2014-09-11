@@ -13,6 +13,13 @@ var CodeCommand = function() {
         }
     });
 
+    $(document).keyup(function(e) {
+        if (e.keyCode == 27){
+            $codeForm.hide();
+            $chatForm.show();
+        }
+    });
+
     $("#codeSubmit").click(function(event){
         toggleInputMode();
 
