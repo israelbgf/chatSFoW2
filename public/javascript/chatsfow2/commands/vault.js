@@ -36,9 +36,20 @@ var VaultCommand = function() {
         alert(error.message);
     });
 
+    function isGifnail(text) {
+        return text.match(/(https?:\/\/[^\s]+)\.(:?jpeg|jpg|gif|png)/g)
+    };
+
 	return {
-		execute: function (alias) {
-			ChatCommand.emit("fetchFromVault",{alias: alias});
+
+        execute: function (argument) {
+            if (isGifnail(argument))
+                ChatCommand.emit("addToVault", {
+                    url : argument,
+                    alias: prompt("Choose your destiny (alias):")
+                });
+            else
+			    ChatCommand.emit("fetchFromVault",{alias: argument});
 		}
 	}
 }();
