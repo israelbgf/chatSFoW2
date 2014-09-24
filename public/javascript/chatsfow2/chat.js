@@ -137,7 +137,10 @@ var ChatCommand = function(){
 
             function urlify(text) {
                 var urlRegex = /(https?:\/\/[^\s]+)/g;
-                return text.replace(urlRegex, '<a tooltip href="$1" target="_blank">$1</a>');
+                return text.replace(urlRegex, function(match, url) {
+                    var tooltip = isImage(url) ? "tooltip" : "";
+                    return '<a ' + tooltip + ' href="' + url + '" target="_blank">' + url + '</a>';
+                });
             }
 
             function addMessageToChatBox(data){
