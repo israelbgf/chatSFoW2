@@ -67,7 +67,6 @@ var socket = require('socket.io')
 
 var allowedClients = require("./allowed_clients.json")
 var io = socket.listen(app.listen(1337))
-var restrictedClientsModeEnabled = process.argv[2];
 var clients = [];
 var typingUsers = {};
 

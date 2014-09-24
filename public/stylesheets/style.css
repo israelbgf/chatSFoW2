@@ -6,10 +6,10 @@ body {
 
 html { height: 100%; }
 
-a { 
+a {
     color: #999;
     text-decoration: none;
-    border-bottom: 1px dashed #999; 
+    border-bottom: 1px dashed #999;
 }
 
 img { max-width: 500px; max-height: 500px; }
@@ -106,6 +106,10 @@ img { max-width: 500px; max-height: 500px; }
     display: none;
 }
 
+.add-to-vault-icon {
+    color: #999;
+    margin-left: 2px;
+}
 
 #usersTyping span:after{
     content: ', ';

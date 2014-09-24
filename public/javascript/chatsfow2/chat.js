@@ -45,7 +45,7 @@ var ChatCommand = function(){
 
     return {
 
-        init: function(serverAddress, restrictedMode){
+        init: function(serverAddress){
             $inputMessage.focus();
             connection = io.connect('http://' + serverAddress + ':1337');
 
