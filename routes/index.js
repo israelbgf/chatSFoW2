@@ -5,7 +5,6 @@ var router = express.Router();
 router.get('/', function(req, res) {
   res.render('index', {
       title: 'chatSFoW2',
-      restrictedMode: !!process.argv[2],
       serverAddress: req.socket.address().address
   });
 });

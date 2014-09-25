@@ -67,28 +67,32 @@ var socket = require('socket.io')
 
 var allowedClients = require("./allowed_clients.json")
 var io = socket.listen(app.listen(1337))
-var restrictedClientsModeEnabled = process.argv[2];
 var clients = [];
 var typingUsers = {};
 
 io.sockets.on('connection', function(socket) {
 
-    if(restrictedClientsModeEnabled)
-        checkForClientRestriction(socket);
+    var userEmail = getUserForIP();
 
-    var userEmail;
-    socket.on('join', function(message){
-        userEmail = message.userEmail;
+    if (userEmail) {
+        setUser();
+    } else {
+        socket.disconnect();
+        return;
+    }
+
+    function setUser() {
         clients.push(userEmail);
-        io.sockets.emit('userJoined', userEmail);
-        socket.emit('chatHistoryLoad', chatHistory.load());
         socket.emit('timesync', Date.now());
-    });
-    
+        socket.emit("setUser", userEmail);
+        socket.emit('chatHistoryLoad', chatHistory.load());
+        io.sockets.emit('userJoined', userEmail);
+    }
+
     socket.on('disconnect', function() {
         typingUsers[userEmail] = false;
         io.sockets.emit('userIsTyping', typingUsers);
-        io.sockets.emit('userDisconnected', userEmail); 
+        io.sockets.emit('userDisconnected', userEmail);
         clients.splice(clients.indexOf(userEmail), 1);
     });
 
@@ -105,6 +109,7 @@ io.sockets.on('connection', function(socket) {
 
     socket.on('newMessage', function(chatMessage){
         chatMessage.timestamp = Date.now();
+        chatMessage.userEmail = userEmail;
         chatMessage.avatar = gravatar.url(chatMessage.userEmail, {s: '200', r: 'x', d: 'mm'});
         chatMessage.messageContent = escapeHTML(chatMessage.messageContent);
         chatHistory.save(chatMessage);
@@ -146,27 +151,18 @@ io.sockets.on('connection', function(socket) {
         return str.replace(/[&<>]/g, replaceTag);
     }
 
+    function getUserForIP() {
+        var clientAddress = socket.request.socket.remoteAddress;
+        var userEmail = allowedClients[clientAddress];
+        console.log('Client from ' + clientAddress + '(' + userEmail + ') trying to connect...');
+        return userEmail;
+    }
+
 });
 
 setTimeout(function(){
     io.sockets.emit('serverIsUp');
 }, 5000);
-
-function checkForClientRestriction(socket) {
-
-    var clientAddress = socket.request.socket.remoteAddress;
-    var allowedClient = allowedClients[clientAddress];
-
-    console.log('Client from ' + clientAddress + '(' + allowedClient + ') connected...');
-
-    if(allowedClient)
-        socket.emit('forceClientEmail', {
-            email: allowedClient
-        });
-    else
-        socket.disconnect();
-
-}
 
 
 module.exports = app;

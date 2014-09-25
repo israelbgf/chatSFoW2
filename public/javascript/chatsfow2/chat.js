@@ -3,7 +3,7 @@ var ChatCommand = function(){
     var connection, userEmail;
     var $inputMessage = $("#inputMessage");
     var $messageBox = $('#messagesBox');
-    var timeDifferenceFromServer;  
+    var timeDifferenceFromServer;
 
     setupIsTypingListener();
     setupTimestampsVisualEffect();
@@ -45,15 +45,12 @@ var ChatCommand = function(){
 
     return {
 
-        init: function(serverAddress, restrictedMode){
-            userEmail = restrictedMode || prompt("Now tell me you e-mail bro (we use it for Gravatar images)!", "dude'o");
+        init: function(serverAddress){
+            $inputMessage.focus();
             connection = io.connect('http://' + serverAddress + ':1337');
 
-            $inputMessage.focus();
-
-            connection.on('forceClientEmail', function(data) {
-                userEmail = data.email;
-                connection.emit("join", {userEmail: userEmail});
+            connection.on('setUser', function(remoteUserEmail) {
+                userEmail = remoteUserEmail;
             });
 
             connection.on('timesync', function(data) {
@@ -103,7 +100,7 @@ var ChatCommand = function(){
                 html += " exited the room.</div>";
                 $("#messagesBox").append(html);
             });
-            
+
             connection.on('receiveMessage', addMessageToChatBox);
 
             $(document).tooltip({
@@ -139,7 +136,10 @@ var ChatCommand = function(){
 
             function urlify(text) {
                 var urlRegex = /(https?:\/\/[^\s]+)/g;
-                return text.replace(urlRegex, '<a tooltip href="$1" target="_blank">$1</a>');
+                return text.replace(urlRegex, function(match, url) {
+                    var tooltip = isImage(url) ? "tooltip" : "";
+                    return '<a ' + tooltip + ' href="' + url + '" target="_blank">' + url + '</a>';
+                });
             }
 
             function addMessageToChatBox(data){
@@ -151,7 +151,7 @@ var ChatCommand = function(){
 
                 var processedMessage = '<p class="chatMessage';
                 if (data.userEmail == userEmail) {
-                    processedMessage += ' myMessage';   
+                    processedMessage += ' myMessage';
                 }
                 processedMessage += '">' + urlify(messageContent);
                 processedMessage += "<span class='timestamp' data-timestamp='" + data.timestamp + "'></span></p>";
@@ -188,8 +188,7 @@ var ChatCommand = function(){
             var message = removeHTMLTags(chatMessage);
             if (message.trim() > "" ) {
                 connection.emit('newMessage', {
-                    messageContent: message,
-                    userEmail: userEmail
+                    messageContent: message
                 });
                 $inputMessage.val("").focus();
             }
@@ -219,6 +218,6 @@ var ChatCommand = function(){
     function removeHTMLTags(text) {
         var regex = /(<([^>]+)>)/ig
         return text.replace(regex, "").replace(/(&nbsp)*/g,"");
-    }                
+    }
 
 }();

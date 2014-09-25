@@ -7,13 +7,14 @@
         <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Roboto:400,700'>
         <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.1/styles/default.min.css">
         <link rel="stylesheet" href="/stylesheets/jquery.contextMenu.css">
+        <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
         <title><%= title %></title>
     </head>
     <body>
         <div id="messagesBox" class="chatBox"></div>
-        
+
         <p id="usersTyping"></p>
-        
+
         <div class="chatActions">
             <form action="#" id="chatForm">
                 <input type="text" id="inputMessage" placeholder="Available Commands: !gif <search_query> !vault <search_query> !code !online !boss !clear !chat <message>" autocomplete="off"/>
@@ -40,7 +41,7 @@
     <script src="/javascript/chatsfow2/gifnail-presenter.js"></script>
     <script src="/javascript/chatsfow2/gifnail-providers.js"></script>
     <script>
-        ChatCommand.init('<%= serverAddress %>', <%= restrictedMode %>);
+        ChatCommand.init('<%= serverAddress %>');
     </script>
     <!-- chat.js must be before all commands imports -->
     <script src="/javascript/chatsfow2/commands/gif.js"></script>
