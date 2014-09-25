@@ -11,7 +11,7 @@ var vault = {
         var vaultItens = [];
         fetchVaultItems(userEmail).forEach(function(line){
             var vaultItem = JSON.parse(line);
-            if (vaultItem.alias.indexOf(alias) > -1)
+            if (vaultItem.alias != null && vaultItem.alias.indexOf(alias) > -1)
                 vaultItens.push(vaultItem);
         });
         return vaultItens;

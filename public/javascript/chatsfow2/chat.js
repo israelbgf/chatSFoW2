@@ -75,7 +75,6 @@ var ChatCommand = function(){
             });
 
             connection.on('serverIsUp', function(){
-                alert("The amazing chatSFoW2 server have been restared.");
                 window.location.reload();
             });
 

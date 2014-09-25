@@ -120,7 +120,7 @@ io.sockets.on('connection', function(socket) {
         try {
             vault.add(userEmail, gifnail);
         } catch (err) {
-            io.sockets.emit('aliasAlreadyExists', {message:err.message});
+            socket.emit('aliasAlreadyExists', {message:err.message});
         }
     });
 
@@ -129,7 +129,7 @@ io.sockets.on('connection', function(socket) {
     });
 
     socket.on('fetchFromVault', function(queryParameter){
-        io.sockets.emit('fetchFromVault', vault.fetch(userEmail, queryParameter.alias));
+        socket.emit('fetchFromVault', vault.fetch(userEmail, queryParameter.alias));
     });
 
     var tagsToReplace = {
