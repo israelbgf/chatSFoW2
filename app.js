@@ -94,6 +94,7 @@ io.sockets.on('connection', function(socket) {
         io.sockets.emit('userIsTyping', typingUsers);
         io.sockets.emit('userDisconnected', userEmail);
         clients.splice(clients.indexOf(userEmail), 1);
+        clearInterval(intervalInstance);
     });
 
     socket.on('usersOnlineRequest', function(){
@@ -135,6 +136,20 @@ io.sockets.on('connection', function(socket) {
 
     socket.on('fetchFromVault', function(queryParameter){
         socket.emit('fetchFromVault', vault.fetch(userEmail, queryParameter.alias));
+    });
+
+    var tries = 0;
+    var intervalInstance = setInterval(function(){
+        tries = 0;
+        console.log(userEmail);
+    }, 3 * 60 * 1000);
+
+    socket.on('damage', function(source){
+        tries++;
+        if(tries <= 5)
+            io.sockets.emit('damage', {target: userEmail, source: source});
+        else
+            socket.emit('calmDown');
     });
 
     var tagsToReplace = {

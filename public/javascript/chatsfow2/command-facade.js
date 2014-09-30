@@ -7,6 +7,7 @@ $(function(){
 	    "!online": OnlineCommand,
         "!code": CodeCommand,
         "!vault": VaultCommand,
+        "!dmg": DamageCommand,
         "!chat": ChatCommand
     }
 
