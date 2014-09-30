@@ -2,6 +2,7 @@ var GifnailPresenter = (function(){
 
     var $inputMessage = $("#inputMessage");
     var $gifnailsBox = $("#gifnailsBox");
+    var $chatForm = $("#chatForm");
 
     $(document).keyup(function(e) {
         if (e.keyCode == 27){
