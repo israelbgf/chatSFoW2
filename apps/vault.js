@@ -19,7 +19,7 @@ var vault = {
 
     add : function(userEmail, newVaultItem){
         var vaultItems = this.fetch(userEmail)
-        if (vaultItems.length > 50) {
+        if (vaultItems.length > 150) {
             throw new Error("Maximum vault size reached!");
         }
         vaultItems.forEach(function (vaultItem) {
