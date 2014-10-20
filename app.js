@@ -94,7 +94,6 @@ io.sockets.on('connection', function(socket) {
         io.sockets.emit('userIsTyping', typingUsers);
         io.sockets.emit('userDisconnected', userEmail);
         clients.splice(clients.indexOf(userEmail), 1);
-        // clearInterval(intervalInstance);
     });
 
     socket.on('usersOnlineRequest', function(){
