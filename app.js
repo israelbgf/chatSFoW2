@@ -7,17 +7,11 @@ var express = require('express');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var favicon = require('static-favicon');
-
 var bodyParser = require('body-parser');
-var gravatar = require('gravatar');
 var routes = require('./routes/index');
-
-var chatHistory = require("./apps/chat-history")
-var vault = require("./apps/vault")
 
 var app = express();
 
-// view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
@@ -27,9 +21,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-
-app.use('/', routes);
-
+app.use(routes);
 
 /// catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -37,8 +29,6 @@ app.use(function(req, res, next) {
     err.status = 404;
     next(err);
 });
-
-/// error handlers
 
 // development error handler
 // will print stacktrace
@@ -61,117 +51,5 @@ app.use(function(err, req, res, next) {
         error: {}
     });
 });
-
-// Socket IO
-var socket = require('socket.io')
-
-var allowedClients = require("./allowed_clients.json")
-var io = socket.listen(app.listen(1337))
-var clients = [];
-var typingUsers = {};
-
-io.sockets.on('connection', function(socket) {
-
-    var userEmail = getUserForIP();
-
-    if (userEmail) {
-        setUser();
-    } else {
-        socket.disconnect();
-        return;
-    }
-
-    function setUser() {
-        clients.push(userEmail);
-        socket.emit('timesync', Date.now());
-        socket.emit("setUser", userEmail);
-        socket.emit('chatHistoryLoad', chatHistory.load());
-        io.sockets.emit('userJoined', userEmail);
-    }
-
-    socket.on('disconnect', function() {
-        typingUsers[userEmail] = false;
-        io.sockets.emit('userIsTyping', typingUsers);
-        io.sockets.emit('userDisconnected', userEmail);
-        clients.splice(clients.indexOf(userEmail), 1);
-    });
-
-    socket.on('usersOnlineRequest', function(){
-        var online = [];
-        clients.forEach(function(user) {
-            var c = {};
-            c.userEmail = user;
-            c.avatar = gravatar.url(user, {s: '200', r: 'x', d: 'mm'});
-            online.push(c);
-        });
-        socket.emit('usersOnlineResponse', online);
-    });
-
-    socket.on('newMessage', function(chatMessage){
-        chatMessage.timestamp = Date.now();
-        chatMessage.userEmail = userEmail;
-        chatMessage.avatar = gravatar.url(chatMessage.userEmail, {s: '200', r: 'x', d: 'mm'});
-        chatMessage.messageContent = escapeHTML(chatMessage.messageContent);
-        chatHistory.save(chatMessage);
-        io.sockets.emit('receiveMessage', chatMessage);
-    });
-
-    socket.on('userIsTyping', function(typingEvent){
-        typingUsers[typingEvent.userEmail] = typingEvent.isTyping;
-        io.sockets.emit('userIsTyping', typingUsers);
-    });
-
-    socket.on('addToVault', function(gifnail){
-        try {
-            vault.add(userEmail, gifnail);
-        } catch (err) {
-            socket.emit('aliasAlreadyExists', {message:err.message});
-        }
-    });
-
-    socket.on('removeFromVault', function(gifnail){
-        vault.remove(userEmail, gifnail.alias);
-    });
-
-    socket.on('fetchFromVault', function(queryParameter){
-        socket.emit('fetchFromVault', vault.fetch(userEmail, queryParameter.alias));
-    });
-
-    socket.on('damage', function(source){
-        io.sockets.emit('damage', {target: userEmail, source: removeHTMLTags(source)});
-    });
-
-    var tagsToReplace = {
-        '&': '&amp;',
-        '<': '&lt;',
-        '>': '&gt;'
-    };
-
-    function replaceTag(tag) {
-        return tagsToReplace[tag] || tag;
-    }
-
-    function escapeHTML(str) {
-        return str.replace(/[&<>]/g, replaceTag);
-    }
-
-    function removeHTMLTags(text) {
-        var regex = /(<([^>]+)>)/ig;
-        return text.replace(regex, "").replace(/(&nbsp)*/g,"");
-    }
-
-    function getUserForIP() {
-        var clientAddress = socket.request.socket.remoteAddress;
-        var userEmail = allowedClients[clientAddress];
-        console.log('Client from ' + clientAddress + '(' + userEmail + ') trying to connect...');
-        return userEmail;
-    }
-
-});
-
-setTimeout(function(){
-    io.sockets.emit('serverIsUp');
-}, 5000);
-
 
 module.exports = app;

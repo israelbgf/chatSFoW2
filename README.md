@@ -8,7 +8,7 @@ Its simple. Follow these steps:
 
 1. Clone this project (or download it)
 2. Enter the folder and type: npm install
-3. Run: node bin/www
+3. Run: node chatsfow2.js
 4. Have fun
 
 ### How to contribute ###
