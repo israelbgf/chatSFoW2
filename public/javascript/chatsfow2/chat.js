@@ -86,11 +86,13 @@ var ChatCommand = function(){
             });
 
             connection.on('userJoined', function(user) {
-                ChatCommand.scrollToBottom();
-                var html = "<div class='joined'>";
-                html += "<b>(" + user + ")</b>";
-                html += " entered the room.</div>";
-                $("#messagesBox").append(html);
+                toastr.options.timeOut = 2000;
+                toastr.info("<b>" + stripEmail(user) + "</b> have joined the party!");
+
+                function stripEmail(email) {
+                    return email.split("@")[0];
+                }
+
             });
 
             connection.on('userDisconnected', function(user) {
