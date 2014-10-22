@@ -87,20 +87,12 @@ var ChatCommand = function(){
 
             connection.on('userJoined', function(user) {
                 toastr.options.timeOut = 2000;
-                toastr.info("<b>" + stripEmail(user) + "</b> have joined the party!");
-
-                function stripEmail(email) {
-                    return email.split("@")[0];
-                }
-
+                toastr.info("A wild <b>" + stripEmail(user) + "</b> appears!");
             });
 
             connection.on('userDisconnected', function(user) {
-                ChatCommand.scrollToBottom();
-                var html = "<div class='exited'>";
-                html += "<b>(" + user + ")</b>";
-                html += " exited the room.</div>";
-                $("#messagesBox").append(html);
+                toastr.options.timeOut = 2000;
+                toastr.warning("Our fellow <b>" + stripEmail(user) + "</b> fled!");
             });
 
             connection.on('receiveMessage', addMessageToChatBox);
@@ -131,6 +123,10 @@ var ChatCommand = function(){
                     }
                 }
             });
+
+            function stripEmail(email) {
+                return email.split("@")[0];
+            }
 
             function isImage(url) {
                 return(url.match(/\.(jpeg|jpg|gif|png)$/) != null);
