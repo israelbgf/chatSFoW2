@@ -3,9 +3,9 @@ var DamageCommand = function() {
     ChatCommand.on('damage', function(damage) {
         toastr.options.timeOut = 10000;
         if (ChatCommand.getUserEmail() == damage.source)
-            toastr.success("You have damaged <b> " + stripEmail(damage.target) + "</b>");
+            toastr.success("You have damaged <b> " + stripEmail(damage.target) + "</b>!");
         else
-            toastr.error("<b>" + stripEmail(damage.target) + "</b> has taken damage from <b>" + damage.source + "</b>");
+            toastr.error("<b>" + stripEmail(damage.target) + "</b> has taken damage from <b>" + damage.source + "</b>!");
     });
 
     ChatCommand.on('calmDown', function(){
