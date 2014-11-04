@@ -11,7 +11,7 @@
         <link rel="stylesheet" href="/stylesheets/font-awesome.min.css" >
         <title><%= title %></title>
     </head>
-    <body>
+    <body ng-app="chatsfow">
         <div id="messagesBox" class="chatBox"></div>
 
         <p id="usersTyping"></p>
@@ -26,6 +26,7 @@
                 <textarea id="codeInput" rows="5"></textarea><br/>
                 <button id="codeSubmit" value="Send">Submit</button>
             </form>
+            <chatsfow-poll></chatsfow-poll>
         </div>
         <img src='/images/work.jpg' id="workImage"/>
     </body>
@@ -39,6 +40,7 @@
     <script src="/javascript/libraries/moment.js"></script>
     <script src="/javascript/libraries/jquery.ui.position.js"></script>
     <script src="/javascript/libraries/jquery.contextMenu.js"></script>
+    <script src="/javascript/libraries/angular.min.js"></script>
     <script src="/javascript/chatsfow2/chat.js"></script>
     <script src="/javascript/chatsfow2/gifnail-presenter.js"></script>
     <script src="/javascript/chatsfow2/gifnail-providers.js"></script>
@@ -53,6 +55,7 @@
     <script src="/javascript/chatsfow2/commands/boss.js"></script>
     <script src="/javascript/chatsfow2/commands/vault.js"></script>
     <script src="/javascript/chatsfow2/commands/damage.js"></script>
+    <script src="/javascript/chatsfow2/commands/poll.js"></script>
     <!-- command-facade.js must be the last import -->
     <script src="/javascript/chatsfow2/command-facade.js"></script>
 </html>

@@ -8,8 +8,9 @@ $(function(){
         "!code": CodeCommand,
         "!vault": VaultCommand,
         "!dmg": DamageCommand,
-        "!chat": ChatCommand
-    }
+        "!chat": ChatCommand,
+        "!poll": PollCommand
+    };
 
 	$("#chatForm").on("submit", function(event) {
 		var $input = $("#inputMessage");
