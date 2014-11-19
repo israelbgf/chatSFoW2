@@ -1,22 +1,9 @@
-<div id="poll-form">
+<div id="poll-form" style="display: none">
     <div id="poll">
         <input ng-model="poll.question" type="text" placeholder="Ask something here.">
-        <label for="yes-no">Yes/No</label>
-        <input ng-model="poll.type" id="yes-no" type="radio" name="answer-type" value="yes-no">
-        <label for="multiple">Multiple</label>
-        <input ng-model="poll.type" id="multiple" type="radio" name="answer-type" value="multiple">
-
-        <div ng-repeat="option in options" id="multiple">
-            <input ng-model="option" type="text">
+        <div ng-repeat="option in poll.options" id="multiple">
+            <input ng-model="option.description" type="text" placeholder="Option {{$index + 1}}">
         </div>
-    </div>
-    <div id="preview">
-        <h2>
-            {{poll.question}}?
-        </h2>
-        <div ng-repeat="option in options">
-            <input type="radio" name="answer" value="{{option}}" readonly="true">
-        </div>
-        <button>Confirm</button>
+        <button ng-click="submit()">Confirm</button>
     </div>
 </div>
