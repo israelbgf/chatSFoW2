@@ -6,7 +6,7 @@ angular.module("chatsfow", [])
         templateUrl: "directives/poll.html",
         controller: function($scope) {
 
-            $scope.enabled = false;
+            $scope.isReport = false;
             $scope.poll = {
                 question : "",
                 options: [
@@ -14,14 +14,61 @@ angular.module("chatsfow", [])
                     {description: ''},
                     {description: ''},
                     {description: ''}
-                ]
-            }
+                ],
+                votes: []
+            };
 
             $scope.submit = function(){
                 $("#chatForm").show();
                 $("#poll-form").hide();
-            }
 
+                ChatCommand.emit("pollRequest", $scope.poll);
+            };
+
+            $scope.close = function(){
+                $("#chatForm").show();
+                $("#poll-form").hide();
+
+                ChatCommand.emit("pollClose");
+            };
+
+            $scope.back = function(){
+                $("#chatForm").show();
+                $("#poll-form").hide();
+            };
+
+            ChatCommand.on("pollRequest", function(poll) {
+                var question = poll.question + "?\n";
+                poll.options.forEach(function(option, index) {
+                    question += "\n" + (index + 1) + ". " + option.description;
+                });
+
+                var answer = prompt(question);
+                try {
+                    answer = parseInt(answer);
+                } catch(err) {
+                    answer = 0;
+                }
+
+                ChatCommand.emit("pollAnswer", answer);
+                $scope.isReport = true;
+                $scope.$apply();
+            });
+
+            ChatCommand.on("pollbrema", function(msg) {
+                toastr.error("POLLBREMA! " + msg);
+            });
+
+            ChatCommand.on("pollAnswer", function(poll) {
+                $scope.poll = poll;
+                $scope.$apply();
+            });
+
+            ChatCommand.on("pollClose", function (result) {
+                ChatCommand.scrollToBottom();
+                var html = "<marquee class='poll-result'>" + result + "</marquee>";
+                $("#messagesBox").append(html);
+            });
         }
     }
 });
@@ -33,9 +80,12 @@ $(document).keyup(function(e) {
     }
 });
 
-var PollCommand = {
-    execute: function() {
-        $("#chatForm").hide();
-        $("#poll-form").show();
+var PollCommand = function() {
+
+    return {
+        execute: function() {
+            $("#chatForm").hide();
+            $("#poll-form").show();
+        }
     }
-};
+}();

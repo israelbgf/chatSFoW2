@@ -9,6 +9,7 @@ function listen(connection){
     var io = socket.listen(connection)
     var clients = [];
     var typingUsers = {};
+    var poll = {};
 
     io.sockets.on('connection', function(socket) {
 
@@ -28,6 +29,9 @@ function listen(connection){
             socket.emit('chatHistoryLoad', chatHistory.load());
             io.sockets.emit('userJoined', userEmail);
         }
+
+        if(poll.isActive && !poll.votes[userEmail])
+            io.sockets.emit('pollRequest', poll);
 
         socket.on('disconnect', function() {
             typingUsers[userEmail] = false;
@@ -79,6 +83,39 @@ function listen(connection){
 
         socket.on('damage', function(source){
             io.sockets.emit('damage', {target: userEmail, source: removeHTMLTags(source)});
+        });
+
+        socket.on('pollRequest', function(pollRequest) {
+            if (poll.isActive)
+                socket.emit('pollbrema', "Poll is already running, fera.");
+            else {
+                poll = {};
+                poll.question = pollRequest.question;
+                poll.options = pollRequest.options;
+                poll.votes = {};
+                poll.isActive = true;
+                io.sockets.emit('pollRequest', poll);
+            }
+        });
+
+        socket.on('pollAnswer', function(answer) {
+            poll.votes[userEmail] = {
+                gravatar: gravatar.url(userEmail, {s: '32', r: 'x', d: 'mm'}),
+                answer: answer == 0 ? "NULO" : poll.options[answer - 1].description
+            };
+            io.sockets.emit('pollAnswer', poll);
+        });
+
+        socket.on('pollClose', function() {
+            if (poll.owner == userEmail) {
+
+                poll.votes.forEach(function(vote){
+                    vote.answer
+                });
+                io.sockets.emit("pollClose", result)
+                poll = {};
+            } else
+                socket.emit('pollbrema', "The poll is not yours, fera.");
         });
 
         var tagsToReplace = {

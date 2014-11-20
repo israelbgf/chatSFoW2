@@ -1,5 +1,15 @@
 <div id="poll-form" style="display: none">
-    <div id="poll">
+    <div id="report" ng-show="isReport">
+        <h3>Question: {{poll.question}}?</h3>
+        <ul ng-repeat="(userEmail, vote) in poll.votes">
+            <li>
+                <img class="imgAvatar" src="{{vote.gravatar}}"/> voted for {{vote.answer}}
+            </li>
+        </ul>
+        <button ng-click="back()">Back</button>
+        <button ng-show="isOwner" ng-click="close()">Close Poll</button>
+    </div>
+    <div id="form" ng-hide="isReport">
         <input ng-model="poll.question" type="text" placeholder="Ask something here.">
         <div ng-repeat="option in poll.options" id="multiple">
             <input ng-model="option.description" type="text" placeholder="Option {{$index + 1}}">
