@@ -9,7 +9,17 @@ function listen(connection){
     var io = socket.listen(connection)
     var clients = [];
     var typingUsers = {};
-    var poll = {};
+    
+    var poll = {
+        question : "",
+        options: [
+            {description: ''},
+            {description: ''},
+            {description: ''},
+            {description: ''}
+        ],
+        votes: []
+    };
 
     io.sockets.on('connection', function(socket) {
 
@@ -31,7 +41,9 @@ function listen(connection){
         }
 
         if(poll.isActive && !poll.votes[userEmail])
-            io.sockets.emit('pollRequest', poll);
+            socket.emit('pollRequest', poll);
+
+        socket.emit('pollRefresh', poll);
 
         socket.on('disconnect', function() {
             typingUsers[userEmail] = false;
@@ -92,6 +104,7 @@ function listen(connection){
                 poll = {};
                 poll.question = pollRequest.question;
                 poll.options = pollRequest.options;
+                poll.owner = userEmail;
                 poll.votes = {};
                 poll.isActive = true;
                 io.sockets.emit('pollRequest', poll);
@@ -103,7 +116,7 @@ function listen(connection){
                 gravatar: gravatar.url(userEmail, {s: '32', r: 'x', d: 'mm'}),
                 answer: answer == 0 ? "NULO" : poll.options[answer - 1].description
             };
-            io.sockets.emit('pollAnswer', poll);
+            io.sockets.emit('pollRefresh', poll);
         });
 
         socket.on('pollClose', function() {
@@ -148,7 +161,22 @@ function listen(connection){
 
     setTimeout(function(){
         io.sockets.emit('serverIsUp');
-    }, 5000);
+    }, 1000);
 }
 
+function countVotes(votes) {
+    return votes;
+    var result = {};
+    for(var user in votes) {
+        var answer = votes[user].answer;
+        if (result[answer])
+            result[answer] = result[answer] + 1;
+        else 
+            result[answer] = 1;
+    }
+
+    return result;
+}
+
+exports.countVotes = countVotes;
 exports.listen = listen;

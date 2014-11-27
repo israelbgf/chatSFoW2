@@ -7,16 +7,7 @@ angular.module("chatsfow", [])
         controller: function($scope) {
 
             $scope.isReport = false;
-            $scope.poll = {
-                question : "",
-                options: [
-                    {description: ''},
-                    {description: ''},
-                    {description: ''},
-                    {description: ''}
-                ],
-                votes: []
-            };
+            $scope.isOwner = false;
 
             $scope.submit = function(){
                 $("#chatForm").show();
@@ -59,8 +50,11 @@ angular.module("chatsfow", [])
                 toastr.error("POLLBREMA! " + msg);
             });
 
-            ChatCommand.on("pollAnswer", function(poll) {
+            ChatCommand.on("pollRefresh", function(poll) {
                 $scope.poll = poll;
+                if (ChatCommand.getUserEmail() == poll.owner) {
+                    $scope.isOwner = true;
+                }
                 $scope.$apply();
             });
 
