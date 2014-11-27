@@ -23,7 +23,6 @@ describe('Engine', function(){
             result.should.have.property("A").equals(1);
             result.should.have.property("B").equals(1);
         });
-
     });
 
 });

@@ -165,7 +165,6 @@ function listen(connection){
 }
 
 function countVotes(votes) {
-    return votes;
     var result = {};
     for(var user in votes) {
         var answer = votes[user].answer;
