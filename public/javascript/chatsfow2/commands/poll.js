@@ -47,10 +47,12 @@ angular.module("chatsfow", [])
 
             ChatCommand.on("pollRefresh", function(poll) {
                 $scope.poll = poll;
-                if (ChatCommand.getUserEmail() == poll.owner) {
+
+                if (ChatCommand.getUserEmail() == poll.owner)
                     $scope.isOwner = true;
-                }
-                $scope.isReport = true;
+                if (poll.isActive)
+                    $scope.isReport = true;
+
                 $scope.$apply();
             });
 
