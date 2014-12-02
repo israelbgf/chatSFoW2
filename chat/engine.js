@@ -10,16 +10,7 @@ function listen(connection){
     var clients = [];
     var typingUsers = {};
     
-    var poll = {
-        question : "",
-        options: [
-            {description: ''},
-            {description: ''},
-            {description: ''},
-            {description: ''}
-        ],
-        votes: []
-    };
+    var poll = pollReset();
 
     io.sockets.on('connection', function(socket) {
 
@@ -43,7 +34,7 @@ function listen(connection){
         if(poll.isActive && !poll.votes[userEmail])
             socket.emit('pollRequest', poll);
 
-        socket.emit('pollRefresh', poll);
+        setTimeout(function(){socket.emit('pollRefresh', poll)}, 1500);
 
         socket.on('disconnect', function() {
             typingUsers[userEmail] = false;
@@ -112,21 +103,25 @@ function listen(connection){
         });
 
         socket.on('pollAnswer', function(answer) {
+            answer = parseInt(answer);
+            if (isNaN(answer) || (answer > 4 || answer < 1))
+                answer = "NULO";
+            else
+                answer = poll.options[answer - 1].description;
+
             poll.votes[userEmail] = {
                 gravatar: gravatar.url(userEmail, {s: '32', r: 'x', d: 'mm'}),
-                answer: answer == 0 ? "NULO" : poll.options[answer - 1].description
+                answer: answer
             };
             io.sockets.emit('pollRefresh', poll);
         });
 
         socket.on('pollClose', function() {
             if (poll.owner == userEmail) {
-
-                poll.votes.forEach(function(vote){
-                    vote.answer
-                });
-                io.sockets.emit("pollClose", result)
-                poll = {};
+                var pollResult = countVotes(poll.votes);
+                poll = pollReset();
+                io.sockets.emit("pollClose", pollResult);
+                io.sockets.emit('pollRefresh', poll);
             } else
                 socket.emit('pollbrema', "The poll is not yours, fera.");
         });
@@ -175,6 +170,19 @@ function countVotes(votes) {
     }
 
     return result;
+}
+
+function pollReset() {
+    return {
+        question : "",
+        options: [
+            {description: ''},
+            {description: ''},
+            {description: ''},
+            {description: ''}
+        ],
+        votes: []
+    };
 }
 
 exports.countVotes = countVotes;

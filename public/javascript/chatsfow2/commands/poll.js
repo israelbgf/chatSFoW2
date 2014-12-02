@@ -35,11 +35,6 @@ angular.module("chatsfow", [])
                 });
 
                 var answer = prompt(question);
-                try {
-                    answer = parseInt(answer);
-                } catch(err) {
-                    answer = 0;
-                }
 
                 ChatCommand.emit("pollAnswer", answer);
                 $scope.isReport = true;
@@ -55,13 +50,23 @@ angular.module("chatsfow", [])
                 if (ChatCommand.getUserEmail() == poll.owner) {
                     $scope.isOwner = true;
                 }
+                $scope.isReport = true;
                 $scope.$apply();
             });
 
             ChatCommand.on("pollClose", function (result) {
                 ChatCommand.scrollToBottom();
-                var html = "<marquee class='poll-result'>" + result + "</marquee>";
-                $("#messagesBox").append(html);
+                $("#poll-form input").val("");
+                var html = "<div class='usersOnline'><b>Poll result:</b><ul class='usersOnline'>";
+                for(var item in result){
+                    html += "<li>" + item + "(" +  result[item] + ")</li>";
+                }
+                $("#messagesBox").append(html + "</ul></div>");
+
+
+                $scope.isReport = false;
+                $scope.isOwner = false;
+                $scope.$apply();
             });
         }
     }
