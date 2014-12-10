@@ -90,13 +90,19 @@ var ChatCommand = function(){
             });
 
             connection.on('userJoined', function(user) {
-                toastr.options.timeOut = 2000;
-                toastr.info("A wild <b>" + stripEmail(user) + "</b> appears!");
+                ChatCommand.scrollToBottom();
+                var html = "<div class='joined'>";
+                html += "<b>(" + stripEmail(user) + ")</b>";
+                html += " entered the room.</div>";
+                $("#messagesBox").append(html);
             });
 
             connection.on('userDisconnected', function(user) {
-                toastr.options.timeOut = 2000;
-                toastr.warning("Our fellow <b>" + stripEmail(user) + "</b> fled!");
+                ChatCommand.scrollToBottom();
+                var html = "<div class='exited'>";
+                html += "<b>(" + stripEmail(user) + ")</b>";
+                html += " exited the room.</div>";
+                $("#messagesBox").append(html);
             });
 
             connection.on('receiveMessage', addMessageToChatBox);
