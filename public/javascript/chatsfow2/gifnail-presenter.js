@@ -29,7 +29,7 @@ var GifnailPresenter = (function(){
 
             $promise.done(function(response){
                 if(response.data.length > 0)
-                    createHTMLForGifnails(response.data);
+                    createHTMLForGifnails(response);
                 else
                     createHTMLForEmptyResults();
                 showGifnailboxWithAnimation();
@@ -45,17 +45,18 @@ var GifnailPresenter = (function(){
                     .fadeOut(3000);
             }
 
-            function createHTMLForGifnails(data) {
-                data.forEach(function(gif){
+            function createHTMLForGifnails(gifs) {
+                gifs.data.forEach(function(gif){
                     var gifnail = gif.images ? gif.images.original.url : gif.url;
                     var title = gif.images ? "" : gif.alias;
 
                     $("<img>")
                         .attr("title", title)
                         .attr("src", gifnail)
-                        .addClass("gifnail")
+                        .addClass(gifs.isVault ? "vaultnail" : "gifnail")
                         .click(selectGifnail)
                         .appendTo($gifnailsBox);
+
                 });
                 $("<br>")
                     .appendTo($gifnailsBox);

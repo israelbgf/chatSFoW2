@@ -18,13 +18,13 @@ var GiphySearchProvider = {
 }
 
 var VaultProvider = {
-    GIFNAILS_PER_QUERY : 4,
+    GIFNAILS_PER_QUERY : 20,
 
     create: function(vaultItems){
         return {
             fetchGifnails: function(){
                 var items = vaultItems.splice(0, VaultProvider.GIFNAILS_PER_QUERY);
-                return $.when( {data: items} );
+                return $.when( {data: items, isVault: true} );
             }
         }
     }

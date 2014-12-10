@@ -91,6 +91,13 @@ img { max-width: 500px; max-height: 500px; }
     max-height: 200px;
 }
 
+.vaultnail{
+    cursor: pointer;
+    margin: 5px;
+    max-width: 100px;
+    max-height: 100px;
+}
+
 .messageBlock { clear:both; }
 .messageBlock > div { margin:0; padding:7px; float:left; }
 .imgAvatar { width:32px; height:32px; border-radius:10px; }
