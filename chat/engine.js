@@ -118,7 +118,10 @@ function listen(connection){
 
         socket.on('pollClose', function() {
             if (poll.owner == userEmail) {
-                var pollResult = countVotes(poll.votes);
+                var pollResult = {
+                    question: poll.question,
+                    votes: countVotes(poll.votes)
+                };
                 poll = pollReset();
                 io.sockets.emit("pollClose", pollResult);
                 io.sockets.emit('pollRefresh', poll);

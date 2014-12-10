@@ -59,9 +59,9 @@ angular.module("chatsfow", [])
             ChatCommand.on("pollClose", function (result) {
                 ChatCommand.scrollToBottom();
                 $("#poll-form input").val("");
-                var html = "<div class='usersOnline'><b>Poll result:</b><ul class='usersOnline'>";
-                for(var item in result){
-                    html += "<li>" + item + "(" +  result[item] + ")</li>";
+                var html = "<div class='usersOnline'><b>" + result.question + "</b><ul class='usersOnline'>";
+                for(var item in result.votes){
+                    html += "<li>" + item + "(" +  result.votes[item] + ")</li>";
                 }
                 $("#messagesBox").append(html + "</ul></div>");
 
