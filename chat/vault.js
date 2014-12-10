@@ -1,7 +1,8 @@
-var fs = require("fs")
-var path = require('path')
+var fs = require("fs");
+var path = require('path');
 
 var USER_HOME = process.env.HOME || process.env.HOMEPATH;
+var HOME_DRIVE = process.env.HOMEDRIVE;
 var FILE_NAME_PREFIX = ".chatsfow_";
 
 var vault = {
@@ -43,7 +44,7 @@ var vault = {
 };
 
 function getFileLocation(userEmail){
-    return path.join(USER_HOME, FILE_NAME_PREFIX + userEmail);
+    return path.join(HOME_DRIVE, USER_HOME, FILE_NAME_PREFIX + userEmail);
 }
 
 function fetchVaultItems(userEmail){
