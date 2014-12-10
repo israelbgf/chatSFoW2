@@ -43,6 +43,10 @@ var ChatCommand = function(){
         return " (" + moment(messageDate).fromNow() + ")";
     }
 
+    function isTooltipVisible() {
+        return $("[aria-describedby]").length > 0;
+    }
+
     return {
 
         init: function(serverAddress){
@@ -193,6 +197,9 @@ var ChatCommand = function(){
         },
 
         scrollToBottom: function () {
+            if (isTooltipVisible()) {
+                return;
+            }
             var scrollHeight = $messageBox.prop("scrollHeight");
             var outerHeight = $messageBox.scrollTop() + $messageBox.outerHeight();
             if (scrollHeight - outerHeight < 20) {
