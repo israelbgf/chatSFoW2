@@ -2,8 +2,8 @@ var fs = require("fs")
 var path = require('path')
 
 var USER_HOME = process.env.HOME || process.env.HOMEPATH;
+var HOME_DRIVE = process.env.HOMEDRIVE || "";
 var FILE_NAME = ".chatsfow_chathistory";
-var HOME_DRIVE = process.env.HOMEDRIVE;
 var CHAT_HISTORY_FILE = path.join(HOME_DRIVE, USER_HOME, FILE_NAME);
 
 

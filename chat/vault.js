@@ -2,7 +2,7 @@ var fs = require("fs");
 var path = require('path');
 
 var USER_HOME = process.env.HOME || process.env.HOMEPATH;
-var HOME_DRIVE = process.env.HOMEDRIVE;
+var HOME_DRIVE = process.env.HOMEDRIVE || "";
 var FILE_NAME_PREFIX = ".chatsfow_";
 
 var vault = {
