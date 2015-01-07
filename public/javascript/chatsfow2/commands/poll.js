@@ -4,26 +4,8 @@ angular.module("chatsfow", ["angularModalService"])
 
     $scope.close = function () {
         $scope.display = false;
-        close();
+        close($scope.poll.answer);
     }
-}])
-.controller('SampleController', ['$scope', 'ModalService', function($scope, ModalService) {
-
-    $scope.customResult = null;
-
-    $scope.showCustom = function() {
-
-        ModalService.showModal({
-            templateUrl: "directives/custom.html",
-            controller: "CustomController"
-        }).then(function(modal) {
-            modal.close.then(function(result) {
-                $scope.customResult = "All good!";
-            });
-        });
-
-    };
-
 }])
 .directive("chatsfowPoll", ['ModalService', function(ModalService){
 
@@ -55,25 +37,19 @@ angular.module("chatsfow", ["angularModalService"])
             };
 
             ChatCommand.on("pollRequest", function(poll) {
-                var question = poll.question + "?\n";
-                poll.options.forEach(function(option, index) {
-                    question += "\n" + (index + 1) + ". " + option.description;
-                });
 
-                var answer = ModalService.showModal({
+                ModalService.showModal({
                     templateUrl: "directives/custom.html",
                     controller: "CustomController"
                 }).then(function(modal) {
                     modal.scope.poll = poll;
-                    modal.close.then(function(result) {
-                        $scope.customResult = "All good!";
+
+                    modal.close.then(function(answer) {
+                        ChatCommand.emit("pollAnswer", answer);
+                        $scope.isReport = true;
                     });
                 });
-                var answer = prompt(question);
 
-                ChatCommand.emit("pollAnswer", answer);
-                $scope.isReport = true;
-                $scope.$apply();
             });
 
             ChatCommand.on("pollbrema", function(msg) {

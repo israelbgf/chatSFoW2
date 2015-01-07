@@ -24,7 +24,12 @@
     }
 </style>
 <div id="overlay" ng-show="display">
-    {{question}}
-    <a href ng-click="close()">Close</a>
+    {{poll.question}}
+    <ol ng-repeat="option in poll.options">
+        <li>
+            <input type="radio" name="option" ng-model="poll.answer" value="{{$index + 1}}">{{option.description}}</input>
+        </li>
+    </ol>
+    <button ng-click="close()">Choose Your Destiny</button>
 </div>
 <div id="fade" ng-show="display"></div>
