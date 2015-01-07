@@ -41,7 +41,7 @@ img { max-width: 500px; max-height: 500px; }
     display: table-cell;
     width: 1%;
 }
-.chatActions button {
+button {
     border: none;
     cursor: pointer;
     background: #34495e;
@@ -57,7 +57,7 @@ img { max-width: 500px; max-height: 500px; }
     vertical-align: middle;
 }
 
-.chatActions button:hover { background-color:#415b76; }
+button:hover { background-color:#415b76; }
 
 .chatActions {
     position: fixed;
