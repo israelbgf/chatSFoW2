@@ -1,5 +1,31 @@
-angular.module("chatsfow", [])
-.directive("chatsfowPoll", function(){
+angular.module("chatsfow", ["angularModalService"])
+.controller('CustomController', ['$scope', 'close', function($scope, close) {
+    $scope.display = true;
+
+    $scope.close = function () {
+        $scope.display = false;
+        close();
+    }
+}])
+.controller('SampleController', ['$scope', 'ModalService', function($scope, ModalService) {
+
+    $scope.customResult = null;
+
+    $scope.showCustom = function() {
+
+        ModalService.showModal({
+            templateUrl: "directives/custom.html",
+            controller: "CustomController"
+        }).then(function(modal) {
+            modal.close.then(function(result) {
+                $scope.customResult = "All good!";
+            });
+        });
+
+    };
+
+}])
+.directive("chatsfowPoll", ['ModalService', function(ModalService){
 
     return {
         restrict: 'E',
@@ -34,6 +60,15 @@ angular.module("chatsfow", [])
                     question += "\n" + (index + 1) + ". " + option.description;
                 });
 
+                var answer = ModalService.showModal({
+                    templateUrl: "directives/custom.html",
+                    controller: "CustomController"
+                }).then(function(modal) {
+                    modal.scope.poll = poll;
+                    modal.close.then(function(result) {
+                        $scope.customResult = "All good!";
+                    });
+                });
                 var answer = prompt(question);
 
                 ChatCommand.emit("pollAnswer", answer);
@@ -72,7 +107,7 @@ angular.module("chatsfow", [])
             });
         }
     }
-});
+}]);
 
 $(document).keyup(function(e) {
     if (e.keyCode == 27){
