@@ -51,7 +51,7 @@ var ChatCommand = function(){
 
         init: function(serverAddress){
             $inputMessage.focus();
-            connection = io.connect('http://' + serverAddress + ':1337');
+            connection = io.connect(window.location.hostname, {query: "ACCESSTOKEN=" + prompt("inform your token")});
 
             connection.on('setUser', function(remoteUserEmail) {
                 userEmail = remoteUserEmail;

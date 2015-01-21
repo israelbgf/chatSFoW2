@@ -6,15 +6,26 @@ var chatHistory = require("./history")
 var vault = require("./vault")
 
 function listen(connection){
-    var io = socket.listen(connection)
+    var io = socket.listen(connection);
     var clients = [];
     var typingUsers = {};
     
     var poll = pollReset();
 
+    io.use(function(socket, next) {
+        var handshakeData = socket.request;
+        var accesstoken = handshakeData._query.ACCESSTOKEN;
+
+        if(allowedClients[accesstoken]) {
+            socket.request.userEmail = allowedClients[accesstoken];
+            next();
+        } else
+            next(new Error('not authorized'));
+    });
+    
     io.sockets.on('connection', function(socket) {
 
-        var userEmail = getUserForIP();
+        userEmail = socket.request.userEmail;
 
         if (userEmail) {
             setUser();

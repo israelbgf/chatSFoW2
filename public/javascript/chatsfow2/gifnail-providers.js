@@ -7,7 +7,7 @@ var GiphySearchProvider = {
             fetchGifnails: function(){
                 var $promise = $.ajax({
                     type: "GET",
-                    url: "http://api.giphy.com/v1/gifs/search?q=" + encodeURI(query) +
+                    url: "https://api.giphy.com/v1/gifs/search?q=" + encodeURI(query) +
                         "&api_key=dc6zaTOxFJmzC&limit=" + GiphySearchProvider.GIFNAILS_PER_QUERY  + "&offset=" + offset
                 });
                 offset += GiphySearchProvider.GIFNAILS_PER_QUERY;
