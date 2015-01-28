@@ -24,8 +24,7 @@ function listen(connection){
     });
     
     io.sockets.on('connection', function(socket) {
-
-        userEmail = socket.request.userEmail;
+        var userEmail = socket.request.userEmail;
 
         if (userEmail) {
             setUser();
