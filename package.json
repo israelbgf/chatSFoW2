@@ -1,17 +1,18 @@
 {
-    "name": "chatSFoW2",
-    "version": "1.0.0",
-    "private": true,
-    "scripts": {
-        "start": "node ./chatsfow2"
-    },
-    "dependencies": {
-        "express": "~4.2.0",
-        "static-favicon": "~1.0.0",
-        "ejs": "~0.8.5",
-        "socket.io": "~1.0.0",
-        "gravatar": "~1.0.6",
-        "mocha": "1.21.3",
-        "chai": "1.9.1"
-    }
+  "name": "chatSFoW2",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node ./chatsfow2"
+  },
+  "dependencies": {
+    "chai": "1.9.1",
+    "ejs": "~0.8.5",
+    "express": "~4.2.0",
+    "gravatar": "~1.0.6",
+    "mocha": "1.21.3",
+    "mongodb": "^1.4.30",
+    "socket.io": "~1.0.0",
+    "static-favicon": "~1.0.0"
+  }
 }
