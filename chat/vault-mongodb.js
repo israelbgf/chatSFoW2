@@ -15,11 +15,7 @@ module.exports = {
         if (alias)
         	query = {"alias": RegExp(alias)};
 
-		getCollectionFor(userEmail).find(query)
-			.toArray(function(err, docs) {
-	    		callback(err, docs);
-			}
-		);      
+		getCollectionFor(userEmail).find(query).toArray(callback);      
     },
 
     add : function(userEmail, newVaultItem){
