@@ -3,7 +3,7 @@ var gravatar = require('gravatar');
 
 var allowedClients = require("../allowed_clients.json")
 var chatHistory = require("./history")
-var vault = require("./vault")
+var vault = require("./vault-mongodb")
 
 function listen(connection){
     var io = socket.listen(connection);
@@ -80,11 +80,7 @@ function listen(connection){
         });
 
         socket.on('addToVault', function(gifnail){
-            try {
-                vault.add(userEmail, gifnail);
-            } catch (err) {
-                socket.emit('aliasAlreadyExists', {message:err.message});
-            }
+            vault.add(userEmail, gifnail);
         });
 
         socket.on('removeFromVault', function(gifnail){
@@ -92,7 +88,9 @@ function listen(connection){
         });
 
         socket.on('fetchFromVault', function(queryParameter){
-            socket.emit('fetchFromVault', vault.fetch(userEmail, queryParameter.alias));
+            vault.fetch(userEmail, queryParameter.alias, function(err, items) {
+                socket.emit('fetchFromVault', items);
+            });
         });
 
         socket.on('damage', function(source){
