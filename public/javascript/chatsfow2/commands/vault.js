@@ -14,7 +14,7 @@ var VaultCommand = function() {
     });
 
     $.contextMenu({
-        selector: 'img[gifnail-vault]',
+        selector: 'img.vaultnail',
         callback: function(key, options) {
             if(confirm("Are you sure fera?")){
                 ChatCommand.emit("removeFromVault", {
@@ -30,10 +30,6 @@ var VaultCommand = function() {
 
     ChatCommand.on("fetchFromVault", function(vaultItems) {
         GifnailPresenter.show(VaultProvider.create(vaultItems));
-    });
-
-    ChatCommand.on("aliasAlreadyExists", function(error) {
-        alert(error.message);
     });
 
     function isGifnail(text) {
