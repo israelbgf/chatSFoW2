@@ -1,11 +1,16 @@
 var MongoClient = require('mongodb').MongoClient
-
-var URL = 'mongodb://chatsfowdb:chatsfowdb@ds053638.mongolab.com:53638/heroku_app33403746';
+var config = require("../config.json");
+var URL = buildMongoDBConnectionURL();
 MongoClient.connect(URL, createMongoVault);
 
-function createMongoVault(err, dbQueVem) {
-	console.log("Connecting to the fricking vaults...");
-	db = dbQueVem;
+function buildMongoDBConnectionURL() {
+    var vault = config.vault;
+    return "mongodb://" + vault.user + ":" + vault.password + "@" + vault.host + ":" + vault.database_port + "/" + vault.database_name;
+}
+
+function createMongoVault(err, database) {
+    console.log("Connecting to the fricking vaults...");
+    db = database;
 };
 
 module.exports = {
@@ -18,12 +23,12 @@ module.exports = {
 		getCollectionFor(userEmail).find(query).toArray(callback);      
     },
 
-    add : function(userEmail, newVaultItem){
-    	getCollectionFor(userEmail).insert(newVaultItem, function(err, result){});
+    add : function(userEmail, newVaultItem, callback){
+    	getCollectionFor(userEmail).insert(newVaultItem, callback);
     },
 
-    remove : function(userEmail, alias){
-    	getCollectionFor(userEmail).remove({alias:alias}, function(err, result){});
+    remove : function(userEmail, alias, callback){
+    	getCollectionFor(userEmail).remove({alias:alias}, callback);
     }
 }
 

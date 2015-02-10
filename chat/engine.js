@@ -1,9 +1,8 @@
 var socket = require('socket.io')
 var gravatar = require('gravatar');
-
-var allowedClients = require("../allowed_clients.json")
+var config = require('../config.json');
 var chatHistory = require("./history")
-var vault = require("./vault-mongodb")
+var vault = require("./vault")
 
 function listen(connection){
     var io = socket.listen(connection);
@@ -16,8 +15,8 @@ function listen(connection){
         var handshakeData = socket.request;
         var accesstoken = handshakeData._query.ACCESSTOKEN;
 
-        if(allowedClients[accesstoken]) {
-            socket.request.userEmail = allowedClients[accesstoken];
+        if(config.users[accesstoken]) {
+            socket.request.userEmail = config.users[accesstoken];
             next();
         } else
             next(new Error('not authorized'));
@@ -80,11 +79,11 @@ function listen(connection){
         });
 
         socket.on('addToVault', function(gifnail){
-            vault.add(userEmail, gifnail);
+            vault.add(userEmail, gifnail, function(err, items){});
         });
 
         socket.on('removeFromVault', function(gifnail){
-            vault.remove(userEmail, gifnail.alias);
+            vault.remove(userEmail, gifnail.alias, function(err, items){});
         });
 
         socket.on('fetchFromVault', function(queryParameter){
