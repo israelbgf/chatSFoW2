@@ -1,7 +1,6 @@
 var socket = require('socket.io')
 var gravatar = require('gravatar');
-
-var allowedClients = require("../allowed_clients.json")
+var config = require('../config.json');
 var chatHistory = require("./history")
 var vault = require("./vault")
 
@@ -16,14 +15,15 @@ function listen(connection){
         var handshakeData = socket.request;
         var accesstoken = handshakeData._query.ACCESSTOKEN;
 
-        if(allowedClients[accesstoken]) {
-            socket.request.userEmail = allowedClients[accesstoken];
+        if(config.users[accesstoken]) {
+            socket.request.userEmail = config.users[accesstoken];
             next();
         } else
             next(new Error('not authorized'));
     });
     
     io.sockets.on('connection', function(socket) {
+
         var userEmail = socket.request.userEmail;
 
         if (userEmail) {
@@ -79,19 +79,17 @@ function listen(connection){
         });
 
         socket.on('addToVault', function(gifnail){
-            try {
-                vault.add(userEmail, gifnail);
-            } catch (err) {
-                socket.emit('aliasAlreadyExists', {message:err.message});
-            }
+            vault.add(userEmail, gifnail, function(err, items){});
         });
 
         socket.on('removeFromVault', function(gifnail){
-            vault.remove(userEmail, gifnail.alias);
+            vault.remove(userEmail, gifnail.alias, function(err, items){});
         });
 
         socket.on('fetchFromVault', function(queryParameter){
-            socket.emit('fetchFromVault', vault.fetch(userEmail, queryParameter.alias));
+            vault.fetch(userEmail, queryParameter.alias, function(err, items) {
+                socket.emit('fetchFromVault', items);
+            });
         });
 
         socket.on('damage', function(source){
