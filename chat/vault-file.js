@@ -1,7 +1,8 @@
 var fs = require("fs");
 var path = require('path');
+var configuration = require('./configuration');
 
-var USER_HOME = process.env.HOME;
+var USER_HOME = configuration.getUserHomePath(process.env);
 var FILE_NAME_PREFIX = ".chatsfow_";
 var MAX_VAULT_SIZE = 300;
 
