@@ -6,4 +6,8 @@ function getUserHomePath(env) {
         throw Error("Environment error!");
 }
 
+function getConfig(env) {
+    return env;
+}
 exports.getUserHomePath = getUserHomePath;
+exports.getConfig = getConfig;

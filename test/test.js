@@ -29,7 +29,7 @@ describe('Engine', function(){
 
 var configuration = require('../chat/configuration');
 
-describe('Environment', function(){
+describe('Configuration', function(){
    describe('getUserHomePath()', function(){
        it('should return exception when user path does not exist', function(){
            should.Throw(function(){
@@ -47,4 +47,28 @@ describe('Environment', function(){
            result.should.equal('/dude-o/');
        });
    });
+
+    describe('getConfig()', function(){
+        it('should return configuration data from environment', function(){
+            var env = {
+                server_port: 5000,
+                persistence: {
+                    provider: "mongodb",
+                    host: "host",
+                    user: "user",
+                    password: "pass",
+                    database_name: "test",
+                    database_port: "1234"
+                }
+            };
+            var config = configuration.getConfig(env);
+            config.should.have.property("server_port").equal(5000);
+            config.should.have.deep.property("persistence.provider").equal("mongodb");
+            config.should.have.deep.property("persistence.host").equal("host");
+            config.should.have.deep.property("persistence.user").equal("user");
+            config.should.have.deep.property("persistence.password").equal("pass");
+            config.should.have.deep.property("persistence.database_name").equal("test");
+            config.should.have.deep.property("persistence.database_port").equal("1234");
+        });
+    });
 });
