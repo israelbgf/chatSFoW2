@@ -1,5 +1,5 @@
 var engine = require('../chat/engine');
-require("chai").should()
+should = require("chai").should();
 
 
 describe('Engine', function(){
@@ -25,4 +25,13 @@ describe('Engine', function(){
         });
     });
 
+});
+var configuration = require('../chat/configuration');
+describe('Environment', function(){
+   describe('getUserHomePath()', function(){
+       it('should not return undefined', function(){
+           var result = configuration.getUserHomePath();
+           should.exist(result);
+       })
+   });
 });
