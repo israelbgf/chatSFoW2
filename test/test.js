@@ -26,12 +26,20 @@ describe('Engine', function(){
     });
 
 });
+
 var configuration = require('../chat/configuration');
+
 describe('Environment', function(){
    describe('getUserHomePath()', function(){
-       it('should not return undefined', function(){
-           var result = configuration.getUserHomePath();
-           should.exist(result);
+       it('should return exception when user path does not exist', function(){
+           should.Throw(function(){
+               configuration.getUserHomePath({});
+           });
+       });
+       it('should return homepath on windows', function(){
+           var env = {USERPROFILE: "C://User//Fera"};
+           var result = configuration.getUserHomePath(env);
+           result.should.equal('C://User//Fera');
        })
    });
 });
