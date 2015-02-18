@@ -1,8 +1,9 @@
 function getUserHomePath(env) {
-    if(env.USERPROFILE)
-        return env.USERPROFILE;
+    var homePath = env.USERPROFILE || env.HOME;
+    if(homePath)
+        return homePath;
     else
-        throw("Environment error!");
+        throw Error("Environment error!");
 }
 
 exports.getUserHomePath = getUserHomePath;

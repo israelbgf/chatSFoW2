@@ -40,6 +40,11 @@ describe('Environment', function(){
            var env = {USERPROFILE: "C://User//Fera"};
            var result = configuration.getUserHomePath(env);
            result.should.equal('C://User//Fera');
-       })
+       });
+       it('should return homepath on linux', function(){
+           var env = {HOME: "/dude-o/"};
+           var result = configuration.getUserHomePath(env);
+           result.should.equal('/dude-o/');
+       });
    });
 });
