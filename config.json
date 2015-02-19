@@ -1,15 +1,11 @@
 {
-    "server_port"      : 5000,
-    "vault" : {
-        "datasource" : "file",         
-        "host" : "",
-        "user" : "",
-        "password" : "",
-        "database_name" : "",
-        "database_port" : ""
-    },
-    "users" : {
-        "UNIQUE_ACCESS_TOKEN_1" : "user1@email.com",
-        "UNIQUE_ACCESS_TOKEN_2" : "user2@email.com"
-    }    
+  "server_port": 5000,
+  "persistence": {
+    "provider": "file",
+    "host": "",
+    "user": "",
+    "password": "",
+    "database_name": "",
+    "database_port": ""
+  }
 }

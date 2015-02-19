@@ -29,7 +29,7 @@ describe('Engine', function(){
 
 var configuration = require('../chat/configuration');
 
-describe('Configuration', function(){
+describe('Configuration module', function(){
    describe('getUserHomePath()', function(){
        it('should return exception when user path does not exist', function(){
            should.Throw(function(){
@@ -48,9 +48,10 @@ describe('Configuration', function(){
        });
    });
 
-    describe('getConfig()', function(){
-        it('should return configuration data from environment', function(){
-            var env = {
+    describe('from()', function(){
+        it('should return configuration data from application', function(){
+            var env = {};
+            var app = {
                 server_port: 5000,
                 persistence: {
                     provider: "mongodb",
@@ -61,7 +62,9 @@ describe('Configuration', function(){
                     database_port: "1234"
                 }
             };
-            var config = configuration.getConfig(env);
+
+            var config = configuration.from(env, app);
+
             config.should.have.property("server_port").equal(5000);
             config.should.have.deep.property("persistence.provider").equal("mongodb");
             config.should.have.deep.property("persistence.host").equal("host");
@@ -70,5 +73,30 @@ describe('Configuration', function(){
             config.should.have.deep.property("persistence.database_name").equal("test");
             config.should.have.deep.property("persistence.database_port").equal("1234");
         });
+
+        it('should return configuration data from environment', function(){
+            var env = {
+                CHATSFOW_DB_HOST: 'host',
+                CHATSFOW_DB_NAME: 'test',
+                CHATSFOW_DB_PASSWORD: 'pass',
+                CHATSFOW_DB_PORT: '1234',
+                CHATSFOW_DB_USER: 'user',
+                CHASTSFOW_PROVIDER: 'mongodb',
+                CHATSFOW_PORT: 5000
+            };
+            var app = {};
+
+            var config = configuration.from(env, app);
+
+            config.should.have.property("server_port").equal(5000);
+            config.should.have.deep.property("persistence.provider").equal("mongodb");
+            config.should.have.deep.property("persistence.host").equal("host");
+            config.should.have.deep.property("persistence.user").equal("user");
+            config.should.have.deep.property("persistence.password").equal("pass");
+            config.should.have.deep.property("persistence.database_name").equal("test");
+            config.should.have.deep.property("persistence.database_port").equal("1234");
+        });
+
     });
+
 });
