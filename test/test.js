@@ -54,7 +54,7 @@ describe('Configuration module', function(){
             var app = {
                 server_port: 5000,
                 persistence: {
-                    provider: "mongodb",
+                    provider: configuration.MONGODB,
                     host: "host",
                     user: "user",
                     password: "pass",
@@ -76,13 +76,13 @@ describe('Configuration module', function(){
 
         it('should return configuration data from environment', function(){
             var env = {
+                CHATSFOW_PORT: 5000,
+                CHASTSFOW_PROVIDER: configuration.MONGODB,
                 CHATSFOW_DB_HOST: 'host',
-                CHATSFOW_DB_NAME: 'test',
-                CHATSFOW_DB_PASSWORD: 'pass',
-                CHATSFOW_DB_PORT: '1234',
                 CHATSFOW_DB_USER: 'user',
-                CHASTSFOW_PROVIDER: 'mongodb',
-                CHATSFOW_PORT: 5000
+                CHATSFOW_DB_PASSWORD: 'pass',
+                CHATSFOW_DB_NAME: 'test',
+                CHATSFOW_DB_PORT: '1234'
             };
             var app = {};
 

@@ -30,3 +30,5 @@ function getEnvironmentConfig(env) {
 }
 exports.getUserHomePath = getUserHomePath;
 exports.from = from;
+exports.FILE = "file";
+exports.MONGODB = "mongodb";
