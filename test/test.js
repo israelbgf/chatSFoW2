@@ -97,6 +97,43 @@ describe('Configuration module', function(){
             config.should.have.deep.property("persistence.database_port").equal("1234");
         });
 
+        it('should return config from environment first if it exists', function(){
+            var env = {server_port: 5000};
+            var app = {server_port: 8000};
+            result = configuration.getPrioritaryConfig('server_port', env, app)
+            result.should.be.equal(5000)
+        });
+        
+        
+        it('should return config from application config if it was not found on environment', function(){
+            var env = {};
+            var app = {server_port: 8000};
+            result = configuration.getPrioritaryConfig('server_port', env, app)
+            result.should.be.equal(8000)
+        });
+
+        it('should return environment config from nested property', function(){
+            var env = {
+                persistence: {
+                    provider: configuration.FILE
+                }
+            };
+            var app = {};
+            result = configuration.getPrioritaryConfig('persistence.provider', env, app);
+            result.should.be.equal(configuration.FILE);
+        });
+
+        it('should return application config from nested property', function(){
+            var env = {};
+            var app = {
+                persistence: {
+                    provider: configuration.MONGODB
+                }
+            };
+            result = configuration.getPrioritaryConfig('persistence.provider', env, app);
+            result.should.be.equal(configuration.MONGODB);
+        });
+
     });
 
 });
