@@ -36,7 +36,7 @@ function extractNestedPrioritaryProperty(property, env, app){
     var contexts = [env, app];
     for(var i=0; i < contexts.length; i++){
         var config = contexts[i][parentProperty];
-        if(config)
+        if(config && config[childProperty])
             return config[childProperty]
     }
 }
@@ -58,5 +58,6 @@ function getNormalizedEnvironmentConfig(env) {
 exports.getUserHomePath = getUserHomePath;
 exports.getPrioritaryConfig = getPrioritaryConfig;
 exports.from = from;
+
 exports.FILE = "file";
 exports.MONGODB = "mongodb";
