@@ -66,7 +66,7 @@ describe('Configuration module', function(){
             var config = configuration.from(env, app);
 
             config.should.have.property("server_port").equal(5000);
-            config.should.have.deep.property("persistence.provider").equal("mongodb");
+            config.should.have.deep.property("persistence.provider").equal(configuration.MONGODB);
             config.should.have.deep.property("persistence.host").equal("host");
             config.should.have.deep.property("persistence.user").equal("user");
             config.should.have.deep.property("persistence.password").equal("pass");
@@ -74,7 +74,7 @@ describe('Configuration module', function(){
             config.should.have.deep.property("persistence.database_port").equal("1234");
         });
 
-        it('should return configuration data from environment', function(){
+        it('should override application configuration if environment is set', function(){
             var env = {
                 CHATSFOW_PORT: 5000,
                 CHASTSFOW_PROVIDER: configuration.MONGODB,
